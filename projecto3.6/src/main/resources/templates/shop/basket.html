@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot QuickStart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+	<div class="container">
+		<h1>Carrito</h1>
+		<hr/>
+		<div class="row">
+			<div class="col-md-3">
+				Producto
+			</div>
+			<div class="col-md-2">
+				Pvp/unidad
+			</div>
+			<div class="col-md-2">
+				Cantidad
+			</div>
+			<div class="col-md-2">
+				Precio
+			</div>
+			<div class="col-md-3">
+				Acción
+			</div>
+		</div>
+		
+		<div class="row" th:each="item,stat:${basket.items}">
+			<th:block th:with="product=${item.product}">
+				<div class="col-md-3">
+					<span th:text="${product.title}"></span>
+				</div>
+				<div class="col-md-2">
+					<span th:text="${#numbers.formatDecimal(product.price,3,2)}"></span>
+				</div>
+				<div class="col-md-2">
+					<span th:text="${item.quantity}"></span>
+				</div>
+				<div class="col-md-2">
+					<span th:text="${#numbers.formatDecimal(product.price*item.quantity,3,2)}"></span>
+				</div>
+				<div class="col-md-3">
+					<a th:href="@{/shop/basket/remove(pos=${stat.index})}"
+						class="btn btn-xs btn-default">eliminar</a>
+				</div>
+			</th:block>
+		</div>								 
+		<div class="row" th:if="${basket.items.size()==0}">
+			<div class="col-md-12">
+				<div class="alert alert-warning">No hay elementos</div>
+			</div>
+		</div>
+		<b>Total <span th:text="${basket.total}"></span></b>
+		<hr/>
+		<div>
+			<a th:href="@{/shop}" class="btn btn-default">
+				Lista de productos
+			</a>
+<!-- 			<a  onclick="return confirm('Seguro que desea vaciar el carrito?');" -->
+<!-- 				th:href="@{/shop/basket/clear}"  -->
+<!-- 				class="btn btn-warning"> -->
+<!-- 				Vaciar carrito -->
+<!-- 			</a> -->
+
+			<a class="btn btn-warning" data-toggle="modal" data-target="#myModal">
+				Vaciar carrito
+			</a>
+			<form th:if="${basket.items.size()>0}" th:action="@{/shop/basket/checkout}" class="pull-left" method="post">
+				<button type="submit" class="btn btn-primary">Realizar la compra</button>
+				&nbsp;
+			</form>
+		</div>
+	</div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Vaciar carrito?</h4>
+	      </div>
+	      <div class="modal-body">
+	        ¿Seguro que desea vaciar el carrito?
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <a th:href="@{/shop/basket/clear}" 
+	        	class="btn btn-primary">
+	        	Vaciar
+        	</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

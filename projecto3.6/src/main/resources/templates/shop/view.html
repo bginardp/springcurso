@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot QuickStart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+	<div class="container">
+		<h1>Ficha de productos</h1>
+		<hr/>
+		<div class="row">
+		
+			<div th:if="${#httpServletRequest.getParameter('ok')}" 
+				 class="alert alert-success">
+				Se han añadido los artículos a su carrito
+			</div>
+			
+			<div class="pull-right alert alert-warning">
+				<a th:href="@{/shop/basket}">
+					Items <span th:text="${@basket.items.size()}"></span>
+				</a>
+			</div>
+		
+			<div class="col-md-6 col-md-offset-2">
+				<div class="row">
+					<div class="col-sm-4">
+						ID
+					</div>
+					<div class="col-sm-4">
+						<span th:text="${product.id}"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-4">
+						T&iacute;tulo;
+					</div>
+					<div class="col-sm-4">
+						<span th:text="${product.title}"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-4">
+						Precio
+					</div>
+					<div class="col-sm-4">
+						<span th:text="${#numbers.formatDecimal(product.price,3,2)}"></span> &euro;
+					</div>
+				</div>
+				
+				<br/>
+				<br/>
+				
+				Cantidad de items:
+				<input id="inp" name="qtt" value=""/>
+				<a 	class="btn btn-primary btn-sm"
+					th:href="@{'/shop/basket/add/'(id=${product.id})}"
+	  			   	onclick="this.href=this.href+'&amp;qtt='+$('#inp').val()">
+	  			   	Añadir
+  			   </a>
+				<a th:href="@{/shop}" class="btn btn-default">
+					Volver al listado
+				</a>
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

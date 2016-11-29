@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Mi blog')"/>
+<body th:with="path=${'/blog'}">
+	<div class="container" th:fragment="listado(path)">
+		<h1 th:if="${path eq '/blog'}">Lista de artículos</h1>
+		<h1 th:if="${path eq '/admin'}">Mantenimiento de artículos</h1>
+		<div class="pull-right" 
+			 style="font-size:0.8em; margin-right:5em;">
+			Ir a:
+			<a th:href="@{/blog}">blog</a>
+			<a th:href="@{/admin}">admin</a>
+		</div>
+		<hr/>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-2">
+				<form id="frm" th:action="@{${path}}">
+					<input  type="hidden" 
+							id="page"
+							name="page" 
+							th:value="${articles.number}"/>
+					<div class="input-group">
+				      <input type="text" 
+				      		 name="term" 
+				      		 th:value="${term}" class="form-control" placeholder="Search for..."/>
+				     		 <span class="input-group-btn">
+				        <button class="btn btn-default" type="submit">Go!</button>
+				      </span>
+				    </div><!-- /input-group -->
+				
+					<div style="margin-top:1em;">
+						<label th:each="label:${labels}" class="checkbox-inline">
+						  <input type="checkbox" 
+						  		 th:value="${label.text}" 
+						  		 name="labels"
+						  		 th:checked="${userLabels!=null and userLabels.contains(label.text)}"/> 
+						  <th:block th:text="${label.text}"></th:block>
+						</label>
+					</div>
+				
+					<hr/>
+				
+					<div class="media" th:each="article:${articles}">
+					  <div class="media-left">
+					    <a th:href="@{${path+'/'+article.id}}">
+					      <span th:utext="${article.creationDate}"></span>
+					    </a>
+					  </div>
+					  <div class="media-body">
+					    <h4 class="media-heading" th:text="${article.title}"></h4>
+					    <div class="text-muted">
+					    	<span th:text="${article.shortDescription}"></span>
+					    </div>
+					    <div class="text-info">
+					    	<span th:text="${article.authorName}"></span>
+					    </div>
+					    <div class="text-info">
+					    	<span th:each="label : ${article.labelList}"
+					    		  class="label label-success"
+					    		  th:text="${label}"></span>
+					    </div>
+					  </div>
+					  <hr/>
+					</div><!-- fin foreach -->
+					<div  th:if="${articles.totalPages==0}"
+						 class="alert alert-warning">
+						 No se han encontrado resultados
+					</div>
+					<!-- paginado -->
+					<nav aria-label="Page navigation"
+						 th:if="${articles.totalPages>0}">
+					  <ul class="pagination">
+					    <li>
+					      <a	th:if="${(articles.number-1)>=0}"
+					      		href="#"	
+					      		th:onclick="${'setPage('+(articles.number-1)+')'}"> 
+					      		&lt;
+							</a>
+					    </li>
+					    <li th:each="page : ${#numbers.sequence(0,articles.totalPages-1)}"
+					    	th:classappend="${articles.number==page}?'active'">
+							<a 
+								href="#"	th:onclick="${'setPage('+page+')'}">
+								<span th:utext="${page+1}" ></span>
+							</a>
+						</li>
+					    <li>
+					    	<a	th:if="${articles.number &lt; (articles.totalPages -1)}"
+					    		href="#"
+					    		th:onclick="${'setPage('+(articles.number+1)+')'}">  
+					    		&gt;
+							</a>
+					    </li>
+					  </ul>
+					</nav>				
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript">
+			function setPage(num){
+				$("#page").val(num);
+				$("#frm").submit();
+			}
+		</script>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Mi blog')"/>
+<body th:with="path=${'/blog'}">
+	<div class="container">
+		<h1>Ajax request</h1>
+		
+		<button type="button" id="btnAjax">
+			petición ajax
+		</button>
+		
+		<br/><br/>
+		
+		<div id="divAjax" class="alert alert-success">
+		
+		</div>
+				
+		<script type="text/javascript">
+			$(function(){
+				// hacer binding al boton
+				$("#btnAjax").click(function(){
+					// realizamos la llamada ajax al controlador
+					$.get( "/ajax/request", function( data ) {
+							//la respuesta del servidor está 
+							//en data -> AjaxResponseDto.
+						  $( "#divAjax" ).html( data.message+" "+data.timestamp );
+					});
+				});
+			});
+		</script>
+		
+		
+		<hr/>
+		
+		
+		Búsqueda de artículos<br/>
+		<input 	id="inpBusq"
+				type="text" 
+				placeholder="escriba su búsqueda"/>
+		
+		<script type="text/javascript">
+			$(function(){
+				$("#inpBusq").autocomplete({
+					source: '/ajax/search',
+					select: function( event, ui ) {
+						 var id = ui.item.value;
+						 window.location.href="/blog/"+id;
+					 }
+				});
+			});
+		</script>
+		
+	</div>
+	
+</body>
+</html>

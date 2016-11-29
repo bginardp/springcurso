@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot QuickStart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+	<div class="container">
+		<h1>Lista de contactos</h1>
+		<hr/>
+		<div class="row">
+			<div class="col-md-2">
+				<span class="text-info">ID</span>	
+			</div>
+			<div class="col-md-4">
+				<span class="text-info">Nombre</span>	
+			</div>
+			<div class="col-md-4">
+				<span class="text-info">Apellido</span>	
+			</div>
+			<div class="col-md-2">				
+				<span class="text-muted">Acciones</span>
+			</div>
+		</div>
+		<div class="row" th:each="person : ${people}">
+			<div class="col-md-2">
+				<span th:text="${person.id}">1</span>
+			</div>
+			<div class="col-md-4">
+				<span th:text="${person.name}">Ramón</span>
+			</div>
+			<div class="col-md-4">
+				<span th:text="${person.surname}">Arnau</span>
+			</div>
+			<div class="col-md-2">				
+				<a href="edit?id=1" th:href="@{/person/edit(id=${person.id})}" class="btn btn-default">editar</a>
+			</div>
+		</div>
+		
+		<a href="edit" th:href="@{'/person/edit'}" class="btn btn-primary">nuevo</a>
+		
+	</div>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
