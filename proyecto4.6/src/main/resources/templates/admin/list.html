@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Mi blog')"/>
+<body>
+	<th:block 
+		th:include="/blog/list :: listado('/admin')"/>
+</body>
+</html>

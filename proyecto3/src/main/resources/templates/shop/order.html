@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot QuickStart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+	<div class="container">
+		<h1>
+			Formulario de confirmación de creación de la Orden
+		</h1>
+		<hr/>
+		<h3>Datos de la orden</h3>
+		<div class="alert alert-success">
+			Se ha creado la orden correctamente
+		</div>
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<label>ID</label>
+				</div>
+				<div class="col-md-4">
+					<span th:utext="${order.id}">1000</span> 
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<label>Fecha orden</label>
+				</div>
+				<div class="col-md-4">
+					<span th:utext="${#dates.format(order.buyDate,'dd/MM/yyyy')}">10/10/2016</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<label>Total</label>
+				</div>
+				<div class="col-md-4">
+					<span th:utext="${#numbers.formatDecimal(order.total,3,2)}">120.45</span> &euro;
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-3">
+				 <a th:href="@{/shop}" class="btn btn-primary ">Volver</a>
+				</div>
+			</div>
+	</div> <!--  container -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

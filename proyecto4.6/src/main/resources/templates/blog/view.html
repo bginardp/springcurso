@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Mi blog')"/>
+<body>
+<div class="container">
+		<h1 th:text="${article.title}"></h1>
+		<hr/>
+		<p th:utext="${article.content}"></p>
+		
+</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot QuickStart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <style>
+    	.has-error{
+    		color: red;
+    		border-color: red;
+    	}
+    </style>
+</head>
+<body>
+	<div class="container">
+		<h1>
+			Cesta
+			<small><a th:href="@{/shop}">volver al listado</a></small>
+		</h1>
+		<hr/>
+		<h3>Datos de la cesta</h3>
+		<p>Si quiere Borrar toda la cesta pulsar aqui
+		  <a href="#" th:href="@{/shop/removeBasket}" class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-trash"></span></a> 
+		</p>
+		<p>Si quiere Efectuar la compra de esta cesta pulsar aqui
+		  <a href="#" th:href="@{/shop/createOrder}" class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-check"></span></a> 
+		</p>
+		<table class="table table-condensed" >
+		    <thead>
+		      <tr>
+		        <th>Id</th>
+		        <th>Title</th>
+		        <th>Price</th>
+		        <th>Qtt</th>
+		        <th>Total</th>
+		        <th>Action</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr th:each="item,var : ${basket.items}">
+		        <td th:text="${item.productId}">1000</td>
+		        <td th:text="${item.title}">rewrewrewrewr ddsadsa Doe</td>
+		        <td th:text="${item.price}">112.23</td>
+		        <td th:text="${item.quantity}">1</td>
+		        <td th:text="${item.total}">112.23</td>
+		        <td><a href="#" th:href="@{/shop/remove(pos=${var.index})}" class="btn btn-primary btn-sm" role="button"><i class="glyphicon glyphicon-remove"></i></a></td>
+		      </tr>
+		    </tbody>
+		    <tfoot>
+		     <tr>
+		        <td>
+		          Total <span th:text="${basket.total}"></span>
+		        </td>
+		        </tr>
+		    </tfoot>
+		</table>
+		
+	</div> <!-- container -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

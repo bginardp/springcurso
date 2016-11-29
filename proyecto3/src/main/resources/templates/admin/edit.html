@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot QuickStart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <style>
+    	.help-block{
+    		color:red;
+    	}	
+   	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Formulario de producto</h1>
+		<hr/>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-2">
+				<div th:if="${mensaje!=null}" 
+					 th:utext="${mensaje}" 
+					 class="alert alert-success">
+				</div>
+				
+				<div th:if="${mensajeError!=null}" 
+					 th:utext="${mensajeError}" 
+					 class="alert alert-danger">
+				</div>
+				<p th:text="#{label}">texto traducido</p>
+				<form th:object="${product}" 
+					  th:action="@{/admin/product/save}"
+					  method="post">
+					<div class="form-group">
+					    <label 	for="id">ID</label>
+					    <input 	class="form-control" 
+					    		th:field="*{id}"
+					    		th:errorClass="has-error"/>
+					    <span 	th:if="${#fields.hasErrors('id')}" 
+					    		th:text="${#fields.errors('id')}"
+					    		class="help-block">...</span>
+					</div>
+					<div class="form-group">
+					    <label 	for="title">T&iacute;tulo</label>
+					    <input 	class="form-control" 
+					    		th:field="*{title}"
+					    		th:errorClass="has-error"/>
+					    <span 	th:if="${#fields.hasErrors('title')}" 
+					    		th:text="${#fields.errors('title')}"
+					    		class="help-block">...</span>
+					</div>
+					<div class="form-group">
+					    <label 	for="price">Precio</label>
+					    <input 	class="form-control" 
+					    		th:field="*{price}"
+					    		th:errorClass="has-error"/>
+					    <span 	th:if="${#fields.hasErrors('price')}" 
+					    		th:text="${#fields.errors('price')}"
+					    		class="help-block">...</span>
+					</div>
+					<div class="checkbox">
+					    <label>
+					    	 <input type="checkbox"
+						    		th:field="*{visible}"
+						    		th:errorClass="has-error"/>
+					    	Visible
+				    	</label>
+					    <span 	th:if="${#fields.hasErrors('visible')}" 
+					    		th:text="${#fields.errors('visible')}"
+					    		class="help-block">...</span>
+					</div>
+					<button type="submit" class="btn btn-primary ">Guardar</button>
+					<button type="button" onclick="$('#frmRemove').submit();"
+							th:if="${product.id!=null}"
+							class="btn btn-warning btn-xs">Borrar</button>
+					<a 		th:href="@{/admin}"
+							class="btn btn-default btn-xs">Volver</a>
+				</form>
+				<!-- formulario para borrar producto -->
+				<form id="frmRemove"
+					  th:action="@{'/admin/product/remove'}" method="post">
+					<input type="hidden" name="id" th:value="${product.id}"/>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

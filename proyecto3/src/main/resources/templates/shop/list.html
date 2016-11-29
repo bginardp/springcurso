@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot QuickStart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+  <div class="container">
+     <h2>Fichas de productos
+       <small><a th:href="@{/shop/basket}">Ver la Cesta <span class="badge" th:text="${@basket.items.size()}">32</span></a></small>
+      </h2>
+     <div th:if="${#httpServletRequest.getParameter('ok')}"	 class="alert alert-success">
+				Se han añadido los artículos a su carrito
+	</div>
+	  <div id="products" class="row list-group" th:each="product : ${products}">
+        <div class="item  col-xs-4 col-lg-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h4 class="group inner list-group-item-heading" th:text="${product.id}">
+                        Product title</h4>
+                    <p class="group inner list-group-item-text" th:text="${product.title}">
+                        Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                        sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p class="lead" th:text="${product.price}">
+                                $21.000</p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <a class="btn btn-success" href="product?id=1" th:href="@{'/shop/product/'+${product.id}}">Amplia</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+     </div>
+   </div>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
