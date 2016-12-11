@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import es.palmademallorca.factu.model.Facturalin;
 
 public class FacLinDto {
+	// TODO afegir validacions s anivell d'atributs
 	private Long id;
 	private Long facturaId;
 	private BigDecimal cantidad;

@@ -8,6 +8,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import es.palmademallorca.factu.dto.SerieDto;
+
 
 /**
  * The persistent class for the serie database table.
@@ -29,6 +31,12 @@ public class Serie {
 	private Empresa empresa;
 
 	public Serie() {
+	}
+
+	public Serie(SerieDto serieDto) {
+		this.id=serieDto.getId();
+		this.dec=serieDto.getDec();
+		this.hbl=serieDto.getHbl();
 	}
 
 	public String getId() {

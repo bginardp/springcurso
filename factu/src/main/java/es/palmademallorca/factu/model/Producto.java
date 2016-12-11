@@ -6,6 +6,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import es.palmademallorca.factu.dto.ProductoDto;
+
 
 /**
  * The persistent class for the productos database table.
@@ -25,6 +27,13 @@ public class Producto {
 
 
 	public Producto() {
+	}
+
+
+	public Producto(ProductoDto productoDto) {
+		this.id=productoDto.getId();
+		this.dem=productoDto.getDem();
+		this.hbl=productoDto.getDem();
 	}
 
 

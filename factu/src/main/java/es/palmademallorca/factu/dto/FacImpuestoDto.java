@@ -3,6 +3,7 @@ package es.palmademallorca.factu.dto;
 import java.math.BigDecimal;
 
 public class FacImpuestoDto {
+	// TODO afegir validacions s anivell d'atributs
 	public String impuestId;
 	public String impuestNom; // iva 1, iva 2, irpf, dto 
 	public BigDecimal percentatge;

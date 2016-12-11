@@ -34,8 +34,8 @@ public class FactuController {
 	
 	private String gotoIndex(Model model, EntradaDto entrada) {
 		model.addAttribute("entrada", entrada);
-		model.addAttribute("empresas",factuService.getEmpresas());
-		model.addAttribute("ejercicios",factuService.getEjercicios());
+		model.addAttribute("empresas",factuService.findAllEmpresas());
+		model.addAttribute("ejercicios",factuService.findAllEjercicios());
 		return "factu/index";
 	}
 

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.querydsl.jpa.impl.JPAQuery;
 
+import es.palmademallorca.factu.dto.EmpresaDto;
 import es.palmademallorca.factu.jpa.ClienteRepository;
 import es.palmademallorca.factu.jpa.EjercicioRepository;
 import es.palmademallorca.factu.jpa.EmpresaRepository;
@@ -79,9 +80,8 @@ public class FactuDao {
 		// creación de consulta
 		JPAQuery<Cliente> query = new JPAQuery<>(entityManager);
 		query.from(cliente);
-		if (term != null ) {
-			query.where(cliente.nom.likeIgnoreCase("%" + term + "%")
-					.or(cliente.cif.likeIgnoreCase("%" + term + "%")));
+		if (term != null) {
+			query.where(cliente.nom.likeIgnoreCase("%" + term + "%").or(cliente.cif.likeIgnoreCase("%" + term + "%")));
 		}
 		query.orderBy(cliente.nom.asc());
 		// gestión de paginado
@@ -94,31 +94,12 @@ public class FactuDao {
 		PageImpl<Cliente> result = new PageImpl<>(list, pageRequest, total);
 		return result;
 	}
-	
+
 	public Cliente getCliente(Long clienteId) {
 		if (clienteId != null) {
 			return clienteRepository.findOne(clienteId);
 		}
 		return null;
-	}
-	
-
-	public void saveCliente(Cliente cliente) {
-		if (cliente != null) {
-			// if (product.getId()==null){
-			// product.setId((long)productRepository.count());
-			// }
-			Cliente cliDB = getCliente(cliente.getId());
-			if (cliDB != null) {
-				// TODO
-				cliDB.setCif(cliente.getCif());
-				// prodDB.setTitle(product.getTitle());
-				// prodDB.setPrice(product.getPrice());
-				// prodDB.setVisible(product.isVisible());
-			}
-			clienteRepository.save(cliente);
-		}
-
 	}
 
 	public void removeCliente(Long clienteId) {
@@ -128,17 +109,15 @@ public class FactuDao {
 	}
 
 	public List<Empresa> findAllEmpresas() {
-		Iterable<Empresa> empresas = empresaRepository.findAll(
-				new Sort(new Order(Direction.ASC,"dem")));
+		Iterable<Empresa> empresas = empresaRepository.findAll(new Sort(new Order(Direction.ASC, "dem")));
 		return convertItToList(empresas);
 	}
-	
+
 	public List<Producto> findAllProductos() {
-		Iterable<Producto> productos = productoRepository.findAll(
-				new Sort(new Order(Direction.ASC,"dem")));
+		Iterable<Producto> productos = productoRepository.findAll(new Sort(new Order(Direction.ASC, "dem")));
 		return convertItToList(productos);
 	}
-	
+
 	public Page<Producto> findProductosByTerm(String term, Pageable pageRequest) {
 		// 1ª opción -> nombre de método complejo en el repositorio -> no
 		// 2ª opción -> HQL -> consulta dentro de un string, no se compila!
@@ -150,7 +129,7 @@ public class FactuDao {
 		// creación de consulta
 		JPAQuery<Producto> query = new JPAQuery<>(entityManager);
 		query.from(producto);
-		if (term != null ) {
+		if (term != null) {
 			query.where(producto.dem.likeIgnoreCase("%" + term + "%"));
 		}
 		query.orderBy(producto.dem.asc());
@@ -164,33 +143,27 @@ public class FactuDao {
 		PageImpl<Producto> result = new PageImpl<>(list, pageRequest, total);
 		return result;
 	}
-	
-	
+
 	public List<Ejercicio> findAllEjercicios() {
-		Iterable<Ejercicio> ejercicios = ejercicioRepository.findAll(
-				new Sort(new Order(Direction.DESC,"id")));
+		Iterable<Ejercicio> ejercicios = ejercicioRepository.findAll(new Sort(new Order(Direction.DESC, "id")));
 		return convertItToList(ejercicios);
 	}
-	
+
 	public List<Formapago> findAllForpag() {
-		Iterable<Formapago> formaspago= formapagoRepository.findAll(
-				new Sort(new Order(Direction.ASC,"dem")));
+		Iterable<Formapago> formaspago = formapagoRepository.findAll(new Sort(new Order(Direction.ASC, "dem")));
 		return convertItToList(formaspago);
 	}
 
 	public List<Serie> findAllSeries() {
-		Iterable<Serie> series= serieRepository.findAll(
-				new Sort(new Order(Direction.ASC,"dec")));
+		Iterable<Serie> series = serieRepository.findAll(new Sort(new Order(Direction.ASC, "dec")));
 		return convertItToList(series);
 	}
-	
+
 	public List<Tipiva> findAllTipiva() {
-		Iterable<Tipiva> tiposiva= tipivaRepository.findAll(
-				new Sort(new Order(Direction.ASC,"dem")));
+		Iterable<Tipiva> tiposiva = tipivaRepository.findAll(new Sort(new Order(Direction.ASC, "dem")));
 		return convertItToList(tiposiva);
 	}
 
-	
 	public Page<Factura> findFacturasByTerm(Long empresa, Long ejercicio, String term, Pageable pageRequest) {
 		// 1ª opción -> nombre de método complejo en el repositorio -> no
 		// 2ª opción -> HQL -> consulta dentro de un string, no se compila!
@@ -198,31 +171,28 @@ public class FactuDao {
 		// ....");
 		// 3ª opción -> QueryDSL -> permite que el compilador nos ayude a
 		// escribir HQL.
-				QFactura factura = QFactura.factura;
-				// creación de consulta
-				JPAQuery<Factura> query = new JPAQuery<>(entityManager);
-				query.from(factura);
-				if (term != null ) {
-					query.where(factura.ejercicioId.eq(ejercicio)
-						.and(factura.empresaId.eq(empresa)));
+		QFactura factura = QFactura.factura;
+		// creación de consulta
+		JPAQuery<Factura> query = new JPAQuery<>(entityManager);
+		query.from(factura);
+		if (term != null) {
+			query.where(factura.ejercicioId.eq(ejercicio).and(factura.empresaId.eq(empresa)));
 
-//					query.where(factura..nom.likeIgnoreCase("%" + term + "%")
-//							.or(factura.cif.likeIgnoreCase("%" + term + "%")));
-				}
-				else {
-					query.where(factura.ejercicioId.eq(ejercicio)
-							.and(factura.empresaId.eq(empresa)));
-				}
-				query.orderBy(factura.id.asc());
-				// gestión de paginado
-				long offset = pageRequest.getPageSize() * pageRequest.getPageNumber();
-				query.limit(pageRequest.getPageSize());
-				query.offset(offset);
-				// preparación de resultado
-				List<Factura> list = query.fetch();
-				Long total = query.fetchCount();
-				PageImpl<Factura> result = new PageImpl<>(list, pageRequest, total);
-				return result;
+			// query.where(factura..nom.likeIgnoreCase("%" + term + "%")
+			// .or(factura.cif.likeIgnoreCase("%" + term + "%")));
+		} else {
+			query.where(factura.ejercicioId.eq(ejercicio).and(factura.empresaId.eq(empresa)));
+		}
+		query.orderBy(factura.id.asc());
+		// gestión de paginado
+		long offset = pageRequest.getPageSize() * pageRequest.getPageNumber();
+		query.limit(pageRequest.getPageSize());
+		query.offset(offset);
+		// preparación de resultado
+		List<Factura> list = query.fetch();
+		Long total = query.fetchCount();
+		PageImpl<Factura> result = new PageImpl<>(list, pageRequest, total);
+		return result;
 	}
 
 	public List<Facturalin> findFaclinByFacturaId(Long facturaId) {
@@ -233,15 +203,13 @@ public class FactuDao {
 		List<Facturalin> result = query.fetch();
 		return result;
 	}
-	
-	
+
 	public Factura getFactura(Long facturaId) {
 		if (facturaId != null) {
 			return facturaRepository.findOne(facturaId);
 		}
 		return null;
 	}
-	
 
 	public void saveFactura(Factura factura) {
 		if (factura != null) {
@@ -251,7 +219,7 @@ public class FactuDao {
 			Factura facDB = getFactura(factura.getId());
 			if (facDB != null) {
 				// TODO
-//				facDB.setCif(cliente.getCif());
+				// facDB.setCif(cliente.getCif());
 				// prodDB.setTitle(product.getTitle());
 				// prodDB.setPrice(product.getPrice());
 				// prodDB.setVisible(product.isVisible());
@@ -266,12 +234,10 @@ public class FactuDao {
 			facturaRepository.delete(facturaId);
 		}
 	}
-	
-	
-	
+
 	private <T> List<T> convertItToList(Iterable<T> labels) {
 		List<T> result = new ArrayList<>();
-		for (T label : labels){
+		for (T label : labels) {
 			result.add(label);
 		}
 		return result;
@@ -279,7 +245,116 @@ public class FactuDao {
 
 	public void saveFacturalin(Facturalin faclin) {
 		faclinRepository.save(faclin);
+
+	}
+
+	public Empresa getEmpresa(Long empresaId) {
+		if (empresaId != null) {
+			return empresaRepository.findOne(empresaId);
+		}
+		return null;
+	}
+
+	public Formapago getFormapago(Long formapagoId) {
+		if (formapagoId != null) {
+			return formapagoRepository.findOne(formapagoId);
+		}
+		return null;
+	}
+
+	public Producto getProducto(String productoId) {
+		if (productoId != null) {
+			return productoRepository.findOne(productoId);
+		}
+		return null;
+	}
+
+	public Serie getSerie(String serieId) {
+		if (serieId != null) {
+			return serieRepository.findOne(serieId);
+		}
+		return null;
+	}
+
+	public Tipiva getTipoIva(Long tipoivaId) {
+		if (tipoivaId != null) {
+			return tipivaRepository.findOne(tipoivaId);
+		}
+		return null;
+	}
+
+	public void removeFormaPago(Long formapagoId) {
+		if (formapagoId != null) {
+			formapagoRepository.delete(formapagoId);
+		}
+
+	}
+
+	public void removeProducto(String productoId) {
+		if (productoId != null) {
+			productoRepository.delete(productoId);
+		}
+
+	}
+
+	public void removeSerie(String serieId) {
+		if (serieId != null) {
+			serieRepository.delete(serieId);
+		}
+	}
+
+	public void removeTipoiva(Long tipoivaId) {
+		if (tipoivaId != null) {
+			tipivaRepository.delete(tipoivaId);
+		}
+	}
+
+	public void saveEmpresa(Empresa empresa) {
+		if (empresa != null) {
+			empresaRepository.save(empresa);
+		}
+
+	}
+
+	public void saveCliente(Cliente cliente) {
+		if (cliente != null) {
+			clienteRepository.save(cliente);
+		}
+
+	}
+
+	public void saveEjercicio(Ejercicio ejercicio) {
+		if (ejercicio != null) {
+			ejercicioRepository.save(ejercicio);
+		}
+
+	}
+
+	public void saveFormapago(Formapago formapago) {
+		if (formapago != null) {
+			formapagoRepository.save(formapago);
+		}
+	}
+
+	public void saveProducto(Producto producto) {
+		if (producto != null) {
+			productoRepository.save(producto);
+		}
+
+	}
+
+	public void saveSerie(Serie serie) {
+		if (serie != null) {
+			serieRepository.save(serie);
+		}
 		
 	}
-	
+
+	public void saveTipoiva(Tipiva tipoiva) {
+		if (tipoiva != null) {
+			tipivaRepository.save(tipoiva);
+		}
+		
+	}
+
 }

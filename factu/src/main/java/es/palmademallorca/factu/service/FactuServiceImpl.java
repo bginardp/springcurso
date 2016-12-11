@@ -11,14 +11,24 @@ import org.springframework.stereotype.Service;
 
 import es.palmademallorca.factu.dao.FactuDao;
 import es.palmademallorca.factu.dto.ClienteDto;
+import es.palmademallorca.factu.dto.EjercicioDto;
+import es.palmademallorca.factu.dto.EmpresaDto;
 import es.palmademallorca.factu.dto.FacImpuestoDto;
 import es.palmademallorca.factu.dto.FacLinDto;
 import es.palmademallorca.factu.dto.FacturaDto;
+import es.palmademallorca.factu.dto.FormapagoDto;
+import es.palmademallorca.factu.dto.ProductoDto;
+import es.palmademallorca.factu.dto.SerieDto;
+import es.palmademallorca.factu.dto.TipivaDto;
 import es.palmademallorca.factu.model.Cliente;
 import es.palmademallorca.factu.model.Ejercicio;
 import es.palmademallorca.factu.model.Empresa;
 import es.palmademallorca.factu.model.Factura;
 import es.palmademallorca.factu.model.Facturalin;
+import es.palmademallorca.factu.model.Formapago;
+import es.palmademallorca.factu.model.Producto;
+import es.palmademallorca.factu.model.Serie;
+import es.palmademallorca.factu.model.Tipiva;
 
 @Service(value = "factuService")
 public class FactuServiceImpl implements FactuService {
@@ -30,10 +40,173 @@ public class FactuServiceImpl implements FactuService {
 		return "ok";
 
 	}
+	
+	@Override
+	public List<EjercicioDto> findAllEjercicios() {
+		List<Ejercicio> ejercicios=factuDao.findAllEjercicios();
+		List<EjercicioDto> content=new ArrayList<EjercicioDto>();
+		for (Ejercicio ejercicio : ejercicios){
+			content.add(new EjercicioDto(ejercicio));
+		}
+		return content;
+	}
+	
+	@Override
+	public List<EmpresaDto> findAllEmpresas() {
+		List<Empresa> empresas=factuDao.findAllEmpresas();
+		List<EmpresaDto> content=new ArrayList<EmpresaDto>();
+		for (Empresa empresa : empresas){
+			content.add(new EmpresaDto(empresa));
+		}
+		return content;
+	}
+	
+	@Override
+	public List<FormapagoDto> findAllFormaspago() {
+		List<Formapago> formaspago=factuDao.findAllForpag();
+		List<FormapagoDto> content=new ArrayList<FormapagoDto>();
+		for (Formapago formapago: formaspago){
+			content.add(new FormapagoDto(formapago));
+		}
+		return content;
+	}
+	
+	@Override
+	public List<ProductoDto> findAllProductos() {
+		List<Producto> productos=factuDao.findAllProductos();
+		List<ProductoDto> content=new ArrayList<ProductoDto>();
+		for (Producto producto: productos){
+			content.add(new ProductoDto(producto));
+		}
+		return content;
+	}
 
 	@Override
-	public Ejercicio getEjercicio(long ejercicio) {
-		return new Ejercicio(2016);
+	public List<SerieDto> findAllSeries() {
+		List<Serie> series=factuDao.findAllSeries();
+		List<SerieDto> content=new ArrayList<SerieDto>();
+		for (Serie serie: series){
+			content.add(new SerieDto(serie));
+		}
+		return content;
+	}
+
+	@Override
+	public List<TipivaDto> findAllTiposIva() {
+		List<Tipiva> tiposiva=factuDao.findAllTipiva();
+		List<TipivaDto> content=new ArrayList<TipivaDto>();
+		for (Tipiva tipoiva: tiposiva){
+			content.add(new TipivaDto(tipoiva));
+		}
+		return content;
+	}
+
+	@Override
+	public EmpresaDto getEmpresa(long empresaId) {
+		Empresa empresa=factuDao.getEmpresa(empresaId);
+		EmpresaDto empDto=new EmpresaDto(empresa);
+		return empDto;
+	}
+
+	@Override
+	public FormapagoDto getForpapago(long formapagoId) {
+		Formapago formapago=factuDao.getFormapago(formapagoId);
+		FormapagoDto formapagoDto=new FormapagoDto(formapago);
+		return formapagoDto;
+	}
+
+	@Override
+	public ProductoDto getProducto(String productoId) {
+		Producto producto=factuDao.getProducto(productoId);
+		ProductoDto productoDto=new ProductoDto(producto);
+		return productoDto;
+	}
+
+	@Override
+	public SerieDto getSerie(String serieId) {
+		Serie serie=factuDao.getSerie(serieId);
+		SerieDto serieDto=new SerieDto(serie);
+		return serieDto;
+	}
+
+	@Override
+	public TipivaDto getTipoIva(long tipoivaId) {
+		Tipiva tipoiva=factuDao.getTipoIva(tipoivaId);
+		TipivaDto tipoivaDto=new TipivaDto(tipoiva);
+		return tipoivaDto;
+	}
+
+	@Override
+	public void removeFormaPago(long formapagoId) {
+		factuDao.removeFormaPago(formapagoId);
+		
+	}
+
+	@Override
+	public void removeProducto(String productoId) {
+		factuDao.removeProducto(productoId);
+		
+	}
+
+	@Override
+	public void removeSerie(String serieId) {
+		factuDao.removeSerie(serieId);
+		
+	}
+
+	@Override
+	public void removeTipoiva(long tipoivaId) {
+		factuDao.removeTipoiva(tipoivaId);
+		
+	}
+
+	@Override
+	public void saveEmpresa(EmpresaDto empresaDto) {
+		Empresa empresa=new Empresa(empresaDto);
+		factuDao.saveEmpresa(empresa);
+		
+	}
+
+	@Override
+	public void saveEjercicio(EjercicioDto ejercicioDto) {
+		Ejercicio ejercicio=new Ejercicio(ejercicioDto);
+		factuDao.saveEjercicio(ejercicio);
+		
+	}
+
+	@Override
+	public void saveFormapago(FormapagoDto formapagoDto) {
+		Formapago formapago=new Formapago(formapagoDto);
+		factuDao.saveFormapago(formapago);
+		
+	}
+
+	@Override
+	public void saveProducto(ProductoDto productoDto) {
+		Producto producto=new Producto(productoDto);
+		factuDao.saveProducto(producto);
+		
+	}
+
+	@Override
+	public void saveSerie(SerieDto serieDto) {
+		Serie serie=new Serie(serieDto);
+		factuDao.saveSerie(serie);
+		
+	}
+
+	@Override
+	public void saveTipiva(TipivaDto tipivaDto) {
+		Tipiva tipoiva=new Tipiva(tipivaDto);
+		factuDao.saveTipoiva(tipoiva);
+		
+	}
+
+	
+	
+	@Override
+	public EjercicioDto getEjercicio(long ejercicio) {
+		return new EjercicioDto(new Ejercicio(2016));
 
 	}
 
@@ -67,16 +240,6 @@ public class FactuServiceImpl implements FactuService {
 	}
 
 	@Override
-	public List<Empresa> getEmpresas() {
-		return factuDao.findAllEmpresas();
-	}
-
-	@Override
-	public List<Ejercicio> getEjercicios() {
-		return factuDao.findAllEjercicios();
-	}
-
-	@Override
 	public Page<FacturaDto> findFacturasByTerm(Long empresa, Long ejercicio,String term,Pageable pageRequest) {
 		
 		Page<Factura> page = factuDao.findFacturasByTerm(empresa,ejercicio,term, pageRequest);
@@ -85,7 +248,6 @@ public class FactuServiceImpl implements FactuService {
 			content.add(new FacturaDto(factura));
 		}
 		return new PageImpl<>(content, pageRequest, page.getTotalElements());
-	
 	}
 
 	@Override
@@ -124,10 +286,14 @@ public class FactuServiceImpl implements FactuService {
 		}
 	}
 
+	
+	
 	@Override
-	public void removeFactura(Long id) {
+	public void removeFactura(Long facturaId) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 
 }

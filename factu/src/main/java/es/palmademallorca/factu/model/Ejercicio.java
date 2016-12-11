@@ -5,6 +5,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import es.palmademallorca.factu.dto.EjercicioDto;
+
 /**
  * The persistent class for the ejercicio database table.
  *
@@ -25,6 +27,10 @@ public class Ejercicio  {
     	this.id=id;
 	}
     
+	public Ejercicio(EjercicioDto ejercicioDto) {
+		this.id=ejercicioDto.getId();
+	}
+
 	public Long getId() {
 		return id;
 	}

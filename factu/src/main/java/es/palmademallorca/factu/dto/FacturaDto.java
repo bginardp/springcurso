@@ -5,6 +5,7 @@ import java.util.Date;
 import es.palmademallorca.factu.model.Factura;
 
 public class FacturaDto {
+	// TODO afegir validacions s anivell d'atributs
 	private Long id;
 	private Long numero;
 	private Date dat;

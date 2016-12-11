@@ -6,6 +6,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import es.palmademallorca.factu.dto.EmpresaDto;
+
 
 /**
  * The persistent class for the empresas database table.
@@ -51,6 +53,20 @@ public class Empresa {
 		this.web = web;
 	}
 
+
+
+	public Empresa(EmpresaDto empresaDto) {
+		this.id=empresaDto.getId();
+		this.dec=empresaDto.getDec();
+		this.dem=empresaDto.getDem();
+		this.direccion=empresaDto.getDireccion();
+		this.fax=empresaDto.getFax();
+		this.municipio=empresaDto.getMunicipio();
+		this.nif=empresaDto.getNif();
+		this.provincia=empresaDto.getProvincia();
+		this.tel=empresaDto.getTel();
+		this.web=empresaDto.getWeb();
+	}
 
 
 	public Long getId() {

@@ -17,7 +17,7 @@ public class MaestrosController {
 	@RequestMapping("empresa")
 	public String empresas(Model model){
 		model.addAttribute("empresas",
-				factuService.getEmpresas());
+				factuService.findAllEmpresas());
 		return "admin/list";
 	}
 	

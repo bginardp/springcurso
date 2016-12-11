@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import es.palmademallorca.factu.FactuApp;
-import es.palmademallorca.factu.model.Ejercicio;
+import es.palmademallorca.factu.dto.EjercicioDto;
 import es.palmademallorca.factu.service.FactuService;
 
 
@@ -22,7 +22,7 @@ public class ClienteTest {
 	
 	@Test
 	public void test() {
-        Ejercicio ejercicio=factuService.getEjercicio(2015);
+        EjercicioDto ejercicio=factuService.getEjercicio(2015);
 //		ClientesDAO model = new ClientesService(em);
 //		List<Cliente> clientes= model.getClientes();
 //

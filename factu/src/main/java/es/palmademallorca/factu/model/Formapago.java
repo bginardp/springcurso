@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 
+import es.palmademallorca.factu.dto.FormapagoDto;
+
 
 /**
  * The persistent class for the formaspago database table.
@@ -22,6 +24,12 @@ public class Formapago {
 	private String hbl;
 
 	public Formapago() {
+	}
+
+	public Formapago(FormapagoDto formapagoDto) {
+		this.id = formapagoDto.getId();
+		this.dem = formapagoDto.getDem();
+		this.hbl = formapagoDto.getHbl();
 	}
 
 	public Long getId() {

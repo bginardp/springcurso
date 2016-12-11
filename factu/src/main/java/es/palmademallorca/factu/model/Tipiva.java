@@ -9,6 +9,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import es.palmademallorca.factu.dto.TipivaDto;
+
 
 /**
  * The persistent class for the tipiva database table.
@@ -23,14 +25,25 @@ public class Tipiva {
 	@GeneratedValue(generator="TipivaSeq")
     @SequenceGenerator(name="TipivaSeq",sequenceName="factu.tipiva_seq", allocationSize=1)	
 	private Long id;
+	private String tipo;
 	private Long anyo;
 	private String dem;
 	private Long mes;
 	private BigDecimal poriva;
 	private BigDecimal requiv;
-	private String tipo;
+	
 
 	public Tipiva() {
+	}
+
+	public Tipiva(TipivaDto tipivaDto) {
+		this.id=tipivaDto.getId();
+		this.tipo=tipivaDto.getTipo();
+		this.anyo=tipivaDto.getAnyo();
+		this.dem=tipivaDto.getDem();
+		this.mes=tipivaDto.getMes();
+		this.poriva=tipivaDto.getPoriva();
+		this.requiv=tipivaDto.getRequiv();
 	}
 
 	public Long getId() {
@@ -95,79 +108,6 @@ public class Tipiva {
 				+ ", requiv=" + requiv + ", tipo=" + tipo + "]";
 	}
 
-
-//	@Id
-//	@GeneratedValue(generator="TipivaSeq")
-//    @SequenceGenerator(name="TipivaSeq",sequenceName="factu.tipiva_seq", allocationSize=1)
-//	public Long getId() {
-//		return this.id.get();
-//	}
-//
-//	public void setId(Long id) {
-//		this.id.set(id);
-//	}
-//
-//
-//	public Long getAnyo() {
-//		return this.anyo.get();
-//	}
-//
-//	public void setAnyo(Long anyo) {
-//		this.anyo.set(anyo);
-//	}
-//
-//
-//	public String getDem() {
-//		return this.dem.get();
-//	}
-//
-//	public void setDem(String dem) {
-//		this.dem.set(dem);
-//	}
-//
-//
-//	public Long getMes() {
-//		return this.mes.get();
-//	}
-//
-//	public void setMes(Long mes) {
-//		this.mes.set(mes);
-//	}
-//
-//
-//	public BigDecimal getPoriva() {
-//		return this.poriva.get();
-//	}
-//
-//	public void setPoriva(BigDecimal poriva) {
-//		this.poriva.set(poriva);
-//	}
-//
-//
-//	public BigDecimal getRequiv() {
-//		return this.requiv.get();
-//	}
-//
-//	public void setRequiv(BigDecimal requiv) {
-//		this.requiv.set(requiv);
-//	}
-//
-//
-//	public String getTipo() {
-//		return this.tipo.get();
-//	}
-//
-//	public void setTipo(String tipo) {
-//		this.tipo.set(tipo);
-//	}
-//
-//
-//	@Override
-//	public String toString() {
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(this.getId()).append(" ").append(this.getDem()).append(" ").append(this.getPoriva()).append(" ").append(this.getRequiv());
-//		return sb.toString();
-//	}
 
 
 
