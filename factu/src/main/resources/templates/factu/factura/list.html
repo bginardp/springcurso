@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Facturacion')"/>
+<body>
+	<div class="container">
+		<!--  falta cabecera -->
+		<h1>Lista de facturas</h1>
+		<hr/>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-2">
+				<form id="frm" th:action="@{'/factu/facturas'}">
+					<input  type="hidden" 
+							id="page"
+							name="page" 
+							th:value="${facturas.number}"/>
+					<div class="input-group">
+				      <input type="text" 
+				      		 name="term" 
+				      		 th:value="${term}" class="form-control" placeholder="Buscar por..."/>
+				     		 <span class="input-group-btn">
+				       		 <button class="btn btn-default" type="submit">Go!</button>
+				      </span>
+				    </div><!-- /input-group -->
+				
+					<hr/>
+				
+					<div class="media" th:each="factura:${facturas}">
+					  <div class="media-left">
+					    <a th:href="@{'factura/'+${factura.id}}">
+					      <span th:utext="${factura.cif}"></span>
+					    </a>
+					  </div>
+					  <div class="media-body">
+					    <h4 class="media-heading" th:text="${factura.nom}"></h4>
+					    <div class="text-muted">
+					    	<span th:text="${factura.direccion}"></span>
+					    	<span th:text="${factura.municipio}"></span>
+					    </div>
+					    <div class="text-info">
+					    	<span th:text="${factura.postal}"></span>
+					    	<span th:text="${factura.provincia}"></span>
+					     </div>
+					     <div class="text-info">
+					    	<span th:text="${factura.tel}"></span>
+					    	<span th:text="${factura.movil}"></span>
+					    	<span th:text="${factura.email}"></span>
+					     </div>
+					  </div>
+					</div><!-- fin foreach -->
+					<div  th:if="${facturas.totalPages==0}"
+						 class="alert alert-warning">
+						 No se han encontrado resultados
+					</div>
+					<!-- paginado -->
+					<nav aria-label="Page navigation"
+						 th:if="${facturas.totalPages>0}">
+					  <ul class="pagination">
+					    <li>
+					      <a	th:if="${(facturas.number-1)>=0}"
+					      		href="#"	
+					      		th:onclick="${'setPage('+(facturas.number-1)+')'}"> 
+					      		&lt;
+							</a>
+					    </li>
+					    <li th:each="page : ${#numbers.sequence(0,facturas.totalPages-1)}"
+					    	th:classappend="${facturas.number==page}?'active'">
+							<a 
+								href="#"	th:onclick="${'setPage('+page+')'}">
+								<span th:utext="${page+1}" ></span>
+							</a>
+						</li>
+					    <li>
+					    	<a	th:if="${facturas.number &lt; (facturas.totalPages -1)}"
+					    		href="#"
+					    		th:onclick="${'setPage('+(facturas.number+1)+')'}">  
+					    		&gt;
+							</a>
+					    </li>
+					  </ul>
+					</nav>				
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript">
+			function setPage(num){
+				$("#page").val(num);
+				$("#frm").submit();
+			}
+		</script>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Mi blog')"/>
+<body>
+	<div class="container">
+		<h1>Lista de productos</h1>
+		<hr/>
+		<div class="row">
+			<div class="col-sm-2">
+				<span class="text-info">ID</span>	
+			</div>
+			<div class="col-sm-4">
+				<span class="text-info">T&iacute;tulo</span>	
+			</div>
+			<div class="col-sm-4">
+				<span class="text-info">Precio</span>	
+			</div>
+			<div class="col-sm-2">				
+				<span class="text-muted">Visible</span>
+			</div>
+		</div>
+		<div class="row" th:each="product : ${products}">
+			<div class="col-sm-2">
+				<span th:text="${product.id}">1</span>
+			</div>
+			<div class="col-sm-4">
+				<span th:text="${product.title}">Ram&oacute;n</span>
+			</div>
+			<div class="col-sm-4">
+				<span th:text="${product.price}">100</span>
+			</div>
+			<div class="col-sm-1">
+				<span th:text="${product.visible?'true':'false'}">true</span>
+			</div>
+			<div class="col-md-1">				
+				<a th:href="@{'/admin/product/'+${product.id}}"
+				 class="btn btn-default btn-xs">editar</a>
+			</div>
+		</div>
+		<a th:href="@{/admin/product}" class="btn btn-primary">Nuevo</a>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
