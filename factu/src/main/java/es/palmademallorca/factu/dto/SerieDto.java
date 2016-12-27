@@ -1,17 +1,26 @@
 package es.palmademallorca.factu.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import es.palmademallorca.factu.model.Serie;
 
 public class SerieDto {
 	// TODO afegir validacions s anivell d'atributs
 	private String id;
+	@NotNull
+	@Size(min=1,max=15)
 	private String dec;
-	private String hbl;
+	private boolean hbl;
 	
+	public SerieDto() {
+		this.hbl=true;
+	}
+
 	public SerieDto(Serie serie) {
 		this.id=serie.getId();
 		this.dec=serie.getDec();
-		this.hbl=serie.getHbl();
+		this.hbl = serie.getHbl().equals("S")?true:false;
 	}
 
 	public String getId() {
@@ -30,13 +39,14 @@ public class SerieDto {
 		this.dec = dec;
 	}
 
-	public String getHbl() {
+	public boolean isHbl() {
 		return hbl;
 	}
 
-	public void setHbl(String hbl) {
+	public void setHbl(boolean hbl) {
 		this.hbl = hbl;
 	}
-	
+
+
 	
 }

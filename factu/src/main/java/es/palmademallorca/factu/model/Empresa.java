@@ -2,8 +2,6 @@ package es.palmademallorca.factu.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import es.palmademallorca.factu.dto.EmpresaDto;
@@ -15,31 +13,26 @@ import es.palmademallorca.factu.dto.EmpresaDto;
  */
 @Entity
 @Table(name="empresas")
-
-@NamedQueries ({
-	@NamedQuery(name="Empresa.findAll", query="SELECT e FROM Empresa e"),
-    @NamedQuery(name="Empresa.findByDem", query="SELECT e FROM Empresa e WHERE e.dem like :dem")
-})
-
 public class Empresa {
 	@Id
 	private Long id;
+	private String nif;
 	private String dec;
 	private String dem;
 	private String direccion;
-	private String fax;
 	private String municipio;
-	private String nif;
 	private String provincia;
+	private String postal;
 	private String tel;
-	private String web;
+	private String fax;
+	private String email;
 
 	public Empresa() {
 	}
 	
 		
 	public Empresa(Long id, String dec, String dem, String direccion, String fax, String municipio, String nif,
-			String provincia, String tel, String web) {
+			String provincia, String tel, String email, String postal) {
 		super();
 		this.id = id;
 		this.dec = dec;
@@ -50,7 +43,8 @@ public class Empresa {
 		this.nif = nif;
 		this.provincia = provincia;
 		this.tel = tel;
-		this.web = web;
+		this.email = email;
+		this.postal=postal;
 	}
 
 
@@ -64,8 +58,10 @@ public class Empresa {
 		this.municipio=empresaDto.getMunicipio();
 		this.nif=empresaDto.getNif();
 		this.provincia=empresaDto.getProvincia();
+		this.postal=empresaDto.getPostal();
 		this.tel=empresaDto.getTel();
-		this.web=empresaDto.getWeb();
+		this.email=empresaDto.getEmail();
+		
 	}
 
 
@@ -141,12 +137,22 @@ public class Empresa {
 		this.tel = tel;
 	}
 
-	public String getWeb() {
-		return web;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setWeb(String web) {
-		this.web = web;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getPostal() {
+		return postal;
+	}
+
+
+	public void setPostal(String postal) {
+		this.postal = postal;
 	}
 
 

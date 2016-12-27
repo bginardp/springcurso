@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Factu')"/>
+<body lang='es'>
+     <th:block th:include="/common/header :: header"/>
+     
+     <div class="container">
+         <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h2 th:utext="#{index.titol}">Entrada en el sistema de facturaci&oacute;n</h2>
+      </div>
+      <th:block th:include="/common/footer :: footer"/>
+    </div> <!-- /container -->
+	<th:block th:include="/common/footer-js :: footer-js"/>
+</body>
+</html>

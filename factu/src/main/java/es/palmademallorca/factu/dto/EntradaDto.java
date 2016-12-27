@@ -4,17 +4,23 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class EntradaDto {
-	@NotNull
-	@Size(min=2016,max=2099)
+//	@NotNull
+//	@Size(min=1,max=2099)
 	private Long ejercicioId;
-	@NotNull
-	@Size(min=1, max=10)
+//	@NotNull
+//	@Size(min=1, max=10)
 	private Long empresaId;
-	
-	public EntradaDto(Long ejercicio, Long empresa) {
+	private String empresaName;
+
+	public EntradaDto() {
+		
+	}
+
+	public EntradaDto(Long ejercicio, Long empresaId, String empresaName ) {
 		super();
 		this.ejercicioId = ejercicio;
-		this.empresaId = empresa;
+		this.empresaId = empresaId;
+		this.empresaName = empresaName;
 	}
 
 	public Long getEjercicioId() {
@@ -31,6 +37,14 @@ public class EntradaDto {
 
 	public void setEmpresaId(Long empresaId) {
 		this.empresaId = empresaId;
+	}
+
+	public String getEmpresaName() {
+		return empresaName;
+	}
+
+	public void setEmpresaName(String empresaName) {
+		this.empresaName = empresaName;
 	}
 	
 	

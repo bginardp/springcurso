@@ -6,6 +6,9 @@ public class EjercicioDto {
 	// TODO afegir validaciones
 	private Long id;
 
+	public EjercicioDto(Long id) {
+		this.id=id;
+	}
 	public EjercicioDto(Ejercicio ejercicio) {
 		this.id=ejercicio.getId();
 	}

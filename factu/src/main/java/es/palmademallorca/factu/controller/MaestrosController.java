@@ -1,61 +1,148 @@
 package es.palmademallorca.factu.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import es.palmademallorca.factu.dto.FormapagoDto;
+import es.palmademallorca.factu.dto.SerieDto;
+import es.palmademallorca.factu.dto.TipivaDto;
 import es.palmademallorca.factu.service.FactuService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/maestros")
 public class MaestrosController {
-	
-	@Autowired
+	@Autowired 
 	FactuService factuService;
 	
-	@RequestMapping("empresa")
-	public String empresas(Model model){
-		model.addAttribute("empresas",
-				factuService.findAllEmpresas());
-		return "admin/list";
+	@ModelAttribute("page")
+	public String module() {
+	   return "altres";
+	}
+	// formas de pago
+	@RequestMapping(value="/formaspago", method=RequestMethod.GET)
+	public String listForpag(
+		Model model){
+		model.addAttribute("formaspago", factuService.findAllFormaspago());
+		return "maestros/formapago/list";
 	}
 	
-//	@RequestMapping(value = {"/product/{prodId}","/product"},method=RequestMethod.GET)
-//	public String getProduct(
-//			Model model,
-//			@PathVariable(value = "prodId", required=false) Long id){
-//		Product product = null;
-//		if (id!= null){
-//			product = productService.getProduct(id);
-//		} else {
-//			product = new Product();
-//		}
-//		model.addAttribute("product", product);
-//		return "admin/edit";
-//	}
-//	
-//	@RequestMapping(value="/product/remove",method=RequestMethod.POST)
-//	public String removeProduct(
-//			@RequestParam("id") Long id){
-//		productService.removeProduct(id);
-//		return "redirect:/product";
-//	}
-//	
-//	@RequestMapping(value="/product/save",method=RequestMethod.POST)
-//	public String saveProduct(
-//			Model model,
-//			@Valid @ModelAttribute("product") Product product,
-//			BindingResult result){
-//		if (!result.hasErrors()){
-//			productService.saveProduct(product);
-//			//model.addAttribute("mensaje", "Operación correcta");
-//			return "redirect:/admin/product/"+product.getId()+"?ok=true";
-//		} else {
-//			model.addAttribute("mensajeError", "Por favor revise los datos introducidos");
-//		}
-//		model.addAttribute("product", product);
-//		return "admin/edit";
-//	}
+	@RequestMapping(value ={"/formapago/{id}","/formapago/new"}, method=RequestMethod.GET)
+	public String editForpag(
+			Model model,
+			@PathVariable(value="id",required=false) Long formapagoId){
+		FormapagoDto formapago=null;
+		if (formapagoId!=null) {
+		  formapago = factuService.getFormapago(formapagoId);
+		} else {
+		  formapago = new FormapagoDto();	
+		}
+			
+		return gotoEditForpag(model,formapago);
+	}
+	
+	private String gotoEditForpag(Model model, FormapagoDto formapago) {
+		model.addAttribute("formapago", formapago);
+		return "maestros/formapago/edit";
+	}
+	
+	@RequestMapping(value="/formapago/save", method=RequestMethod.POST)
+	public String saveForpag(
+			Model model,
+			@Valid @ModelAttribute("formapago") FormapagoDto formapago,
+			BindingResult results){
+		if (results.hasErrors()){
+			return gotoEditForpag(model, formapago);
+		} else {
+			Long formapagoId=factuService.saveFormapago(formapago);
+			return "redirect:/maestros/formapago/"+formapagoId+"?msg=ok";
+		}
+	}
+	// tipos de iva
+	@RequestMapping(value="/tiposiva", method=RequestMethod.GET)
+	public String listTipiva(
+		Model model){
+		model.addAttribute("tiposiva", factuService.findAllTiposIva());
+		return "maestros/tipiva/list";
+	}
+	
+	@RequestMapping(value ={"/tipoiva/{id}","/tipoiva/new"}, method=RequestMethod.GET)
+	public String editTipiva(
+			Model model,
+			@PathVariable(value="id",required=false) Long tipoivaId){
+		TipivaDto tipoiva=null;
+		if (tipoivaId!=null) {
+			tipoiva = factuService.getTipoIva(tipoivaId);
+		} else {
+			tipoiva = new TipivaDto();	
+		}
+			
+		return gotoEditTipiva(model,tipoiva);
+	}
+	
+	private String gotoEditTipiva(Model model, TipivaDto tipoiva) {
+		model.addAttribute("tipoiva", tipoiva);
+		return "maestros/tipiva/edit";
+	}
+	
+	@RequestMapping(value="/tipoiva/save", method=RequestMethod.POST)
+	public String saveTipiva(
+			Model model,
+			@Valid @ModelAttribute("tipoiva") TipivaDto tipoiva,
+			BindingResult results){
+		if (results.hasErrors()){
+			return gotoEditTipiva(model, tipoiva);
+		} else {
+			Long tipoivaId=factuService.saveTipiva(tipoiva);
+			return "redirect:/maestros/tipoiva/"+tipoivaId+"?msg=ok";
+		}
+	}
+	// series
+	@RequestMapping(value="/series", method=RequestMethod.GET)
+	public String listSeries(
+		Model model){
+		model.addAttribute("series", factuService.findAllSeries());
+		return "maestros/serie/list";
+	}
+	
+	@RequestMapping(value ={"/serie/{id}","/serie/new"}, method=RequestMethod.GET)
+	public String editSerie(
+			Model model,
+			@PathVariable(value="id",required=false) String serieId){
+		SerieDto serie=null;
+		if (serieId!=null) {
+			serie = factuService.getSerie(serieId);
+		} else {
+			serie = new SerieDto();	
+		}
+			
+		return gotoEditSerie(model,serie);
+	}
+	
+	private String gotoEditSerie(Model model, SerieDto serie) {
+		model.addAttribute("serie", serie);
+		return "maestros/serie/edit";
+	}
+	
+	@RequestMapping(value="/serie/save", method=RequestMethod.POST)
+	public String saveSerie(
+			Model model,
+			@Valid @ModelAttribute("serie") SerieDto serie,
+			BindingResult results){
+		if (results.hasErrors()){
+			return gotoEditSerie(model, serie);
+		} else {
+			factuService.saveSerie(serie);
+			return "redirect:/maestros/serie/"+serie.getId()+"?msg=ok";
+		}
+	}
+	
 	
 }

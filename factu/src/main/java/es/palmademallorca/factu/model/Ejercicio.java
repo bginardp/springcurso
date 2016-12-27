@@ -12,7 +12,7 @@ import es.palmademallorca.factu.dto.EjercicioDto;
  *
  */
 @Entity
-@NamedQueries({ @NamedQuery(name = "Ejercicio.findAll", query = "SELECT e FROM Ejercicio e") })
+
 public class Ejercicio  {
 
     @Id

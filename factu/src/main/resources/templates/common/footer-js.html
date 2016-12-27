@@ -1,0 +1,11 @@
+<th:block th:fragment="footer-js" xmlns:th="http://www.thymeleaf.org" >
+   <script type="text/javascript">
+		$(document).ready(function(){
+			$(".launch-modal").click(function(){
+				$("#myModal").modal({
+					backdrop: 'static'
+				});
+			}); 
+		});
+   </script>
+</th:block>

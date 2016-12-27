@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Facturaci&oacute;n')"/>
+<body>
+	<div class="container">
+		<th:block th:include="/common/header :: header"/>
+		<h2 th:text="#{tiposiva.edit.titol}">Formulario</h2>
+		<hr/>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-2">
+			
+				<div th:if="${#httpServletRequest.getParameter('msg')=='ok'}" 
+					 class="alert alert-success" th:text="#{factu.succesful.operation}">
+				</div>
+								
+				<form th:object="${tipoiva}" 
+					  th:action="@{/maestros/tipoiva/save}"
+					  method="post">
+					  
+				    <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+				    	<ul>
+						    <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
+						        <span th:text="${e.global}? '*' : ${e.fieldName}">The field name</span> |
+						        <span th:text="${e.message}">The error message</span>
+						    </li>
+						</ul>
+					</div>
+						<div class="form-group">
+						    <label 	for="id">ID</label>
+						    <input 	class="form-control" 
+						    		th:field="*{id}" tabindex="1" autofocus="autofocus"
+						    		th:errorClass="text-danger" 
+						    		readonly="readonly"/>
+				    		
+						</div>
+						<div class="form-group">
+						    <label 	for="tipo">Tipo</label>
+						    <input 	class="form-control" 
+						    		th:field="*{tipo}" tabindex="2"/>
+	 						<span 	th:if="${#fields.hasErrors('tipo')}" 
+						    		th:text="${#fields.errors('tipo')}"
+						    		class="text-danger">
+							</span>					    		
+						</div>
+						<div class="form-group">
+						    <label 	for="dem">Descripción</label>
+						    <input 	class="form-control" 
+						    		th:field="*{dem}" tabindex="3"/>
+	 						<span 	th:if="${#fields.hasErrors('dem')}" 
+						    		th:text="${#fields.errors('dem')}"
+						    		class="text-danger">
+							</span>					    		
+						</div>
+						<div class="form-group">
+						    <label 	for="anyo">Año</label>
+						    <input 	class="form-control" 
+						    		th:field="*{anyo}" tabindex="4"/>
+	 						<span 	th:if="${#fields.hasErrors('anyo')}" 
+						    		th:text="${#fields.errors('anyo')}"
+						    		class="text-danger">
+							</span>					    		
+						</div>
+						<div class="form-group">
+						    <label 	for="mes">Mes</label>
+						    <input 	class="form-control" 
+						    		th:field="*{mes}" tabindex="5"/>
+	 						<span 	th:if="${#fields.hasErrors('mes')}" 
+						    		th:text="${#fields.errors('mes')}"
+						    		class="text-danger">
+							</span>					    		
+						</div>
+						<div class="form-group">
+						    <label 	for="poriva">% Iva</label>
+						    <input 	class="form-control" 
+						    		th:field="*{poriva}" tabindex="6"/>
+	 						<span 	th:if="${#fields.hasErrors('poriva')}" 
+						    		th:text="${#fields.errors('poriva')}"
+						    		class="text-danger">
+							</span>					    		
+						</div>
+						<div class="form-group">
+						    <label 	for="requiv">% R.Equiv</label>
+						    <input 	class="form-control" 
+						    		th:field="*{requiv}" tabindex="7"/>
+	 						<span 	th:if="${#fields.hasErrors('requiv')}" 
+						    		th:text="${#fields.errors('requiv')}"
+						    		class="text-danger">
+							</span>					    		
+						</div>
+					<button type="submit" class="btn btn-primary ">Guardar</button>
+					<button type="button" onclick="$('#frmRemove').submit();"
+							th:if="${tipoiva.id!=null}"
+							class="btn btn-warning">Borrar</button>
+					<a	th:href="@{/maestros/tiposiva}"
+						class="btn btn-default">Volver</a>
+				</form>
+				<!-- formulario para borrar -->
+				<form id="frmRemove"
+					  th:action="@{'/maestros/tipoiva/remove'}" method="post">
+					<input type="hidden" name="id" th:value="${tipoiva.id}"/>
+				</form>
+			</div>
+		</div> <!-- row -->
+		<th:block th:include="/common/footer :: footer"/>
+	</div> <!-- container -->
+	
+</body>
+</html>

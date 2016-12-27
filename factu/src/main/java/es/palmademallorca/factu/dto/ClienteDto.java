@@ -11,12 +11,19 @@ public class ClienteDto {
 	@NotNull
 	@Size(min=1,max=80)
 	private String nom;
+	@Size(max=60)
 	private String direccion;
+	@Size(max=40)
 	private String municipio;
+	@Size(max=40)
 	private String provincia;
+	@Size(max=10)
 	private String postal;
+	@Size(max=15)
 	private String tel;
+	@Size(max=15)
 	private String movil;
+	@Size(max=60)
 	private String email;
 	
 

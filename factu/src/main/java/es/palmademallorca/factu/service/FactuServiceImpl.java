@@ -3,12 +3,16 @@ package es.palmademallorca.factu.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import es.palmademallorca.factu.beans.UserSession;
 import es.palmademallorca.factu.dao.FactuDao;
 import es.palmademallorca.factu.dto.ClienteDto;
 import es.palmademallorca.factu.dto.EjercicioDto;
@@ -34,7 +38,16 @@ import es.palmademallorca.factu.model.Tipiva;
 public class FactuServiceImpl implements FactuService {
 	@Autowired
 	private FactuDao factuDao;
-		
+	@Autowired 
+	private HttpSession httpSession;
+	
+	@PostConstruct
+	private void init () {
+//		this.empresa=new Empresa(new Long(1),"empresa A","empresa A","ce ciutadella 25 2d","","palma","123456789","illes balears","971123456","company@putmail.com","07003");
+//		this.setEjercicio(new Ejercicio(2016));
+		System.out.println("######################### Servei creat");
+	}
+	
 	@Override
 	public String init(long ejercicio, long empresaId) {
 		return "ok";
@@ -109,7 +122,7 @@ public class FactuServiceImpl implements FactuService {
 	}
 
 	@Override
-	public FormapagoDto getForpapago(long formapagoId) {
+	public FormapagoDto getFormapago(long formapagoId) {
 		Formapago formapago=factuDao.getFormapago(formapagoId);
 		FormapagoDto formapagoDto=new FormapagoDto(formapago);
 		return formapagoDto;
@@ -128,13 +141,35 @@ public class FactuServiceImpl implements FactuService {
 		SerieDto serieDto=new SerieDto(serie);
 		return serieDto;
 	}
+	
+	@Override
+	public EjercicioDto getEjercicio(long ejercicio) {
+		return new EjercicioDto(new Ejercicio(2016));
 
+	}
+	
 	@Override
 	public TipivaDto getTipoIva(long tipoivaId) {
 		Tipiva tipoiva=factuDao.getTipoIva(tipoivaId);
 		TipivaDto tipoivaDto=new TipivaDto(tipoiva);
 		return tipoivaDto;
 	}
+	
+
+	@Override
+	public ClienteDto getCliente(Long clienteId) {
+		Cliente cliente=factuDao.getCliente(clienteId);
+		ClienteDto cliDto=new ClienteDto(cliente);
+		return cliDto;
+	}
+	
+	@Override
+	public FacturaDto getFactura(Long facturaId) {
+		Factura factura=factuDao.getFactura(facturaId);
+		FacturaDto facDto=new FacturaDto(factura);
+		return facDto;
+	}
+
 
 	@Override
 	public void removeFormaPago(long formapagoId) {
@@ -159,11 +194,23 @@ public class FactuServiceImpl implements FactuService {
 		factuDao.removeTipoiva(tipoivaId);
 		
 	}
-
+	
 	@Override
-	public void saveEmpresa(EmpresaDto empresaDto) {
+	public void removeCliente(Long clienteId) {
+		factuDao.removeCliente(clienteId);
+	}
+	
+	@Override
+	public void removeFactura(Long facturaId) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public Long saveEmpresa(EmpresaDto empresaDto) {
 		Empresa empresa=new Empresa(empresaDto);
 		factuDao.saveEmpresa(empresa);
+		return empresa.getId();
 		
 	}
 
@@ -175,9 +222,10 @@ public class FactuServiceImpl implements FactuService {
 	}
 
 	@Override
-	public void saveFormapago(FormapagoDto formapagoDto) {
+	public Long saveFormapago(FormapagoDto formapagoDto) {
 		Formapago formapago=new Formapago(formapagoDto);
 		factuDao.saveFormapago(formapago);
+		return formapago.getId();
 		
 	}
 
@@ -196,18 +244,27 @@ public class FactuServiceImpl implements FactuService {
 	}
 
 	@Override
-	public void saveTipiva(TipivaDto tipivaDto) {
+	public Long saveTipiva(TipivaDto tipivaDto) {
 		Tipiva tipoiva=new Tipiva(tipivaDto);
 		factuDao.saveTipoiva(tipoiva);
-		
+		return tipoiva.getId();
 	}
 
-	
-	
 	@Override
-	public EjercicioDto getEjercicio(long ejercicio) {
-		return new EjercicioDto(new Ejercicio(2016));
+	public Long saveCliente(ClienteDto clienteDto) {
+		Cliente cliente=new Cliente(clienteDto);
+		factuDao.saveCliente(cliente);
+		return cliente.getId();
+	}
 
+	@Override
+	public void saveFactura(FacturaDto facturaDto, List<FacLinDto> detalleDto) {
+		Factura factura=new Factura(facturaDto);
+		factuDao.saveFactura(factura);
+		for (FacLinDto faclindto:detalleDto) {
+			Facturalin faclin=new Facturalin(faclindto);
+			factuDao.saveFacturalin(faclin);	
+		}
 	}
 
 	@Override
@@ -221,26 +278,18 @@ public class FactuServiceImpl implements FactuService {
 	}
 
 	@Override
-	public ClienteDto getCliente(Long clienteId) {
-		Cliente cliente=factuDao.getCliente(clienteId);
-		ClienteDto cliDto=new ClienteDto(cliente);
-		return cliDto;
+	public Page<ProductoDto> getProductos(String term, Pageable pageRequest) {
+		Page<Producto> page = factuDao.findProductosByTerm(term, pageRequest);
+		List<ProductoDto> content = new ArrayList<>();
+		for (Producto producto : page){
+			content.add(new ProductoDto(producto));
+		}
+		return new PageImpl<>(content, pageRequest, page.getTotalElements());
 	}
+	
 
 	@Override
-	public void saveCliente(ClienteDto clienteDto) {
-		Cliente cliente=new Cliente(clienteDto);
-		factuDao.saveCliente(cliente);
-
-	}
-
-	@Override
-	public void removeCliente(Long clienteId) {
-		factuDao.removeCliente(clienteId);
-	}
-
-	@Override
-	public Page<FacturaDto> findFacturasByTerm(Long empresa, Long ejercicio,String term,Pageable pageRequest) {
+	public Page<FacturaDto> getFacturas(Long empresa, Long ejercicio,String term,Pageable pageRequest) {
 		
 		Page<Factura> page = factuDao.findFacturasByTerm(empresa,ejercicio,term, pageRequest);
 		List<FacturaDto> content = new ArrayList<>();
@@ -251,7 +300,7 @@ public class FactuServiceImpl implements FactuService {
 	}
 
 	@Override
-	public List<FacLinDto> findFaclinByFacturaId(Long facturaId) {
+	public List<FacLinDto> getFaclinByFacturaId(Long facturaId) {
 		// TODO Auto-generated method stub
 		List<Facturalin> lineas = factuDao.findFaclinByFacturaId(facturaId);
 		List<FacLinDto> content = new ArrayList<>();
@@ -269,30 +318,14 @@ public class FactuServiceImpl implements FactuService {
 //		return factuDao.getImpuestoFactura(facturaId);
 	}
 
-	@Override
-	public FacturaDto getFactura(Long facturaId) {
-		Factura factura=factuDao.getFactura(facturaId);
-		FacturaDto facDto=new FacturaDto(factura);
-		return facDto;
-	}
-
-	@Override
-	public void saveFactura(FacturaDto facturaDto, List<FacLinDto> detalleDto) {
-		Factura factura=new Factura(facturaDto);
-		factuDao.saveFactura(factura);
-		for (FacLinDto faclindto:detalleDto) {
-			Facturalin faclin=new Facturalin(faclindto);
-			factuDao.saveFacturalin(faclin);	
-		}
-	}
+	
+	
 
 	
 	
-	@Override
-	public void removeFactura(Long facturaId) {
-		// TODO Auto-generated method stub
-		
-	}
+	
+
+	
 	
 	
 

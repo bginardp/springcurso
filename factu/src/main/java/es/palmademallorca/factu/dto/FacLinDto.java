@@ -22,6 +22,11 @@ public class FacLinDto {
 	private BigDecimal requiv;
 	
 	
+	public FacLinDto() {
+	
+	}
+
+
 	public FacLinDto(Long id, Long facturaId, BigDecimal cantidad, String dem, BigDecimal importe, BigDecimal pordte,
 			Long tipivaId, String tipivaDec, BigDecimal poriva, BigDecimal preu, String producteId, BigDecimal requiv) {
 		this.id = id;

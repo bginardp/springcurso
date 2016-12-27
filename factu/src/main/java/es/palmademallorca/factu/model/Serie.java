@@ -22,8 +22,6 @@ import es.palmademallorca.factu.dto.SerieDto;
 @NamedQuery(name = "Serie.findAll", query = "SELECT s FROM Serie s")
 public class Serie {
 	@Id
-	@GeneratedValue(generator="SerieSeq")
-    @SequenceGenerator(name="SerieSeq",sequenceName="factu.serie_seq", allocationSize=1)
 	private String id;
 	private String dec;
 	private String hbl;
@@ -36,7 +34,7 @@ public class Serie {
 	public Serie(SerieDto serieDto) {
 		this.id=serieDto.getId();
 		this.dec=serieDto.getDec();
-		this.hbl=serieDto.getHbl();
+		this.hbl=serieDto.isHbl()?"S":"N";
 	}
 
 	public String getId() {
@@ -76,57 +74,6 @@ public class Serie {
 		return "Serie [id=" + id + ", dec=" + dec + ", hbl=" + hbl + ", empresa=" + empresa + "]";
 	}
 
-	
-//	@Id
-//	@GeneratedValue(generator="SerieSeq")
-//    @SequenceGenerator(name="SerieSeq",sequenceName="factu.serie_seq", allocationSize=1)
-//	public String getId() {
-//		return this.id.get();
-//	}
-//
-//	public void setId(String id) {
-//		this.id.set(id);
-//	}
-//	public StringProperty idProperty() {
-//		return id;
-//	}
-//	public String getDec() {
-//		return this.dec.get();
-//	}
-//
-//	public void setDec(String dec) {
-//		this.dec.set(dec);
-//	}
-//	public StringProperty decProperty() {
-//		return dec;
-//	}
-//	public String getHbl() {
-//		return this.hbl.get();
-//	}
-//
-//	public void setHbl(String hbl) {
-//		this.hbl.set(hbl);
-//	}
-//	public StringProperty habProperty() {
-//		return hbl;
-//	}
-//
-//	// bi-directional many-to-one association to Empresa
-//	@ManyToOne
-//	public Empresa getEmpresa() {
-//		return this.empresa;
-//	}
-//
-//	public void setEmpresa(Empresa empresa) {
-//		this.empresa = empresa;
-//	}
-//
-//	@Override
-//	public String toString() {
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(this.getId()).append(" ").append(this.getDec());
-//		return sb.toString();
-//	}
 
 
 

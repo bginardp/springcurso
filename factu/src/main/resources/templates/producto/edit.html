@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Facturaci&oacute;n')"/>
+<body>
+	<div class="container">
+		<th:block th:include="/common/header :: header"/>
+		<h2 th:text="#{productos.edit.titol}">Formulario de productos</h2>
+		<hr/>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-2">
+			
+				<div th:if="${#httpServletRequest.getParameter('msg')=='ok'}" 
+					 class="alert alert-success">
+					 La operaci&oacute;n se ha realizado correctamente
+				</div>
+								
+				<form th:object="${producto}" 
+					  th:action="@{/producto/save}"
+					  method="post">
+					  
+				    <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+				    	<ul>
+						    <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
+						        <span th:text="${e.global}? '*' : ${e.fieldName}">The field name</span> |
+						        <span th:text="${e.message}">The error message</span>
+						    </li>
+						</ul>
+					</div>
+						<div class="form-group">
+						    <label 	for="id">ID</label>
+						    <input 	class="form-control" 
+						    		th:field="*{id}" tabindex="1" autofocus="autofocus"
+						    		th:errorClass="text-danger"/>
+				    		<span 	th:if="${#fields.hasErrors('id')}" 
+				    				th:text="${#fields.errors('id')}"
+				    				class="text-danger">
+							</span>	
+						   
+						</div>
+						<div class="form-group">
+						    <label 	for="dem">Descripción</label>
+						    <input 	class="form-control" 
+						    		th:field="*{dem}" tabindex="2"/>
+	 						<span 	th:if="${#fields.hasErrors('dem')}" 
+						    		th:text="${#fields.errors('dem')}"
+						    		class="text-danger">
+							</span>					    		
+						    
+						</div>
+						<div class="form-group">
+						    <label 	for="pvp">Precio</label>
+						    <input 	class="form-control" 
+						    		th:field="*{pvp}" tabindex="3"/>
+	 						<span 	th:if="${#fields.hasErrors('pvp')}" 
+						    		th:text="${#fields.errors('pvp')}"
+						    		class="text-danger">
+							</span>					    		
+						    
+						</div>
+						<div class="checkbox">
+					    	<label for="visible">
+					    	<input type="checkbox"
+						    		th:field="*{hbl}"
+						    		th:errorClass="text-danger"/>Habilitado</label>
+						   	<span 	th:if="${#fields.hasErrors('hbl')}" 
+						    		th:text="${#fields.errors('hbl')}"
+						    		class="text-danger">
+						    </span>
+						</div>
+				
+					<button type="submit" class="btn btn-primary ">Guardar</button>
+					<button type="button" onclick="$('#frmRemove').submit();"
+							th:if="${producto.id!=null}"
+							class="btn btn-warning">Borrar</button>
+					<a 		th:href="@{/productos}"
+							class="btn btn-default">Volver</a>
+				</form>
+				<!-- formulario para borrar -->
+				<form id="frmRemove"
+					  th:action="@{'/factu/producto/remove'}" method="post">
+					<input type="hidden" name="id" th:value="${producto.id}"/>
+				</form>
+			</div>
+		</div> <!-- row -->
+		<th:block th:include="/common/footer :: footer"/>
+	</div> <!-- container -->
+	
+</body>
+</html>

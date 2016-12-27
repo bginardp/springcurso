@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Facturaci&oacute;n')"/>
+<body>
+	<div class="container">
+		<th:block th:include="/common/header :: header"/>
+		<h2 th:text="#{clientes.edit.titol}">Formulario de clientes</h2>
+		<hr/>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-1">
+			
+				<div th:if="${#httpServletRequest.getParameter('msg')=='ok'}" 
+					 class="alert alert-success">
+					 La operaci&oacute;n se ha realizado correctamente
+				</div>
+								
+				<form th:object="${cliente}" 
+					  th:action="@{/clientes/save}"
+					  method="post">
+					  
+				    <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+				    	<ul>
+						    <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
+						        <span th:text="${e.global}? '*' : ${e.fieldName}">The field name</span> |
+						        <span th:text="${e.message}">The error message</span>
+						    </li>
+						</ul>
+					</div>
+					<div class="col-md-6">  
+						<div class="form-group">
+						    <label 	for="id">ID</label>
+						    <input 	class="form-control" 
+						    		th:field="*{id}"
+						    		th:errorClass="text-danger"
+						    		readonly="readonly"/>
+						   
+						</div>
+						<div class="form-group">
+						    <label 	for="cif">Cif</label>
+						    <input 	class="form-control" 
+						    		th:field="*{cif}" tabindex="2" autofocus="autofocus"/>
+	 								<span 	th:if="${#fields.hasErrors('cif')}" 
+						    		th:text="${#fields.errors('cif')}"
+						    		class="text-danger">
+									</span>					    		
+						    
+						</div>
+						<div class="form-group">
+						    <label 	for="municipio">Municipio</label>
+						    <input 	class="form-control" 
+						    		th:field="*{municipio}"
+						    		th:errorClass="text-danger" tabindex="4"/>
+						    <span 	th:if="${#fields.hasErrors('municipio')}" 
+						    		th:text="${#fields.errors('municipio')}"
+						    		class="text-danger">
+						    		</span>
+						</div>
+						
+						<div class="form-group">
+						    <label 	for="postal">Postal</label>
+						    <input 	class="form-control" 
+						    		th:field="*{postal}"
+						    		th:errorClass="text-danger" tabindex="6"/>
+						    <span 	th:if="${#fields.hasErrors('postal')}" 
+						    		th:text="${#fields.errors('postal')}"
+						    		class="text-danger">
+						    		</span>
+						</div>
+						
+						<div class="form-group">
+						    <label 	for="movil">Mobil</label>
+						    <input 	class="form-control" 
+						    		th:field="*{movil}"
+						    		th:errorClass="text-danger" tabindex="8"/>
+						    <span 	th:if="${#fields.hasErrors('movil')}" 
+						    		th:text="${#fields.errors('movil')}"
+						    		class="text-danger">
+						    		</span>
+						</div>
+					
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+						    <label 	for="nom">Nombre</label>
+						    <input 	class="form-control" 
+						    		th:field="*{nom}" tabindex="1"/>
+						</div>
+						
+						<div class="form-group">
+						    <label 	for="direccion">Direcci&oacute;n</label>
+						    <input 	class="form-control" 
+						    		th:field="*{direccion}"
+						    		th:errorClass="text-danger" tabindex="3"/>
+						    <span 	th:if="${#fields.hasErrors('direccion')}" 
+						    		th:text="${#fields.errors('direccion')}"
+						    		class="text-danger"></span>
+						</div>
+						
+						<div class="form-group">
+						    <label 	for="provincia">Provincia</label>
+						    <input 	class="form-control" 
+						    		th:field="*{provincia}"
+						    		th:errorClass="text-danger" tabindex="5"/>
+						    <span 	th:if="${#fields.hasErrors('provincia')}" 
+						    		th:text="${#fields.errors('provincia')}"
+						    		class="text-danger">
+						    		</span>
+						</div>
+						<div class="form-group">
+						    <label 	for="tel">Telefono</label>
+						    <input 	class="form-control" 
+						    		th:field="*{tel}"
+						    		th:errorClass="text-danger" tabindex="7"/>
+						    <span 	th:if="${#fields.hasErrors('tel')}" 
+						    		th:text="${#fields.errors('tel')}"
+						    		class="text-danger">
+						    		</span>
+						</div>
+						<div class="form-group">
+						    <label 	for="email">email</label>
+						    <input 	class="form-control" 
+						    		th:field="*{email}"
+						    		th:errorClass="text-danger" tabindex="9"/>
+						    <span 	th:if="${#fields.hasErrors('email')}" 
+						    		th:text="${#fields.errors('email')}"
+						    		class="text-danger">
+						    		</span>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary ">Guardar</button>
+					<button type="button" onclick="$('#frmRemove').submit();"
+							th:if="${cliente.id!=null}"
+							class="btn btn-warning">Borrar</button>
+					<a 		th:href="@{/clientes}"
+							class="btn btn-default">Volver</a>
+				</form>
+				<!-- formulario para borrar -->
+				<form id="frmRemove"
+					  th:action="@{'/factu/cliente/remove'}" method="post">
+					<input type="hidden" name="id" th:value="${cliente.id}"/>
+				</form>
+			</div>
+		</div> <!-- row -->
+		<th:block th:include="/common/footer :: footer"/>
+	</div> <!-- container -->
+	
+</body>
+</html>

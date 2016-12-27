@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Facturaci&oacute;n')"/>
+<body>
+<th:block th:include="/common/header :: header"/>
+	<div class="container">
+		<h2 th:text="#{productos.list.titol}">Lista de productos</h2>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-2">
+				<form id="frm" th:action="@{'/productos'}">
+					<input  type="hidden" 
+							id="page"
+							name="page" 
+							th:value="${productos.number}"/>
+					<div class="input-group">
+				      <input type="text" 
+				      		 name="term" 
+				      		 th:value="${term}" class="form-control" placeholder="Buscar por..." autofocus="autofocus"/>
+				     		 <span class="input-group-btn">
+				       		 <button class="btn btn-default" type="submit">Go!</button>
+				      </span>
+				    </div><!-- /input-group -->
+					<hr/>
+					<div class="media" th:each="producto:${productos}">
+					  <div class="media-left">
+					    <a th:href="@{'producto/'+${producto.id}}">
+					      <span th:utext="${producto.id}"></span>
+					    </a>
+					  </div>
+					  <div class="media-body">
+					    <h4 class="media-heading" th:text="${producto.dem}"></h4>
+					    <div class="text-info">
+					       <span><strong>precio:</strong></span>
+					       <span th:utext="${producto.pvp}"></span>
+					    </div>
+					    <div class="text-info">
+ 							<span th:class="${producto.hbl}?'label label-success':'label label-warning'"
+					    		  th:text="${producto.hbl}?'Activo':'No Activo'"></span>
+					    </div>
+					  </div>
+					</div><!-- fin foreach -->
+						
+					<div  th:if="${productos.totalPages==0}"
+						 class="alert alert-warning">
+						 No se han encontrado resultados
+						 <a th:href="@{/producto/new}" class="btn">Nuevo</a>	
+					</div>
+					<!-- paginado -->
+					<nav aria-label="Page navigation"
+						 th:if="${productos.totalPages>0}">
+					  <ul class="pagination">
+ 					    <li>
+ 					   
+					      <a	th:if="${(productos.number-1)>=0}"
+					      		href="#"	
+					      		th:onclick="${'setPage('+(productos.number-1)+')'}"> 
+					      		&lt;
+							</a>
+							
+					    </li>
+					    <li th:each="page : ${#numbers.sequence(0,productos.totalPages-1)}"
+					    	th:classappend="${productos.number==page}?'active'">
+							<a 
+								href="#"	th:onclick="${'setPage('+page+')'}">
+								<span th:utext="${page+1}" ></span>
+							</a>
+						</li>
+					    <li>
+					    	<a	th:if="${productos.number &lt; (productos.totalPages -1)}"
+					    		href="#"
+					    		th:onclick="${'setPage('+(productos.number+1)+')'}">  
+					    		&gt;
+							</a>
+							<a th:href="@{/producto/new}" class="btn">Nuevo</a>	
+					    </li>
+					  </ul>
+					</nav>	
+						
+				</form>
+			</div>
+		</div>
+		<th:block th:include="/common/footer :: footer"/>
+		<script type="text/javascript">
+			function setPage(num){
+				$("#page").val(num);
+				$("#frm").submit();
+			}
+		</script>
+	</div>
+	
+</body>
+</html>

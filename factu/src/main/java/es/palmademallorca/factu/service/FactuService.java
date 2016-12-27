@@ -15,12 +15,6 @@ import es.palmademallorca.factu.dto.FormapagoDto;
 import es.palmademallorca.factu.dto.ProductoDto;
 import es.palmademallorca.factu.dto.SerieDto;
 import es.palmademallorca.factu.dto.TipivaDto;
-import es.palmademallorca.factu.model.Ejercicio;
-import es.palmademallorca.factu.model.Empresa;
-import es.palmademallorca.factu.model.Formapago;
-import es.palmademallorca.factu.model.Producto;
-import es.palmademallorca.factu.model.Serie;
-import es.palmademallorca.factu.model.Tipiva;
 
 public interface FactuService {
 	// tipologias
@@ -33,38 +27,38 @@ public interface FactuService {
     
     public EmpresaDto getEmpresa(long empresaId);
 	public EjercicioDto getEjercicio(long ejercicioId);
-	public FormapagoDto getForpapago(long formapagoId);
+	public FormapagoDto getFormapago(long formapagoId);
 	public ProductoDto getProducto(String productoId);
 	public SerieDto getSerie(String serieId);
 	public TipivaDto getTipoIva(long tipoivaId);
-	
+	ClienteDto getCliente(Long clienteId);
+	FacturaDto getFactura(Long facturaId);
+		
 	void removeFormaPago(long formapagoId);
 	void removeProducto(String productoId);
 	void removeSerie(String serieId);
 	void removeTipoiva(long tipoivaId);
+	void removeCliente(Long clienteId);
+	void removeFactura(Long facturaId);
 	
-	void saveEmpresa(EmpresaDto empresaDto);
+	Long saveEmpresa(EmpresaDto empresaDto);
 	void saveEjercicio(EjercicioDto ejercicioDto);
-	void saveFormapago(FormapagoDto formapagoDto);
+	Long saveFormapago(FormapagoDto formapagoDto);
 	void saveProducto(ProductoDto productoDto);
 	void saveSerie(SerieDto serieDto);
-	void saveTipiva(TipivaDto tipivaDto);
+	Long saveTipiva(TipivaDto tipivaDto);
+	void saveFactura(FacturaDto facturaDto,List<FacLinDto> detalleDto);
+	Long saveCliente(ClienteDto clienteDto);	
 	
 		
-	// clientes
 	public Page<ClienteDto> getClientes(String term, Pageable pageRequest);
-	ClienteDto getCliente(Long clienteId);
-	void removeCliente(Long clienteId);
-	void saveCliente(ClienteDto clienteDto);
-	// facturas
-	public Page<FacturaDto> findFacturasByTerm(Long empresa, Long ejercicio,String term,Pageable pageRequest);
-	public List<FacLinDto> findFaclinByFacturaId(Long facturaId);
+	public List<FacLinDto> getFaclinByFacturaId(Long facturaId);
 	public List<FacImpuestoDto> getImpuestosFactura(Long facturaId);
-	FacturaDto getFactura(Long facturaId);
-	void saveFactura(FacturaDto facturaDto,List<FacLinDto> detalleDto);
-	void removeFactura(Long facturaId);
-	// otros
+	public Page<ProductoDto> getProductos(String term, Pageable pageRequest);
+	public Page<FacturaDto> getFacturas(Long empresa, Long ejercicio,String term,Pageable pageRequest);
+	
 	public String init (long ejercicio, long empresaId);
+	
 	
 	
 }

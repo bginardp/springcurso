@@ -1,17 +1,28 @@
 package es.palmademallorca.factu.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import es.palmademallorca.factu.model.Formapago;
 
 public class FormapagoDto {
 	// TODO afegir validacions s anivell d'atributs
 	private Long id;
+	@NotNull
+	@Size(min=3,max=80)
 	private String dem;
-	private String hbl;
+	private boolean hbl;
+
+	
+	
+	public FormapagoDto() {
+		this.hbl=true;
+	}
 
 	public FormapagoDto(Formapago formapago) {
 		this.id = formapago.getId();
 		this.dem = formapago.getDem();
-		this.hbl = formapago.getHbl();
+		this.hbl = formapago.getHbl().equals("S")?true:false;
 	}
 
 	public Long getId() {
@@ -30,13 +41,15 @@ public class FormapagoDto {
 		this.dem = dem;
 	}
 
-	public String getHbl() {
+	public boolean isHbl() {
 		return hbl;
 	}
 
-	public void setHbl(String hbl) {
+	public void setHbl(boolean hbl) {
 		this.hbl = hbl;
 	}
+
+	
 	
 	
 }

@@ -16,7 +16,6 @@ import es.palmademallorca.factu.dto.FacLinDto;
  *
  */
 @Entity
-@NamedQuery(name="Factureslin.findAll", query="SELECT f FROM Factureslin f")
 public class Facturalin {
 	@Id
 	private Long id;

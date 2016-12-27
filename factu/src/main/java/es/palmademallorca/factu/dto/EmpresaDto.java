@@ -1,5 +1,8 @@
 package es.palmademallorca.factu.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import es.palmademallorca.factu.model.Empresa;
 
 public class EmpresaDto {
@@ -7,15 +10,26 @@ public class EmpresaDto {
 	// TODO afegir validacions s anivell d'atributs
 	
 	private Long id;
+	@NotNull
+	@Size(min=5,max=30)
 	private String dec;
 	private String dem;
+	@NotNull
+	@Size(min=5,max=80)
 	private String direccion;
 	private String fax;
+	@NotNull
+	@Size(max=80)
 	private String municipio;
 	private String nif;
 	private String provincia;
+	private String postal;
 	private String tel;
-	private String web;
+	private String email;
+
+	public EmpresaDto() {
+	
+	}
 
 	public EmpresaDto(Empresa empresa) {
 		this.id=empresa.getId();
@@ -27,7 +41,26 @@ public class EmpresaDto {
 		this.nif=empresa.getNif();
 		this.provincia=empresa.getProvincia();
 		this.tel=empresa.getTel();
-		this.web=empresa.getWeb();
+		this.email=empresa.getEmail();
+		this.postal=empresa.getPostal();
+	}
+
+	
+	
+	public EmpresaDto(Long id, String dec, String dem, String direccion, String fax, String municipio, String nif,
+			String provincia, String postal, String tel, String email) {
+		super();
+		this.id = id;
+		this.dec = dec;
+		this.dem = dem;
+		this.direccion = direccion;
+		this.fax = fax;
+		this.municipio = municipio;
+		this.nif = nif;
+		this.provincia = provincia;
+		this.postal = postal;
+		this.tel = tel;
+		this.email = email;
 	}
 
 	public Long getId() {
@@ -102,12 +135,20 @@ public class EmpresaDto {
 		this.tel = tel;
 	}
 
-	public String getWeb() {
-		return web;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setWeb(String web) {
-		this.web = web;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPostal() {
+		return postal;
+	}
+
+	public void setPostal(String postal) {
+		this.postal = postal;
 	}
 	
 	

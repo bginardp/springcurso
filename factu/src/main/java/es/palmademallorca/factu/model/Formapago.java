@@ -14,7 +14,6 @@ import es.palmademallorca.factu.dto.FormapagoDto;
  *
  */
 @Entity
-@NamedQuery(name="Forpag.findAll", query="SELECT f FROM Formaspago f")
 public class Formapago {
 	@Id
 	@GeneratedValue(generator="ForPagSeq")
@@ -29,7 +28,7 @@ public class Formapago {
 	public Formapago(FormapagoDto formapagoDto) {
 		this.id = formapagoDto.getId();
 		this.dem = formapagoDto.getDem();
-		this.hbl = formapagoDto.getHbl();
+		this.hbl = formapagoDto.isHbl()?"S":"N";;
 	}
 
 	public Long getId() {
@@ -57,39 +56,5 @@ public class Formapago {
 	}
 
 
-//	@Id
-//	@GeneratedValue(generator="ForPagSeq")
-//   @SequenceGenerator(name="ForPagSeq",sequenceName="forpag_seq", allocationSize=1)
-//	public Long getId() {
-//		return this.id.get();
-//	}
-//
-//	public void setId(Long id) {
-//		this.id.set(id);
-//	}
-//
-//
-//	public String getDem() {
-//		return this.dem.get();
-//	}
-//
-//	public void setDem(String dem) {
-//		this.dem.set(dem);
-//	}
-//
-//
-//	public String getHbl() {
-//		return this.hbl.get();
-//	}
-//
-//	public void setHbl(String hbl) {
-//		this.hbl.set(hbl);
-//	}
-//	@Override
-//	public String toString() {
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(this.getId()).append(" ").append(this.getDem());
-//		return sb.toString();
-//	}
 
 }

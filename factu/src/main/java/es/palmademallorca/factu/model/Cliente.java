@@ -3,8 +3,6 @@ package es.palmademallorca.factu.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -15,10 +13,6 @@ import es.palmademallorca.factu.dto.ClienteDto;
  */
 @Entity
 @Table(name = "clientes")
-@NamedQueries ({
-	@NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c"),
-    @NamedQuery(name="Cliente.findByNom", query="SELECT c FROM Cliente c WHERE c.nom like :nom")
-})
 public class Cliente  {
 
 	@Id
@@ -134,6 +128,13 @@ public class Cliente  {
 
 	public void setEmail(String email) {
 		this.email=email;
+	}
+
+	@Override
+	public String toString() {
+		return "Cliente [id=" + id + ", cif=" + cif + ", nom=" + nom + ", direccion=" + direccion + ", municipio="
+				+ municipio + ", provincia=" + provincia + ", postal=" + postal + ", tel=" + tel + ", movil=" + movil
+				+ ", email=" + email + "]";
 	}
 	
 	

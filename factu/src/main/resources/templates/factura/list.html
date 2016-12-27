@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:include="/common/head :: head('Facturacion')"/>
+<th:block th:include="/common/head :: head('Facturaci&oacute;n')"/>
 <body>
-	<div class="container">
-		<!--  falta cabecera -->
-		<h1>Lista de facturas</h1>
-		<hr/>
+<th:block th:include="/common/header :: header"/>
+<div class="container">
+		<h2 th:text="#{facturas.list.titol}">Lista de facturas</h2>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-2">
-				<form id="frm" th:action="@{'/factu/facturas'}">
+				<form id="frm" th:action="@{'/facturas'}">
 					<input  type="hidden" 
 							id="page"
 							name="page" 
@@ -16,7 +15,7 @@
 					<div class="input-group">
 				      <input type="text" 
 				      		 name="term" 
-				      		 th:value="${term}" class="form-control" placeholder="Buscar por..."/>
+				      		 th:value="${term}" class="form-control" placeholder="Buscar por..." autofocus="autofocus"/>
 				     		 <span class="input-group-btn">
 				       		 <button class="btn btn-default" type="submit">Go!</button>
 				      </span>
@@ -50,6 +49,7 @@
 					<div  th:if="${facturas.totalPages==0}"
 						 class="alert alert-warning">
 						 No se han encontrado resultados
+						 <a th:href="@{/factura/new}" class="btn">Nuevo</a>
 					</div>
 					<!-- paginado -->
 					<nav aria-label="Page navigation"
@@ -75,19 +75,21 @@
 					    		th:onclick="${'setPage('+(facturas.number+1)+')'}">  
 					    		&gt;
 							</a>
+							<a th:href="@{/factura/new}" class="btn">Nuevo</a>	
 					    </li>
 					  </ul>
 					</nav>				
 				</form>
 			</div>
-		</div>
+		</div> <!-- row -->
+		<th:block th:include="/common/footer :: footer"/>
 		<script type="text/javascript">
 			function setPage(num){
 				$("#page").val(num);
 				$("#frm").submit();
 			}
 		</script>
-	</div>
-	
+</div> <!-- container -->
+
 </body>
 </html>
