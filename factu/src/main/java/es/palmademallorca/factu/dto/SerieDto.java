@@ -12,14 +12,22 @@ public class SerieDto {
 	@Size(min=1,max=15)
 	private String dec;
 	private boolean hbl;
-	
+	private Long empresaId;
+	private String empresaName;
 	public SerieDto() {
 		this.hbl=true;
 	}
 
+	public SerieDto(Long empresaId, String empresaName) {
+		this.hbl=true;
+		this.empresaId=empresaId;
+		this.empresaName=empresaName;
+	}
 	public SerieDto(Serie serie) {
 		this.id=serie.getId();
 		this.dec=serie.getDec();
+		this.empresaId=serie.getEmpresaId();
+		this.empresaName=serie.getEmpresa().getDem();
 		this.hbl = serie.getHbl().equals("S")?true:false;
 	}
 
@@ -45,6 +53,22 @@ public class SerieDto {
 
 	public void setHbl(boolean hbl) {
 		this.hbl = hbl;
+	}
+
+	public Long getEmpresaId() {
+		return empresaId;
+	}
+
+	public void setEmpresaId(Long empresaId) {
+		this.empresaId = empresaId;
+	}
+
+	public String getEmpresaName() {
+		return empresaName;
+	}
+
+	public void setEmpresaName(String empresaName) {
+		this.empresaName = empresaName;
 	}
 
 

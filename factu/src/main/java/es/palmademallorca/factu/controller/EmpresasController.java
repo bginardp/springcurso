@@ -15,7 +15,6 @@ import es.palmademallorca.factu.dto.EmpresaDto;
 import es.palmademallorca.factu.service.FactuService;
 
 @Controller
-@RequestMapping("/empresas")
 public class EmpresasController {
 	@Autowired 
 	FactuService factuService;
@@ -25,14 +24,14 @@ public class EmpresasController {
 	   return "altres";
 	}
 	
-	@RequestMapping(value="", method=RequestMethod.GET)
+	@RequestMapping(value="/empresas", method=RequestMethod.GET)
 	public String list(
 		Model model){
 		model.addAttribute("empresas", factuService.findAllEmpresas());
 		return "empresa/list";
 	}
 	
-	@RequestMapping(value ={"/{id}","/new"}, method=RequestMethod.GET)
+	@RequestMapping(value ={"/empresa/{id}","/empresa/new"}, method=RequestMethod.GET)
 	public String edit(
 			Model model,
 			@PathVariable(value="id",required=false) Long empresaId){
@@ -42,7 +41,6 @@ public class EmpresasController {
 		} else {
 		  empresa = new EmpresaDto();	
 		}
-			
 		return gotoEdit(model,empresa);
 	}
 	
@@ -51,7 +49,7 @@ public class EmpresasController {
 		return "empresa/edit";
 	}
 	
-	@RequestMapping(value="/save", method=RequestMethod.POST)
+	@RequestMapping(value="empresa/save", method=RequestMethod.POST)
 	public String save(
 			Model model,
 			@Valid @ModelAttribute("empresa") EmpresaDto empresa,
@@ -60,7 +58,7 @@ public class EmpresasController {
 			return gotoEdit(model, empresa);
 		} else {
 			Long empresaId=factuService.saveEmpresa(empresa);
-			return "redirect:/empresas/"+empresaId+"?msg=ok";
+			return "redirect:/empresa/"+empresaId+"?msg=ok";
 		}
 	}
 }

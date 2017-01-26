@@ -1,49 +1,4 @@
 <th:block th:fragment="header" xmlns:th="http://www.thymeleaf.org" >
- 	<!-- Modal HTML -->
-    <div id="myModal" class="modal fade">
-        <div class="modal-dialog">
-            <form id="frmEntrada" th:object="${entrada}" 
-	  			th:action="@{/doEntrada}"
-	  			method="post">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" th:text="#{head.modal.title}">Entrada</h4>
-                </div>
-                <div class="modal-body">
-                    <p th:text="#{index.entrar}">Selecciona una empresa y un ejercicio</p>
-                    <p class="text-warning"><small>Si no seleccionas un ejercicio y empresa no podras ver facturas</small></p>
-                    <label for="empresaId">Empresa</label>
-                    <select class="form-control" 
-			  		  th:field="*{empresaId}">
-			    	  <option
-			    		 th:each="empresa : ${empresas}"
-			    		 th:value="${empresa.id}" 
-			    		 th:selected="${entrada.empresaId == empresa.id}"
-			    		 th:text="${empresa.dec}">
-			    	  </option>
-				    </select>
-				    <label for="ejercicioId">Ejercicio</label>
-				    <select class="form-control" 
-			  		  th:field="*{ejercicioId}">
-			    	  <option
-			    		 th:each="ejercicio : ${ejercicios}"
-			    		 th:value="${ejercicio.id}" 
-			    		 th:selected="${entrada.ejercicioId == ejercicio.id}"
-			    		 th:text="${ejercicio.id}">
-			    	  </option>
-				    </select>
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" onclick="$('#empresaName').val($('#empresaId option:selected').text());">Entrar</button>
-                </div>
-            </div> <!-- content -->
-            <input type="hidden" name="empresaName" id="empresaName"/>
-           </form>
-        </div>
-    </div>
 	<nav class="navbar navbar-inverse navbar-static-top">
       <div class="container">
         <div class="navbar-header">
@@ -60,14 +15,20 @@
             <li th:classappend="${page == 'index' ? 'active' : ''}"> <a  href="#" th:href="@{/}">Home</a></li>
             <li th:classappend="${page == 'productos' ? 'active' : ''}"><a href="#" th:href="@{/productos}">Productos</a></li>
             <li th:classappend="${page == 'clientes' ? 'active' : ''}"><a href="#" th:href="@{/clientes}">Clientes</a></li>
-            <li th:classappend="${page == 'facturas' ? 'active' : ''}"><a href="#" th:href="@{/facturas}">Facturas</a></li>
+            <li th:if="session.user.empresaId!='null' " 
+            	th:classappend="${page == 'facturas' ? 'active' : ''}">
+            	<a href="#"
+            	   th:style="${session.user==null} ? 'color: gray;  pointer-events: none; cursor: default;' : 'none'"	
+            	   th:href="${session.user==null} ? '#' : @{/facturas(empresa=${session.user.empresaId},ejercicio=${session.user.ejercicioId})}">Facturas</a></li>
            	<li th:classappend="${page == 'altres' ? 'dropdown active' : 'dropdown'}">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ficheros <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="#" th:href="@{/empresas}">Empresas</a></li>
                 <li><a href="#" th:href="@{/maestros/formaspago}">Formas de pago</a></li>
                 <li><a href="#" th:href="@{/maestros/tiposiva}">Tipos de iva</a></li>
-                <li><a href="#" th:href="@{/maestros/series}">Series</a></li>
+                <li ><a href="#" 
+                		th:style="${session.user==null} ? 'color: gray;  pointer-events: none; cursor: default;' : 'none'"
+                		th:href="${session.user==null} ? '#' : @{/maestros/series(empresa=${session.user.empresaId})}">Series</a></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">otras opciones</li>
                 <li><a href="#" th:href="@{/logout}">Salir</a></li>
@@ -76,10 +37,10 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
           		<li><p 	class="navbar-text navbar-right" 
-          				th:text="${session.user==null}?' ':(#{factu.nav.empresa(${session.user.empresaName})}) +' *** '+ (#{factu.nav.ejercicio(${session.user.ejercicioId})})" 
+          				th:text="${session.user==null}?' ':(#{factu.nav.empresa(${session.user.empresaName})}) +' - '+ (#{factu.nav.ejercicio(${session.user.ejercicioId})})" 
           				th:unless="${session == null}"></p></li>
-                <li th:if="${empresaId != 'null'}"><a href="#" th:text="${empresaId}">Salir</a></li>  
-                <li><a href="#myModal" data-toggle="modal">Entrar</a></li>
+                <li th:if="${session.user != null}"><a href="#" th:text="${empresaId}">Salir</a></li>  
+                <li th:if="${page == 'index'}"><a href="#myModal" data-toggle="modal">Entrar</a></li>
                 <!-- <li th:if="${#authorization.expression('isAuthenticated()')}"><a href="/logout" th:href="@{/logout}">Salir</a></li> -->
            </ul>
           <!--  <p class="navbar-text navbar-right">Logged in as</p>  ${item.branch == null ? '' : item.branch.branchName}--> 

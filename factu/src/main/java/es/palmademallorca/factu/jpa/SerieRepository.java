@@ -1,8 +1,9 @@
 package es.palmademallorca.factu.jpa;
 
+import java.util.List;
+
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import es.palmademallorca.factu.model.Facturalin;
 import es.palmademallorca.factu.model.Serie;
 
 
@@ -12,7 +13,7 @@ public interface SerieRepository extends PagingAndSortingRepository<Serie, Strin
 
 //	Page<City> findByNameContainingAndCountryContainingAllIgnoringCase(String name,
 //			String country, Pageable pageable);
-
+	List<Serie> findByEmpresaId(Long empresaId);
 //	City findByNameAndCountryAllIgnoringCase(String name, String country);
 
 }

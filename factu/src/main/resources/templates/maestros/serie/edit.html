@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="/common/head :: head('Facturaci&oacute;n')"/>
 <body>
+	<th:block th:include="/common/header :: header"/>
 	<div class="container">
-		<th:block th:include="/common/header :: header"/>
 		<h2 th:text="#{series.edit.titol}">Formulario</h2>
 		<hr/>
 		<div class="row">
@@ -16,7 +16,8 @@
 				<form th:object="${serie}" 
 					  th:action="@{/maestros/serie/save}"
 					  method="post">
-					  
+					<input type="hidden" name="empresaId" th:value="${serie.empresaId}"/>
+					<input type="hidden" name="empresaName" th:value="${serie.empresaName}"/>
 				    <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
 				    	<ul>
 						    <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
@@ -62,12 +63,13 @@
 					<button type="button" onclick="$('#frmRemove').submit();"
 							th:if="${serie.id!=null}"
 							class="btn btn-warning">Borrar</button>
-					<a 		th:href="@{/maestros/series}"
+					<a 		th:href="@{/maestros/series(empresa=${serie.empresaId})}"
 							class="btn btn-default">Volver</a>
 				</form>
 				<!-- formulario para borrar -->
 				<form id="frmRemove"
 					  th:action="@{'/maestros/serie/remove'}" method="post">
+					<input type="hidden" name="empresaId" th:value="${serie.empresaId}"/>
 					<input type="hidden" name="id" th:value="${serie.id}"/>
 				</form>
 			</div>

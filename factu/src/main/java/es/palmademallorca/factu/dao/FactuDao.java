@@ -150,17 +150,16 @@ public class FactuDao {
 	}
 
 	public List<Formapago> findAllForpag() {
-		Iterable<Formapago> formaspago = formapagoRepository.findAll(new Sort(new Order(Direction.ASC, "dem")));
+		Iterable<Formapago> formaspago = formapagoRepository.findAll(new Sort(new Order(Direction.ASC, "id")));
 		return convertItToList(formaspago);
 	}
 
-	public List<Serie> findAllSeries() {
-		Iterable<Serie> series = serieRepository.findAll(new Sort(new Order(Direction.ASC, "dec")));
-		return convertItToList(series);
+	public List<Serie> findAllSeries(Long empresaId) {
+		return serieRepository.findByEmpresaId(empresaId);
 	}
 
 	public List<Tipiva> findAllTipiva() {
-		Iterable<Tipiva> tiposiva = tipivaRepository.findAll(new Sort(new Order(Direction.ASC, "dem")));
+		Iterable<Tipiva> tiposiva = tipivaRepository.findAll(new Sort(new Order(Direction.ASC, "id")));
 		return convertItToList(tiposiva);
 	}
 

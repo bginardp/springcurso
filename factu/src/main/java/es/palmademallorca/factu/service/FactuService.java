@@ -22,7 +22,7 @@ public interface FactuService {
 	public List<EjercicioDto> findAllEjercicios();
     public List<FormapagoDto> findAllFormaspago();
     public List<ProductoDto> findAllProductos();
-    public List<SerieDto> findAllSeries();
+    public List<SerieDto> findAllSeries(Long empresaId);
     public List<TipivaDto> findAllTiposIva();
     
     public EmpresaDto getEmpresa(long empresaId);
@@ -47,7 +47,7 @@ public interface FactuService {
 	void saveProducto(ProductoDto productoDto);
 	void saveSerie(SerieDto serieDto);
 	Long saveTipiva(TipivaDto tipivaDto);
-	void saveFactura(FacturaDto facturaDto,List<FacLinDto> detalleDto);
+	Long saveFactura(FacturaDto facturaDto);
 	Long saveCliente(ClienteDto clienteDto);	
 	
 		

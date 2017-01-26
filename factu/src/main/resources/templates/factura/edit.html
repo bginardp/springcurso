@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Facturaci&oacute;n')" />
+<body>
+	<th:block th:include="/common/header :: header" />
+	<div class="container">
+		<div class="text-center">
+			<h2>Factura</h2>
+		</div>
+		<form th:object="${factura}" th:action="@{/factura/save}"
+			method="post">
+			<div class="row">
+				<div class="col-md-12">
+
+					<input type="hidden" id="clienteId" name="clienteId"
+						value="*{clienteId}"></input>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="row" style="background-color: green;">
+								<div class="col-md-5" style="background-color: white;">
+									<div class="form-group">
+										<label for="cliente" class="col-sm-2 control-label">Cliente</label>
+										<div class="col-sm-10">
+											<input class="form-control" id="cliente"
+												placeholder="cliente" type="text" />
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3" style="background-color: white;">
+									<div class="form-group">
+										<label for="fecha" class="col-sm-3 control-label">Fecha</label>
+										<div class="col-sm-9">
+											<input class="form-control" id="fecha"
+												placeholder="fecha factura" type="date" />
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4" style="background-color: white;">
+									<div class="form-group">
+										<label for="forpag" class="col-sm-4 control-label">Forma
+											Pago</label>
+										<div class="col-sm-8">
+											<select class="form-control" th:field="*{forpagId}"
+												th:errorClass="text-danger">
+												<option th:each="forpag : ${formasPago}"
+													th:value="${forpag.id}"
+													th:selected="${factura.forpagId == forpag.id}"
+													th:text="${forpag.dem}"></option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- row -->
+							<br></br>
+							<div class="row">
+								<div class="col-md-4">
+									<h3>De:</h3>
+									<address id="dadesEmp">
+										<strong>Salpon S.l</strong><br /> Calle La Rambla 3 Bajos<br />
+										07001 Palma<br /> Illes Balears<br />
+									</address>
+								</div>
+								<div class="col-md-4">
+									<h3>Facturado a:</h3>
+									<address id="dadesCli">
+										<strong>MULCICINES PORTO PI S.L</strong><br /> Carrer
+										Ciutadella nº 26 A<br /> 07008 Palma<br /> Illes Balears<br />
+									</address>
+								</div>
+								<div class="col-md-4">
+									<h3>Detalls</h3>
+									<address id="dadesFac">
+										<strong>Factura A-00021</strong><br /> 10/01/2017<br /> Forma
+										Pago:Trasnferència<br /> Compte-ES12-1212-21212-21212121<br />
+									</address>
+								</div>
+							</div>
+							<!-- row -->
+						</div>
+						<!-- panel heading -->
+						<div class="panel-body">
+							<!--  <h3 class="panel-title">Detalle</h3> -->
+							<button class="btn">Añadir</button>
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th>Producto</th>
+										<th>Descripción</th>
+										<th>cantidad</th>
+										<th>precio</th>
+										<th>tipo impuesto</th>
+										<th>importe</th>
+										<th>acción</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>001</td>
+										<td>Doe moe</td>
+										<td>12.00</td>
+										<td>100.00</td>
+										<td>Reducido 7%</td>
+										<td>1200.00</td>
+										<td><button>edit</button>
+											<button>delete</button></td>
+									</tr>
+									<tr>
+										<td>002</td>
+										<td>Doe moe TURURU</td>
+										<td>10.00</td>
+										<td>1000.00</td>
+										<td>Normal 18%</td>
+										<td>10000.00</td>
+										<td><button>edit</button>
+											<button>delete</button></td>
+									</tr>
+									<tr>
+										<td>002</td>
+										<td>Doe moe TURURU</td>
+										<td>10.00</td>
+										<td>1000.00</td>
+										<td>Normal 18%</td>
+										<td>10000.00</td>
+										<td><button>edit</button>
+											<button>delete</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- panel body -->
+						<div class="panel-footer">Piefactura</div>
+					</div>
+					<!-- panel -->
+
+				</div>
+				<!-- col -->
+			</div>
+			<!-- row -->
+			<div class="row text-center">
+				<button type="submit" class="btn btn-primary">Guardar</button>
+			</div>
+		</form>
+	</div>
+	<!-- container -->
+	<script type="text/javascript">
+		$(function() {
+			$("#cliente").autocomplete(
+					{
+						source : '/ajax/search',
+						select : function(event, ui) {
+							var id = ui.item.value;
+							// $( "#divAjax" ).html( data.message+" "+data.timestamp );
+							$("#clienteId").val(id);
+							$("#dadesCli").html(
+									'<strong>' + ui.item.label+'</strong><br/>' 
+											+ ui.item.cif
+											+ '<br/>' + ui.item.cif
+											+ '<br/>' + ui.item.direccion);
+						}
+					});
+		});
+	</script>
+</body>
+</html>

@@ -21,7 +21,7 @@
 					</thead>
 					<tbody>
 					   <tr th:each="tipoiva:${tiposiva}">
-					   	  <td><a th:href="@{'maestros/tipoiva/'+${tipoiva.id}}">
+					   	  <td><a th:href="@{'tipoiva/'+${tipoiva.id}}">
 					   	  		<span th:utext="${tipoiva.id}"></span>
 					   	  	  </a>
 					      </td>

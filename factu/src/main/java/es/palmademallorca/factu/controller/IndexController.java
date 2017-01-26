@@ -35,7 +35,7 @@ public class IndexController {
 	public String index(HttpSession session, Model model, EntradaDto entrada,
 			@RequestParam(value = "ejercicio", required = false) Long ejercicio,
 			@RequestParam(value = "empresa", required = false) Long empresa){
-		System.out.println("######FactuController######### estic a index");
+		System.out.println("###### FactuController ######### estic a index");
 	    if (entrada==null) {
 	    	entrada=new EntradaDto(new Long(2016),new Long(1),"Empresa 1"); 
 	    	}

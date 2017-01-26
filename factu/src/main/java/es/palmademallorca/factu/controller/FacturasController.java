@@ -2,22 +2,25 @@ package es.palmademallorca.factu.controller;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.palmademallorca.factu.beans.UserSession;
+import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.service.FactuService;
 
 @Controller
-@RequestMapping("/facturas")
 public class FacturasController {
 	// @Autowired
 	// UserSession userSession;
@@ -31,18 +34,16 @@ public class FacturasController {
 
 	@PostConstruct
 	private void init() {
-		// this.empresa=new Empresa(new Long(1),"empresa A","empresa A","ce
-		// ciutadella 25 2d","","palma","123456789","illes
-		// balears","971123456","company@putmail.com","07003");
-		// this.setEjercicio(new Ejercicio(2016));
 		System.out.println("################ init FacturasController");
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String listFacturas(HttpSession session, Model model, @PageableDefault(size = 10) Pageable pageRequest,
-			@RequestParam(value = "ejercicio", required = true) Long ejercicio,
+	@RequestMapping(value = "/facturas", method = RequestMethod.GET)
+	public String listFacturas(HttpSession session, Model model, 
+			@PageableDefault(size = 10) Pageable pageRequest,
 			@RequestParam(value = "empresa", required = true) Long empresa,
+			@RequestParam(value = "ejercicio", required = true) Long ejercicio,
 			@RequestParam(value = "term", required = false) String term) {
+		// begin
 		UserSession userSession = (UserSession) session.getAttribute("user");
 		if (userSession == null) {
 			model.addAttribute("msgErr",
@@ -57,7 +58,39 @@ public class FacturasController {
 			model.addAttribute("facturas", factuService.getFacturas(empresa, ejercicio, term, pageRequest));
 		}
 		return "factura/list";
-
 	}
+	@RequestMapping(value = "/factura/save", method = RequestMethod.POST)
+	public String save(
+			Model model,
+			@Valid @ModelAttribute("factura") FacturaDto factura,
+			BindingResult results){
+		if (results.hasErrors()){
+			return gotoEdit(model, factura);
+		} else {
+			Long facturaId=factuService.saveFactura(factura);
+			return "redirect:/clientes/"+facturaId+"?msg=ok";
+		}
+	}
+	
+	@RequestMapping(value ={"/factura/{id}","/factura/new"}, method=RequestMethod.GET)
+	public String edit(
+			Model model,
+			@PathVariable(value="id",required=false) Long facturaId){
+		FacturaDto factura=null;
+		if (facturaId!=null) {
+		  factura = factuService.getFactura(facturaId);
+		} else {
+		  factura = new FacturaDto();	
+		}
+		return gotoEdit(model,factura);
+	}
+	
+	
+	private String gotoEdit(Model model, FacturaDto factura) {
+		model.addAttribute("factura", factura);
+		model.addAttribute("formasPago",factuService.findAllFormaspago());
+		return "factura/edit";
+	}
+	
 
 }
