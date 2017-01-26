@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot QuickStart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <style>
+    	.has-error{
+    		color: red;
+    		border-color: red;
+    	}
+    </style>
+</head>
+<body>
+	<div class="container">
+		<h1>
+			Formulario de persona
+			<small><a th:href="@{/person}">volver al listado</a></small>
+		</h1>
+		<hr/>
+		<h3>Datos de persona</h3>
+		<div th:if="${mensaje!=null}" 
+			 th:utext="${mensaje}" 
+			 class="alert alert-success">
+		</div>
+		
+		<div th:if="${mensajeError!=null}" 
+			 th:utext="${mensajeError}" 
+			 class="alert alert-danger">
+		</div>
+		<!-- formulario para la ficha de persona -->
+		<form th:action="@{'save'}" method="post" th:object="${person}">
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<label>ID</label>
+				</div>
+				<div class="col-md-4">
+					<input type="number"  
+							th:field="*{id}" 
+							th:errorClass="has-error"
+							class="form-control"/>
+					<br/>
+					<input type="number"  
+							th:field="*{address.personId}" 
+							th:errorClass="has-error"
+							class="form-control"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<label>Nombre</label>
+				</div>
+				<div class="col-md-4">
+					<input type="text"
+							th:field="*{name}" 
+							th:errorClass="has-error"
+							class="form-control"/>
+					<div th:if="${#fields.hasErrors('name')}"
+						 th:utext="${#fields.errors('name')}" 
+					     class="has-error"></div>
+					<br/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<label>Apellido</label>
+				</div>
+				<div class="col-md-4">
+					<input type="text" 
+							th:field="*{surname}"
+							th:errorClass="has-error"
+							class="form-control"/>
+					<div th:if="${#fields.hasErrors('surname')}"
+						 th:utext="${#fields.errors('surname')}" 
+					     class="has-error"></div>
+					<br/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-3">
+					<button type="submit" class="btn btn-primary ">Guardar</button>
+					<button type="button" onclick="$('#frmRemove').submit();"
+							th:if="${person.id!=null}"
+							class="btn btn-warning btn-xs">Borrar</button>
+				</div>
+			</div>
+			
+		</form>
+		<!-- formulario para borrar persona -->
+		<form id="frmRemove"
+			  th:action="@{'remove'}" method="post">
+			<input type="hidden" name="id" th:value="${person.id}"/>
+		</form>
+		<!--  formulario de direccion -->
+		<form th:if="${person.id!=null}" 
+			  th:action="@{'saveAddress'}" 
+			  method="post" th:object="${address}">
+		    <hr/>
+			<h3>Datos de direcci&oacute;n</h3>
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<label>id de persona</label>
+				</div>
+				<div class="col-md-4">
+					<input type="number"  
+							readonly="readonly"
+							th:field="*{personId}" 
+							th:errorClass="has-error"
+							class="form-control"/>
+					<br/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<label>Calle</label>
+				</div>
+				<div class="col-md-4">
+					<input type="text"
+							th:field="*{street}" 
+							th:errorClass="has-error"
+							class="form-control"/>
+					<div th:if="${#fields.hasErrors('street')}"
+						 th:utext="${#fields.errors('street')}" 
+					     class="has-error"></div>
+					<br/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<label>N&uacute;mero</label>
+				</div>
+				<div class="col-md-4">
+					<input type="number" 
+							th:field="*{number}"
+							th:errorClass="has-error"
+							class="form-control"/>
+					<div th:if="${#fields.hasErrors('number')}"
+						 th:utext="${#fields.errors('number')}" 
+					     class="has-error"></div>
+					<br/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<label>Localidad</label>
+				</div>
+				<div class="col-md-4">
+					<input type="text" 
+							th:field="*{locality}"
+							th:errorClass="has-error"
+							class="form-control"/>
+					<div th:if="${#fields.hasErrors('locality')}"
+						 th:utext="${#fields.errors('locality')}" 
+					     class="has-error"></div>
+					<br/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-3">
+					<button type="submit" class="btn btn-primary ">Guardar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

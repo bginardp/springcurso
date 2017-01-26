@@ -6,11 +6,13 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Bienvenido</h1>
+		<h1 th:utext="#{bienvenido}">mensaje q no se verá</h1>
 		
 		<ul>
-			<li><a th:href="@{'/person'}">GestiÃ³n de personas</a></li>
+			<li><a th:href="@{'/person'}">Gesti&oacute;n de personas</a></li>
 		</ul>
+		
+		<div th:utext="${msgI18n}">prueba</div>
 		
 	</div>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
