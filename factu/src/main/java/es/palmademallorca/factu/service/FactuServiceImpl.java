@@ -95,8 +95,8 @@ public class FactuServiceImpl implements FactuService {
 	}
 
 	@Override
-	public List<SerieDto> findAllSeries() {
-		List<Serie> series=factuDao.findAllSeries();
+	public List<SerieDto> findAllSeries(Long empresaId) {
+		List<Serie> series=factuDao.findAllSeries(empresaId);
 		List<SerieDto> content=new ArrayList<SerieDto>();
 		for (Serie serie: series){
 			content.add(new SerieDto(serie));
@@ -258,13 +258,16 @@ public class FactuServiceImpl implements FactuService {
 	}
 
 	@Override
-	public void saveFactura(FacturaDto facturaDto, List<FacLinDto> detalleDto) {
+	public Long saveFactura(FacturaDto facturaDto) {
 		Factura factura=new Factura(facturaDto);
 		factuDao.saveFactura(factura);
-		for (FacLinDto faclindto:detalleDto) {
-			Facturalin faclin=new Facturalin(faclindto);
-			factuDao.saveFacturalin(faclin);	
-		}
+//		TODO
+//		for (FacLinDto faclindto:detalleDto) {
+//			Facturalin faclin=new Facturalin(faclindto);
+//			factuDao.saveFacturalin(faclin);	
+//		}
+		
+		return factura.getId();
 	}
 
 	@Override

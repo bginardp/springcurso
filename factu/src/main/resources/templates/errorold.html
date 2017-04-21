@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot QuickStart</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Spring Boot Sample App</h1>
+        <div class="alert alert-warning">
+            Ops Sorry, An error happened. <span th:utext="${#httpServletRequest.getAttribute('javax.servlet.error.message')}"></span>
+        </div>
+    </div>
+    <hr/>
+    <th:block th:include="/common/footer :: footer"/>
+</body>
+</html>

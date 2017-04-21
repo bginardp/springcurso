@@ -1,6 +1,7 @@
 package es.palmademallorca.factu.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,6 +27,8 @@ public class FacturaDto {
 	private String empresaNom;
 	private Long forpagId;
 	private String forPagDem;
+	
+	private List<FacLinDto> detall;
 	
 	public FacturaDto() {
 	
@@ -130,6 +133,12 @@ public class FacturaDto {
 	}
 	public void setForPagDem(String forPagDem) {
 		this.forPagDem = forPagDem;
+	}
+	public List<FacLinDto> getDetall() {
+		return detall;
+	}
+	public void setDetall(List<FacLinDto> detall) {
+		this.detall = detall;
 	}
 
 }

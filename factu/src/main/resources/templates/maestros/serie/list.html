@@ -4,8 +4,7 @@
 <body>
 	<th:block th:include="/common/header :: header"/>
 	<div class="container">
-		<h2 th:text="#{series.list.titol}">Lista de series</h2>
-		<h3 th:text="${empresaId}+'-'+'Empresa 1'">Empresa 1</h3>
+		<h2 th:text="#{series.list.titol(${user.empresaName})}">Lista de series</h2>
 		<div class="row">		 	
 			<div class="col-md-12">
 				<table class="table table-striped table-bordered table-hover">
@@ -18,11 +17,11 @@
 					</thead>
 					<tbody>
 					   <tr th:each="serie:${series}">
-					   	  <td><a th:href="@{'maestros/serie/'+${serie.id}}">
+					   	  <td><a th:href="@{'/maestros/serie/'+${serie.id}}">
 					   	  		<span th:utext="${serie.id}"></span>
 					   	  	  </a>
 					      </td>
-						  <td th:utext="${serie.decm}">Serie A</td>
+						  <td th:utext="${serie.dec}">Serie A</td>
 						  <td><span th:class="${serie.hbl}?'label label-success':'label label-warning'"
 						  		    th:text="${serie.hbl}?'Activo':'No activo'"></span>
 						  </td>

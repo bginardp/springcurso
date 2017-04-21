@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="/common/head :: head('Facturaci&oacute;n')"/>
 <body>
+	<th:block th:include="/common/header :: header"/>
 	<div class="container">
-		<th:block th:include="/common/header :: header"/>
 		<h2 th:text="#{empresas.edit.titol}">Formulario de xxx</h2>
 		<hr/>
 		<div class="row">
@@ -15,7 +15,7 @@
 				</div>
 								
 				<form th:object="${empresa}" 
-					  th:action="@{/empresas/save}"
+					  th:action="@{/empresa/save}"
 					  method="post">
 					  
 				    <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
@@ -146,7 +146,7 @@
 				</form>
 				<!-- formulario para borrar -->
 				<form id="frmRemove"
-					  th:action="@{'/factu/empresa/remove'}" method="post">
+					  th:action="@{'/empresa/remove'}" method="post">
 					<input type="hidden" name="id" th:value="${empresa.id}"/>
 				</form>
 			</div>

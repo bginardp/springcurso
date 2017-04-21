@@ -22,7 +22,7 @@ public class UserSession {
 	private void init () {
 //		this.empresa=new Empresa(new Long(1),"empresa A","empresa A","ce ciutadella 25 2d","","palma","123456789","illes balears","971123456","company@putmail.com","07003");
 //		this.setEjercicio(new Ejercicio(2016));
-		System.out.println("################ init UserSession"+empresaId);
+		System.out.println("################ init UserSession:"+empresaId);
 	}
 	public String getUsuari() {
 		return usuari;
