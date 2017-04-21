@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/include/head :: head('Mi blog')"/>
+<body>
+<div class="container">
+<div class="row">
+<div class="col-md-8 col-sm-offset-2">
+  <h1>Demo Combo Box Dependents</h1>
+  <br/>
+  <form class="form-horizontal" method="post">
+  <div class="form-group">
+  	<label for="provincia" class="col-sm-2 control-label">Provincia</label>
+  	<div class="col-sm-10">
+	    <select id="provincia" name="provincia" class="form-control">
+	      <option th:each="provincia : ${provincies}" th:value="${provincia.con}" th:text="${provincia.nom}">Illes Balears</option>
+	    </select>
+    </div>
+    </div>
+  <div class="form-group">
+  	<label for="municipi" class="col-sm-2 control-label">Municipi</label>
+  	<div class="col-sm-10">
+	   <select id="municipi" name="municipi" class="form-control">
+	      <option>Select item...</option>
+	      <option th:each="municipi : ${municipis}" th:value="${municipi.municipiId.con}" th:text="${municipi.nom}">Palma</option>
+	    </select>
+	</div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Enviar</button>
+    </div>
+  </div>
+  </form>
+   
+</div>
+</div>
+</div> <!--  container -->
+<script type="text/javascript">
+$(document).ready(function() {
+   $("#municipi").load("refreshMunicipis", 'idProvincia='+$("#provincia").val());
+   $("#provincia").change(function() {
+	   $("#municipi").load("refreshMunicipis", 'idProvincia='+$("#provincia").val());
+   });
+});
+
+</script>
+</body>
+</html>
