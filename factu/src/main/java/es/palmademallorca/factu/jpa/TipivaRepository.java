@@ -6,7 +6,7 @@ import es.palmademallorca.factu.model.Facturalin;
 import es.palmademallorca.factu.model.Tipiva;
 
 
-public interface TipivaRepository extends PagingAndSortingRepository<Tipiva, Long> {
+public interface TipivaRepository extends PagingAndSortingRepository<Tipiva, String> {
 
 //	Page<City> findAll(Pageable pageable);
 

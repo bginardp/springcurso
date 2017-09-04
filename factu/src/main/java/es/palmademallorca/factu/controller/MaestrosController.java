@@ -73,10 +73,10 @@ public class MaestrosController {
 	}
 
 	@RequestMapping(value = { "/tipoiva/{id}", "/tipoiva/new" }, method = RequestMethod.GET)
-	public String editTipiva(Model model, @PathVariable(value = "id", required = false) Long tipoivaId) {
+	public String editTipiva(Model model, @PathVariable(value = "id", required = false) String tipoivaId) {
 		TipivaDto tipoiva = null;
 		if (tipoivaId != null) {
-			tipoiva = factuService.getTipoIva(tipoivaId);
+			tipoiva = factuService.getTipIva(tipoivaId);
 		} else {
 			tipoiva = new TipivaDto();
 		}
@@ -94,8 +94,8 @@ public class MaestrosController {
 		if (results.hasErrors()) {
 			return gotoEditTipiva(model, tipoiva);
 		} else {
-			Long tipoivaId = factuService.saveTipiva(tipoiva);
-			return "redirect:/maestros/tipoiva/" + tipoivaId + "?msg=ok";
+			factuService.saveTipiva(tipoiva);
+			return "redirect:/maestros/tipoiva/" + tipoiva.getId() + "?msg=ok";
 		}
 	}
 

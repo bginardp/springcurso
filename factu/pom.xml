@@ -9,13 +9,12 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<springBootVersion>1.4.2.RELEASE</springBootVersion>
 		<querydsl.version>4.1.4</querydsl.version>
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.2.RELEASE</version>
+		<version>1.5.4.RELEASE</version>
 	</parent>
 	<dependencies>
 		<dependency>
@@ -37,12 +36,10 @@
 		<dependency>
 		  <groupId>com.querydsl</groupId>
 		  <artifactId>querydsl-jpa</artifactId>
-		  <version>${querydsl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.4-1206-jdbc42</version>
 		</dependency>
 	</dependencies>
 	 <build>

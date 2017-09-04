@@ -9,20 +9,18 @@
 		</div>
 		<form th:object="${factura}" th:action="@{/factura/save}"
 			method="post">
+			<input type="hidden" id="clienteId" name="clienteId" value="*{clienteId}"></input>
 			<div class="row">
 				<div class="col-md-12">
-
-					<input type="hidden" id="clienteId" name="clienteId"
-						value="*{clienteId}"></input>
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<div class="row" style="background-color: green;">
+							<!-- <div class="row" style="background-color: green;">
 								<div class="col-md-5" style="background-color: white;">
 									<div class="form-group">
 										<label for="cliente" class="col-sm-2 control-label">Cliente</label>
 										<div class="col-sm-10">
 											<input class="form-control" id="cliente"
-												placeholder="cliente" type="text" />
+												placeholder="escribir las primeras letras" type="text" />
 										</div>
 									</div>
 								</div>
@@ -50,35 +48,32 @@
 										</div>
 									</div>
 								</div>
-							</div>
-							<!-- row -->
+							</div> row -->
 							<br></br>
 							<div class="row">
 								<div class="col-md-4">
-									<h3>De:</h3>
+									<h3>De:<span><button type="button" class="btn btn-default btn-sm">cambiar</button></span></h3>
 									<address id="dadesEmp">
 										<strong>Salpon S.l</strong><br /> Calle La Rambla 3 Bajos<br />
 										07001 Palma<br /> Illes Balears<br />
 									</address>
 								</div>
 								<div class="col-md-4">
-									<h3>Facturado a:</h3>
+									<h3>Facturado a:<span><button class="btn btn-default btn-sm">cambiar</button></span></h3>
 									<address id="dadesCli">
 										<strong>MULCICINES PORTO PI S.L</strong><br /> Carrer
 										Ciutadella nº 26 A<br /> 07008 Palma<br /> Illes Balears<br />
 									</address>
 								</div>
 								<div class="col-md-4">
-									<h3>Detalls</h3>
+									<h3>Detalls<span><button class="btn btn-default btn-sm">cambiar</button></span></h3>
 									<address id="dadesFac">
 										<strong>Factura A-00021</strong><br /> 10/01/2017<br /> Forma
 										Pago:Trasnferència<br /> Compte-ES12-1212-21212-21212121<br />
 									</address>
 								</div>
-							</div>
-							<!-- row -->
-						</div>
-						<!-- panel heading -->
+							</div> <!-- row -->
+						</div>	<!-- panel heading -->
 						<div class="panel-body">
 							<!--  <h3 class="panel-title">Detalle</h3> -->
 							<button class="btn">Añadir</button>
@@ -129,34 +124,81 @@
 							</table>
 						</div>
 						<!-- panel body -->
-						<div class="panel-footer">Piefactura</div>
-					</div>
-					<!-- panel -->
-
-				</div>
-				<!-- col -->
-			</div>
-			<!-- row -->
+						<div class="panel-footer">Piefactura
+						    <div class="row">
+						       <div class="col-md-6"></div>
+						    </div>
+						</div>
+					</div> <!-- panel -->
+				</div>	<!-- col -->
+			</div> <!-- row -->
+			
+			
 			<div class="row text-center">
 				<button type="submit" class="btn btn-primary">Guardar</button>
 			</div>
 		</form>
+		<div id="linia" class="row">
+			<form class="form-inline" th:object="${linfac}">
+ 				<div class="form-group">
+    			 <label for="id">concepto</label>
+    			 <input type="text" class="form-control" id="prod" placeholder="servicio o producto" />
+  				</div>
+  				<div class="form-group">
+    			 <label for="desc">Descripción</label>
+    			 <textarea rows="2" cols="50" class="form-control" id="desc" placeholder="descripción concepto"></textarea>
+  				</div>
+  				<div class="form-group">
+    			 <label for="qtt">Cantidad</label>
+    			 <input type="text" class="form-control" id="qtt" placeholder="cantidad" />
+  				</div>
+  				<div class="form-group">
+    			 <label for="pvp">Precio</label>
+    			 <input type="text" class="form-control" id="pvp" placeholder="precio" />
+  				</div>
+  				<div class="form-group">
+    			 <label for="imp">Importe</label>
+    			 <input type="text" class="form-control" id="pvp" placeholder="cantidad" />
+  				</div>
+			   <button type="submit" class="btn btn-default">Añadir</button>
+	        </form>
+        </div>
 	</div>
 	<!-- container -->
 	<script type="text/javascript">
 		$(function() {
 			$("#cliente").autocomplete(
 					{
-						source : '/ajax/search',
+						source : '/ajax/clientes',
 						select : function(event, ui) {
 							var id = ui.item.value;
+							var nom = ui.item.label;
 							// $( "#divAjax" ).html( data.message+" "+data.timestamp );
+							event.preventDefault();
 							$("#clienteId").val(id);
+							$("#cliente").val(nom);
 							$("#dadesCli").html(
-									'<strong>' + ui.item.label+'</strong><br/>' 
-											+ ui.item.cif
-											+ '<br/>' + ui.item.cif
-											+ '<br/>' + ui.item.direccion);
+									'<strong>' + ui.item.label + '</strong><br/>' 
+											+ ui.item.cif + '<br/>' 
+											+ ui.item.direccion + '<br/>' 
+											+ ui.item.value);
+						}
+					});
+			$("#concepto").autocomplete(
+					{
+						source : '/ajax/productos',
+						select : function(event, ui) {
+							var id = ui.item.value;
+							var nom = ui.item.label;
+							// $( "#divAjax" ).html( data.message+" "+data.timestamp );
+							event.preventDefault();
+							$("#productoId").val(id);
+							$("#producto").val(nom);
+							/* $("#dadesPro").html(
+									'<strong>' + ui.item.label + '</strong><br/>' 
+											+ ui.item.cif + '<br/>' 
+											+ ui.item.direccion + '<br/>' 
+											+ ui.item.value); */
 						}
 					});
 		});

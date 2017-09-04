@@ -1,8 +1,11 @@
 package es.palmademallorca.factu.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -28,6 +31,14 @@ public class Cliente  {
 	private String tel;
 	private String movil;
 	private String email;
+	private String ctecon;
+	@Column(name = "forpag_id")
+	private Long forpagId;
+	@ManyToOne
+	@JoinColumn(name = "forpag_id", insertable = false, updatable = false)
+	private Formapago formaspago;
+
+	
 
 	/**
 	 * Class constructor methods
@@ -37,6 +48,7 @@ public class Cliente  {
 	}
 
 	public Cliente(ClienteDto cliente) {
+		this.id=cliente.getId();
 		this.cif=cliente.getCif();
 		this.nom=cliente.getNom();
 		this.direccion=cliente.getDireccion();
@@ -46,6 +58,8 @@ public class Cliente  {
 		this.tel=cliente.getTel();
 		this.movil=cliente.getMovil();
 		this.email=cliente.getEmail();
+		this.ctecon=cliente.getCtecon();
+		this.forpagId=cliente.getForpagId();
 	}
 
 	public Long getId() {
@@ -130,14 +144,29 @@ public class Cliente  {
 		this.email=email;
 	}
 
-	@Override
-	public String toString() {
-		return "Cliente [id=" + id + ", cif=" + cif + ", nom=" + nom + ", direccion=" + direccion + ", municipio="
-				+ municipio + ", provincia=" + provincia + ", postal=" + postal + ", tel=" + tel + ", movil=" + movil
-				+ ", email=" + email + "]";
+	public Long getForpagId() {
+		return forpagId;
+	}
+
+	public void setForpagId(Long forpagId) {
+		this.forpagId = forpagId;
+	}
+
+	public Formapago getFormaspago() {
+		return formaspago;
+	}
+
+	public void setFormaspago(Formapago formaspago) {
+		this.formaspago = formaspago;
 	}
 	
-	
-	
+	public String getCtecon() {
+		return ctecon;
+	}
+
+	public void setCtecon(String ctecon) {
+		this.ctecon = ctecon;
+	}
+
 
 }

@@ -17,13 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.palmademallorca.factu.beans.UserSession;
+import es.palmademallorca.factu.dto.FacLinDto;
 import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.service.FactuService;
 
 @Controller
 public class FacturasController {
-	// @Autowired
-	// UserSession userSession;
 	@Autowired
 	FactuService factuService;
 
@@ -59,6 +58,7 @@ public class FacturasController {
 		}
 		return "factura/list";
 	}
+	
 	@RequestMapping(value = "/factura/save", method = RequestMethod.POST)
 	public String save(
 			Model model,
@@ -68,9 +68,10 @@ public class FacturasController {
 			return gotoEdit(model, factura);
 		} else {
 			Long facturaId=factuService.saveFactura(factura);
-			return "redirect:/clientes/"+facturaId+"?msg=ok";
+			return "redirect:/factura/"+facturaId+"?msg=ok";
 		}
 	}
+	
 	
 	@RequestMapping(value ={"/factura/{id}","/factura/new"}, method=RequestMethod.GET)
 	public String edit(
@@ -85,12 +86,42 @@ public class FacturasController {
 		return gotoEdit(model,factura);
 	}
 	
-	
 	private String gotoEdit(Model model, FacturaDto factura) {
 		model.addAttribute("factura", factura);
 		model.addAttribute("formasPago",factuService.findAllFormaspago());
 		return "factura/edit";
 	}
 	
-
+	@RequestMapping(value ={"/faclin/{id}","/faclin/new"}, method=RequestMethod.GET)
+	public String editLin(
+			Model model,
+			@PathVariable(value="id",required=false) Long faclinId, FacturaDto factura){
+		FacLinDto faclin=null;
+		if (faclinId!=null) {
+		  faclin= factuService.getFaclin(faclinId);
+		} else {
+		  faclin = new FacLinDto();	
+		}
+		return gotoEditLin(model,factura, faclin);
+	}
+	
+	@RequestMapping(value = "/faclin/save", method = RequestMethod.POST)
+	public String save(
+			Model model,FacturaDto factura,
+			@Valid @ModelAttribute("faclin") FacLinDto faclin,
+			BindingResult results){
+		if (results.hasErrors()){
+			return gotoEditLin(model, factura, faclin);
+		} else {
+			//Long faclinId=factuService.saveFactura(factura);
+			
+			return null; //"redirect:/clientes/"+faclinId+"?msg=ok";
+		}
+	}
+	
+	private String gotoEditLin(Model model, FacturaDto factura, FacLinDto faclin) {
+		model.addAttribute("factura", faclin);
+		model.addAttribute("faclin", faclin);
+		return "factura/edit";
+	}
 }

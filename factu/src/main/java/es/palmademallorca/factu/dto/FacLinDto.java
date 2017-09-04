@@ -3,6 +3,8 @@ package es.palmademallorca.factu.dto;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import es.palmademallorca.factu.model.Facturalin;
 
@@ -10,14 +12,17 @@ public class FacLinDto {
 	// TODO afegir validacions s anivell d'atributs
 	private Long id;
 	private Long facturaId;
-	private BigDecimal cantidad;
+	@NotNull
+	@Size(min=1,max=1000)
 	private String dem;
+	private BigDecimal cantidad;
+	private BigDecimal preu;
 	private BigDecimal importe;
 	private BigDecimal pordte;
-	private Long tipivaId;
-	private String tipivaDec;
+	private String tipivaId;
+	private String tipivaDem;
 	private BigDecimal poriva;
-	private BigDecimal preu;
+	@NotNull
 	private String producteId;
 	private BigDecimal requiv;
 	
@@ -28,7 +33,7 @@ public class FacLinDto {
 
 
 	public FacLinDto(Long id, Long facturaId, BigDecimal cantidad, String dem, BigDecimal importe, BigDecimal pordte,
-			Long tipivaId, String tipivaDec, BigDecimal poriva, BigDecimal preu, String producteId, BigDecimal requiv) {
+			String tipivaId, String tipivaDem, BigDecimal poriva, BigDecimal preu, String producteId, BigDecimal requiv) {
 		this.id = id;
 		this.facturaId = facturaId;
 		this.cantidad = cantidad;
@@ -36,7 +41,7 @@ public class FacLinDto {
 		this.importe = importe;
 		this.pordte = pordte;
 		this.tipivaId = tipivaId;
-		this.tipivaDec = tipivaDec;
+		this.tipivaDem = tipivaDem;
 		this.poriva = poriva;
 		this.preu = preu;
 		this.producteId = producteId;
@@ -52,7 +57,7 @@ public class FacLinDto {
 		this.importe = faclin.getImporte();
 		this.pordte = faclin.getPordte();
 		this.tipivaId = faclin.getTipivaId();
-//		this.tipivaDec = faclin.getTipivaDec();
+		this.tipivaDem = faclin.getTipiva().getDem();
 		this.poriva = faclin.getPoriva();
 		this.preu = faclin.getPreu();
 		this.producteId = faclin.getProducteId();
@@ -96,17 +101,17 @@ public class FacLinDto {
 	public void setPordte(BigDecimal pordte) {
 		this.pordte = pordte;
 	}
-	public Long getTipivaId() {
+	public String getTipivaId() {
 		return tipivaId;
 	}
-	public void setTipivaId(Long tipivaId) {
+	public void setTipivaId(String tipivaId) {
 		this.tipivaId = tipivaId;
 	}
-	public String getTipivaDec() {
-		return tipivaDec;
+	public String getTipivaDem() {
+		return tipivaDem;
 	}
-	public void setTipivaDec(String tipivaDec) {
-		this.tipivaDec = tipivaDec;
+	public void setTipivaDec(String tipivaDem) {
+		this.tipivaDem = tipivaDem;
 	}
 	public BigDecimal getPoriva() {
 		return poriva;

@@ -15,7 +15,10 @@ public class ProductoDto {
    	private String dem;
    	private BigDecimal pvp;
 	private boolean hbl;
-	
+	private String tipivaId;
+	private String tipivaDem;
+	private BigDecimal tipivaPoriva;
+	private BigDecimal tipivaRequiv;
 	
 	public ProductoDto() {
 		this.hbl=true;
@@ -23,10 +26,13 @@ public class ProductoDto {
 	}
 
 	public ProductoDto(Producto producto) {
+//TODO obtenir el % de iva
 		this.id=producto.getId();
 		this.dem=producto.getDem();
 		this.pvp=producto.getPvp();
 		this.hbl = producto.getHbl().equals("S")?true:false;
+		this.tipivaId=producto.getTipiva().getId();
+		this.tipivaDem=producto.getTipiva().getDem();
 	}
 	
 	public String getId() {
@@ -56,5 +62,40 @@ public class ProductoDto {
 
 	public void setPvp(BigDecimal pvp) {
 		this.pvp = pvp;
+	}
+
+	
+	public String getTipivaId() {
+		return tipivaId;
+	}
+
+	public void setTipivaId(String tipivaId) {
+		this.tipivaId = tipivaId;
+	}
+
+	public String getTipivaDem() {
+		return tipivaDem;
+	}
+
+	public void setTipivaDem(String tipivaDem) {
+		this.tipivaDem = tipivaDem;
+	}
+
+	public BigDecimal getTipivaPoriva() {
+		return tipivaPoriva;
+	}
+
+	public void setTipivaPoriva(BigDecimal tipivaPoriva) {
+		this.tipivaPoriva = tipivaPoriva;
+	}
+
+	public BigDecimal getTipivaRequiv() {
+		return tipivaRequiv;
+	}
+
+	public void setTipivaRequiv(BigDecimal tipivaRequiv) {
+		this.tipivaRequiv = tipivaRequiv;
 	}	
+	
+	
 }

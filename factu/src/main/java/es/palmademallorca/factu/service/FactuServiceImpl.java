@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import es.palmademallorca.factu.beans.UserSession;
 import es.palmademallorca.factu.dao.FactuDao;
 import es.palmademallorca.factu.dto.ClienteDto;
 import es.palmademallorca.factu.dto.EjercicioDto;
@@ -23,6 +22,7 @@ import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.dto.FormapagoDto;
 import es.palmademallorca.factu.dto.ProductoDto;
 import es.palmademallorca.factu.dto.SerieDto;
+import es.palmademallorca.factu.dto.TipivaDetDto;
 import es.palmademallorca.factu.dto.TipivaDto;
 import es.palmademallorca.factu.model.Cliente;
 import es.palmademallorca.factu.model.Ejercicio;
@@ -33,6 +33,7 @@ import es.palmademallorca.factu.model.Formapago;
 import es.palmademallorca.factu.model.Producto;
 import es.palmademallorca.factu.model.Serie;
 import es.palmademallorca.factu.model.Tipiva;
+import es.palmademallorca.factu.model.TipivaDet;
 
 @Service(value = "factuService")
 public class FactuServiceImpl implements FactuService {
@@ -115,6 +116,16 @@ public class FactuServiceImpl implements FactuService {
 	}
 
 	@Override
+	public List<TipivaDetDto> findAllTiposIvaDet() {
+		List<TipivaDet> tiposivadet=factuDao.findAllTipivaDet();
+		List<TipivaDetDto> content=new ArrayList<TipivaDetDto>();
+		for (TipivaDet tipivadet: tiposivadet){
+			content.add(new TipivaDetDto(tipivadet));
+		}
+		return content;
+	}
+	
+	@Override
 	public EmpresaDto getEmpresa(long empresaId) {
 		Empresa empresa=factuDao.getEmpresa(empresaId);
 		EmpresaDto empDto=new EmpresaDto(empresa);
@@ -149,10 +160,17 @@ public class FactuServiceImpl implements FactuService {
 	}
 	
 	@Override
-	public TipivaDto getTipoIva(long tipoivaId) {
-		Tipiva tipoiva=factuDao.getTipoIva(tipoivaId);
-		TipivaDto tipoivaDto=new TipivaDto(tipoiva);
+	public TipivaDto getTipIva(String id) {
+		Tipiva tipiva=factuDao.getTipIva(id);
+		TipivaDto tipoivaDto=new TipivaDto(tipiva);
 		return tipoivaDto;
+	}
+	
+	@Override
+	public TipivaDetDto getTipivaDet(Long id) {
+		TipivaDet tipivadet=factuDao.getTipIvaDet(id);
+		TipivaDetDto tipivadetDto=new TipivaDetDto(tipivadet);
+		return tipivadetDto;
 	}
 	
 
@@ -190,8 +208,14 @@ public class FactuServiceImpl implements FactuService {
 	}
 
 	@Override
-	public void removeTipoiva(long tipoivaId) {
-		factuDao.removeTipoiva(tipoivaId);
+	public void removeTipiva(String id) {
+		factuDao.removeTipiva(id);
+		
+	}
+	
+	@Override
+	public void removeTipivaDet(long id) {
+		factuDao.removeTipivaDet(id);
 		
 	}
 	
@@ -242,12 +266,18 @@ public class FactuServiceImpl implements FactuService {
 		factuDao.saveSerie(serie);
 		
 	}
+	
+	@Override
+	public void saveTipiva(TipivaDto tipivaDto) {
+		Tipiva tipiva=new Tipiva(tipivaDto);
+		factuDao.saveTipiva(tipiva);
+	}
 
 	@Override
-	public Long saveTipiva(TipivaDto tipivaDto) {
-		Tipiva tipoiva=new Tipiva(tipivaDto);
-		factuDao.saveTipoiva(tipoiva);
-		return tipoiva.getId();
+	public Long saveTipivaDet(TipivaDetDto tipivaDetDto) {
+		TipivaDet tipoivadet=new TipivaDet(tipivaDetDto);
+		factuDao.saveTipivaDet(tipoivadet);
+		return tipoivadet.getId();
 	}
 
 	@Override
@@ -320,6 +350,22 @@ public class FactuServiceImpl implements FactuService {
 		return null;
 //		return factuDao.getImpuestoFactura(facturaId);
 	}
+
+
+	@Override
+	public TipivaDetDto getTipivaDetVigent(String tipivaId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FacLinDto getFaclin(Long faclinId) {
+		Facturalin lin=factuDao.findOneFaclin(faclinId);
+		FacLinDto lindto=new FacLinDto(lin);
+		return lindto;
+	}
+
+	
 
 	
 	

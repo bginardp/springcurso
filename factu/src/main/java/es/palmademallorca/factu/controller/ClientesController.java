@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.palmademallorca.factu.dto.ClienteDto;
-import es.palmademallorca.factu.dto.EntradaDto;
 import es.palmademallorca.factu.service.FactuService;
 
 @Controller
@@ -55,6 +54,7 @@ public class ClientesController {
 	
 	private String gotoEdit(Model model, ClienteDto cliente) {
 		model.addAttribute("cliente", cliente);
+		model.addAttribute("formasPago",factuService.findAllFormaspago());
 		return "cliente/edit";
 	}
 	

@@ -1,11 +1,13 @@
-package es.palmademallorca.factu.dto;
+package es.palmademallorca.factu.dto.ajax;
+
+import es.palmademallorca.factu.dto.ItemDto;
 
 /**
  * classe que ens ajuda a fer servir la funcionalitat de autocomplete de jquery
  * necessariament ha de tener aquest dos atributs amb aquests noms. 
- * (label i value)
- * opcionalmen es poden afegir atributs per retornar a
- * 
+ * (label i value). Per aixó aquest dos atributs els heretem de ItemDto
+ * Afegim atributs a la classe filla segons les necessitats. 
+ *  
  * @author BERNAT1
  *
  */

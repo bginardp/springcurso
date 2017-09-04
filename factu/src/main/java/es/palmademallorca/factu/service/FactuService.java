@@ -14,6 +14,7 @@ import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.dto.FormapagoDto;
 import es.palmademallorca.factu.dto.ProductoDto;
 import es.palmademallorca.factu.dto.SerieDto;
+import es.palmademallorca.factu.dto.TipivaDetDto;
 import es.palmademallorca.factu.dto.TipivaDto;
 
 public interface FactuService {
@@ -24,29 +25,35 @@ public interface FactuService {
     public List<ProductoDto> findAllProductos();
     public List<SerieDto> findAllSeries(Long empresaId);
     public List<TipivaDto> findAllTiposIva();
+    public List<TipivaDetDto> findAllTiposIvaDet();
     
-    public EmpresaDto getEmpresa(long empresaId);
-	public EjercicioDto getEjercicio(long ejercicioId);
-	public FormapagoDto getFormapago(long formapagoId);
-	public ProductoDto getProducto(String productoId);
-	public SerieDto getSerie(String serieId);
-	public TipivaDto getTipoIva(long tipoivaId);
+    EmpresaDto getEmpresa(long empresaId);
+	EjercicioDto getEjercicio(long ejercicioId);
+	FormapagoDto getFormapago(long formapagoId);
+	ProductoDto getProducto(String productoId);
+	SerieDto getSerie(String serieId);
+	TipivaDto getTipIva(String id);
 	ClienteDto getCliente(Long clienteId);
 	FacturaDto getFactura(Long facturaId);
-		
+	FacLinDto getFaclin(Long faclinId);
+	TipivaDetDto getTipivaDet(Long id);
+	TipivaDetDto getTipivaDetVigent(String tipivaId);
+	
 	void removeFormaPago(long formapagoId);
 	void removeProducto(String productoId);
 	void removeSerie(String serieId);
-	void removeTipoiva(long tipoivaId);
+	void removeTipiva(String id);
 	void removeCliente(Long clienteId);
 	void removeFactura(Long facturaId);
+	void removeTipivaDet(long id);
 	
 	Long saveEmpresa(EmpresaDto empresaDto);
 	void saveEjercicio(EjercicioDto ejercicioDto);
 	Long saveFormapago(FormapagoDto formapagoDto);
 	void saveProducto(ProductoDto productoDto);
 	void saveSerie(SerieDto serieDto);
-	Long saveTipiva(TipivaDto tipivaDto);
+	void saveTipiva(TipivaDto tipivaDto);
+	Long saveTipivaDet(TipivaDetDto tipivaDetDto);
 	Long saveFactura(FacturaDto facturaDto);
 	Long saveCliente(ClienteDto clienteDto);	
 	

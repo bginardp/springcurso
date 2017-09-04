@@ -27,6 +27,7 @@ import es.palmademallorca.factu.jpa.FormapagoRepository;
 import es.palmademallorca.factu.jpa.ProductoRepository;
 import es.palmademallorca.factu.jpa.SerieRepository;
 import es.palmademallorca.factu.jpa.TipivaRepository;
+import es.palmademallorca.factu.jpa.TipivadetRepository;
 import es.palmademallorca.factu.model.Cliente;
 import es.palmademallorca.factu.model.Ejercicio;
 import es.palmademallorca.factu.model.Empresa;
@@ -40,6 +41,7 @@ import es.palmademallorca.factu.model.QFacturalin;
 import es.palmademallorca.factu.model.QProducto;
 import es.palmademallorca.factu.model.Serie;
 import es.palmademallorca.factu.model.Tipiva;
+import es.palmademallorca.factu.model.TipivaDet;
 
 @Component
 public class FactuDao {
@@ -61,6 +63,8 @@ public class FactuDao {
 	private SerieRepository serieRepository;
 	@Autowired
 	private TipivaRepository tipivaRepository;
+	@Autowired
+	private TipivadetRepository tipivadetRepository;
 	@Autowired
 	private EntityManager entityManager;
 
@@ -159,8 +163,12 @@ public class FactuDao {
 	}
 
 	public List<Tipiva> findAllTipiva() {
-		Iterable<Tipiva> tiposiva = tipivaRepository.findAll(new Sort(new Order(Direction.ASC, "id")));
-		return convertItToList(tiposiva);
+		Iterable<Tipiva> tipiva = tipivaRepository.findAll(new Sort(new Order(Direction.ASC, "id")));
+		return convertItToList(tipiva);
+	}
+	public List<TipivaDet> findAllTipivaDet() {
+		Iterable<TipivaDet> tipivadet = tipivadetRepository.findAll(new Sort(new Order(Direction.ASC, "id")));
+		return convertItToList(tipivadet);
 	}
 
 	public Page<Factura> findFacturasByTerm(Long empresa, Long ejercicio, String term, Pageable pageRequest) {
@@ -210,6 +218,14 @@ public class FactuDao {
 		return null;
 	}
 
+	public Facturalin findOneFaclin(Long faclinId) {
+		if (faclinId != null) {
+			return faclinRepository.findOne(faclinId);
+		}
+		return null;
+	}
+
+	
 	public void saveFactura(Factura factura) {
 		if (factura != null) {
 			// if (product.getId()==null){
@@ -275,13 +291,20 @@ public class FactuDao {
 		return null;
 	}
 
-	public Tipiva getTipoIva(Long tipoivaId) {
-		if (tipoivaId != null) {
-			return tipivaRepository.findOne(tipoivaId);
+	public TipivaDet getTipIvaDet(Long id) {
+		if (id != null) {
+			return tipivadetRepository.findOne(id);
 		}
 		return null;
 	}
-
+	
+	public Tipiva getTipIva(String id) {
+		if (id != null) {
+			return tipivaRepository.findOne(id);
+		}
+		return null;
+	}
+	
 	public void removeFormaPago(Long formapagoId) {
 		if (formapagoId != null) {
 			formapagoRepository.delete(formapagoId);
@@ -301,10 +324,16 @@ public class FactuDao {
 			serieRepository.delete(serieId);
 		}
 	}
+	
+	public void removeTipiva(String id) {
+		if (id != null) {
+			tipivaRepository.delete(id);
+		}
+	}
 
-	public void removeTipoiva(Long tipoivaId) {
-		if (tipoivaId != null) {
-			tipivaRepository.delete(tipoivaId);
+	public void removeTipivaDet(Long id) {
+		if (id != null) {
+			tipivadetRepository.delete(id);
 		}
 	}
 
@@ -349,9 +378,16 @@ public class FactuDao {
 		
 	}
 
-	public void saveTipoiva(Tipiva tipoiva) {
-		if (tipoiva != null) {
-			tipivaRepository.save(tipoiva);
+	public void saveTipiva(Tipiva tipiva) {
+		if (tipiva != null) {
+			tipivaRepository.save(tipiva);
+		}
+		
+	}
+
+	public void saveTipivaDet(TipivaDet tipivadet) {
+		if (tipivadet != null) {
+			tipivadetRepository.save(tipivadet);
 		}
 		
 	}

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
 import es.palmademallorca.factu.dto.FacLinDto;
@@ -30,13 +32,17 @@ public class Facturalin {
 	private String producteId;
 	private BigDecimal requiv;
 	@Column(name="tipiva_id")
-	private Long tipivaId;
+	private String tipivaId;
 	@Column(name="factura_id")
 	private Long facturaId;
-	
-//	@ManyToOne
-//	private Factura factura;
+	@ManyToOne
+	@JoinColumn(name = "tipiva_id", insertable = false, updatable = false)
+	private Tipiva tipiva;
+	@ManyToOne
+	@JoinColumn(name = "factura_id", insertable = false, updatable = false)
+	private Factura factura;
 
+	
 	public Facturalin() {
 	}
 
@@ -116,14 +122,6 @@ public class Facturalin {
 		this.requiv = requiv;
 	}
 
-	public Long getTipivaId() {
-		return tipivaId;
-	}
-
-	public void setTipivaId(Long tipivaId) {
-		this.tipivaId = tipivaId;
-	}
-
 	public Long getFacturaId() {
 		return facturaId;
 	}
@@ -131,7 +129,32 @@ public class Facturalin {
 	public void setFacturaId(Long facturaId) {
 		this.facturaId = facturaId;
 	}
+	
+	public String getTipivaId() {
+		return tipivaId;
+	}
 
+	public void setTipivaId(String tipivaId) {
+		this.tipivaId = tipivaId;
+	}
+
+	public Tipiva getTipiva() {
+		return tipiva;
+	}
+
+	public void setTipiva(Tipiva tipiva) {
+		this.tipiva = tipiva;
+	}
+
+	public Factura getFactura() {
+		return factura;
+	}
+
+	public void setFactura(Factura factura) {
+		this.factura = factura;
+	}
+
+	
 //	public Factura getFactura() {
 //		return factura;
 //	}

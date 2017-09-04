@@ -25,7 +25,10 @@ public class ClienteDto {
 	private String movil;
 	@Size(max=60)
 	private String email;
-	
+	@Size(max=10)
+	private String ctecon;
+	private Long forpagId;
+	private String forpagDem;
 
 	public ClienteDto(){
 		
@@ -42,6 +45,11 @@ public class ClienteDto {
 		this.tel = cliente.getTel();
 		this.movil = cliente.getMovil();
 		this.email = cliente.getEmail();
+		this.ctecon=cliente.getCtecon();
+		this.forpagId=cliente.getForpagId();
+		if (cliente.getFormaspago()!=null) {
+		  this.forpagDem=cliente.getFormaspago().getDem();
+		}
 	}
 	
 	public Long getId() {
@@ -104,7 +112,32 @@ public class ClienteDto {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
+	public String getCtecon() {
+		return ctecon;
+	}
+
+	public void setCtecon(String ctecon) {
+		this.ctecon = ctecon;
+	}
+
+	public Long getForpagId() {
+		return forpagId;
+	}
+
+	public void setForpagId(Long forpagId) {
+		this.forpagId = forpagId;
+	}
+
+	public String getForpagDem() {
+		return forpagDem;
+	}
+
+	public void setForpagDem(String forpagDem) {
+		this.forpagDem = forpagDem;
+	}
+
+		
 	
 	
 	
