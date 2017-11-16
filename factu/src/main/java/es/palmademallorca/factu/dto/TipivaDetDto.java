@@ -32,13 +32,15 @@ public class TipivaDetDto {
 
 
 	public TipivaDetDto(TipivaDet tipiva) {
-		this.id=tipiva.getId();
-		this.tipivaId=tipiva.getTipiva().getId();
-		this.anyo=tipiva.getAnyo();
-		this.tipivaDem=tipiva.getTipiva().getDem();
-		this.mes=tipiva.getMes();
-		this.poriva=tipiva.getPoriva();
-		this.requiv=tipiva.getRequiv();
+		if (tipiva!=null) {
+			this.id=tipiva.getId();
+			this.tipivaId=tipiva.getTipiva().getId();
+			this.anyo=tipiva.getAnyo();
+			this.tipivaDem=tipiva.getTipiva().getDem();
+			this.mes=tipiva.getMes();
+			this.poriva=tipiva.getPoriva();
+			this.requiv=tipiva.getRequiv();
+		}
 	}
 
 
@@ -112,5 +114,13 @@ public class TipivaDetDto {
 	public void setTipivaDem(String tipivaDem) {
 		this.tipivaDem = tipivaDem;
 	}
+
+
+	@Override
+	public String toString() {
+		return "TipivaDetDto [id=" + id + ", tipivaId=" + tipivaId + ", anyo=" + anyo + ", tipivaDem=" + tipivaDem
+				+ ", mes=" + mes + ", poriva=" + poriva + ", requiv=" + requiv + "]";
+	}
+	
 
 }

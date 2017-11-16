@@ -2,206 +2,133 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="/common/head :: head('Facturaci&oacute;n')" />
 <body>
-	<th:block th:include="/common/header :: header" />
+	<th:block th:include="/common/header :: header" /> 
 	<div class="container">
-		<div class="text-center">
-			<h2>Factura</h2>
-		</div>
-		<form th:object="${factura}" th:action="@{/factura/save}"
-			method="post">
+		
+		<form th:object="${factura}" th:action="@{/factura/save}"	method="post">
 			<input type="hidden" id="clienteId" name="clienteId" value="*{clienteId}"></input>
 			<div class="row">
 				<div class="col-md-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<!-- <div class="row" style="background-color: green;">
-								<div class="col-md-5" style="background-color: white;">
-									<div class="form-group">
-										<label for="cliente" class="col-sm-2 control-label">Cliente</label>
-										<div class="col-sm-10">
-											<input class="form-control" id="cliente"
-												placeholder="escribir las primeras letras" type="text" />
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3" style="background-color: white;">
-									<div class="form-group">
-										<label for="fecha" class="col-sm-3 control-label">Fecha</label>
-										<div class="col-sm-9">
-											<input class="form-control" id="fecha"
-												placeholder="fecha factura" type="date" />
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4" style="background-color: white;">
-									<div class="form-group">
-										<label for="forpag" class="col-sm-4 control-label">Forma
-											Pago</label>
-										<div class="col-sm-8">
-											<select class="form-control" th:field="*{forpagId}"
-												th:errorClass="text-danger">
-												<option th:each="forpag : ${formasPago}"
-													th:value="${forpag.id}"
-													th:selected="${factura.forpagId == forpag.id}"
-													th:text="${forpag.dem}"></option>
-											</select>
-										</div>
-									</div>
-								</div>
-							</div> row -->
-							<br></br>
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Factura</h3>
 							<div class="row">
-								<div class="col-md-4">
-									<h3>De:<span><button type="button" class="btn btn-default btn-sm">cambiar</button></span></h3>
+								<div class="col-4">
+									<h5>De: <span><input class="form-control form-control-sm" id="empresa"
+												placeholder="escribir las primeras letras" type="text"/></span></h5>
 									<address id="dadesEmp">
 										<strong>Salpon S.l</strong><br /> Calle La Rambla 3 Bajos<br />
 										07001 Palma<br /> Illes Balears<br />
 									</address>
 								</div>
 								<div class="col-md-4">
-									<h3>Facturado a:<span><button class="btn btn-default btn-sm">cambiar</button></span></h3>
+									<h5>Facturado a: <span><input class="form-control form-control-sm" id="cliente"
+												placeholder="escribir las primeras letras" type="text"/></span></h5>
 									<address id="dadesCli">
 										<strong>MULCICINES PORTO PI S.L</strong><br /> Carrer
-										Ciutadella nº 26 A<br /> 07008 Palma<br /> Illes Balears<br />
+										Ciutadella n� 26 A<br /> 07008 Palma<br /> Illes Balears<br />
 									</address>
 								</div>
-								<div class="col-md-4">
-									<h3>Detalls<span><button class="btn btn-default btn-sm">cambiar</button></span></h3>
-									<address id="dadesFac">
-										<strong>Factura A-00021</strong><br /> 10/01/2017<br /> Forma
-										Pago:Trasnferència<br /> Compte-ES12-1212-21212-21212121<br />
-									</address>
+								<div class="col-4">
+									<h5 class="mb-0">Detalles:</h5>
+									<div class="row">
+										<div class="col">
+										  <small class="form-text text-muted">Serie/Factura</small>
+									      <input id="factura" type="text" class="form-control form-control-sm" placeholder="Factura" value="XX/00021" readonly="readonly"/>
+									    </div>
+									    <div class="col">
+								          <small class="form-text text-muted">Fecha factura</small>
+									      <input class="form-control form-control-sm" id="fecha" placeholder="fecha factura" type="date"/>
+									    </div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<small class="form-text text-muted">Forma de pago</small>
+											<select class="form-control form-control-sm" th:field="*{forpagId}"
+												th:errorClass="text-danger">
+												<option th:each="forpag : ${formasPago}"
+													th:value="${forpag.id}"
+													th:selected="${factura.forpagId == forpag.id}"
+													th:text="${forpag.dem}">Tranferencia</option>
+											</select>
+											
+										</div>
+									</div>
+									
 								</div>
 							</div> <!-- row -->
 						</div>	<!-- panel heading -->
-						<div class="panel-body">
-							<!--  <h3 class="panel-title">Detalle</h3> -->
-							<button class="btn">Añadir</button>
-							<table class="table table-condensed">
-								<thead>
-									<tr>
-										<th>Producto</th>
-										<th>Descripción</th>
-										<th>cantidad</th>
-										<th>precio</th>
-										<th>tipo impuesto</th>
-										<th>importe</th>
-										<th>acción</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>001</td>
-										<td>Doe moe</td>
-										<td>12.00</td>
-										<td>100.00</td>
-										<td>Reducido 7%</td>
-										<td>1200.00</td>
-										<td><button>edit</button>
-											<button>delete</button></td>
-									</tr>
-									<tr>
-										<td>002</td>
-										<td>Doe moe TURURU</td>
-										<td>10.00</td>
-										<td>1000.00</td>
-										<td>Normal 18%</td>
-										<td>10000.00</td>
-										<td><button>edit</button>
-											<button>delete</button></td>
-									</tr>
-									<tr>
-										<td>002</td>
-										<td>Doe moe TURURU</td>
-										<td>10.00</td>
-										<td>1000.00</td>
-										<td>Normal 18%</td>
-										<td>10000.00</td>
-										<td><button>edit</button>
-											<button>delete</button></td>
-									</tr>
-								</tbody>
-							</table>
+						<div class="card-body">
+						     <table class="table table-sm">
+							      <thead>
+							        <tr class="row">
+							          <th scope="col" class="col-1">Producto</th>
+							          <th scope="col" class="col-4">Descripci�n</th>
+							          <th scope="col" class="col-1">Cantidad</th>
+							          <th scope="col" class="col-1">Precio</th>
+							          <th scope="col" class="col-2">Tipo impuesto</th>
+							          <th scope="col" class="col-1">Importe</th>
+							          <th scope="col" class="col-2">Acci�n</th>
+							        </tr>
+							      </thead>
+							      <tbody>
+							        <tr class="row">
+							          <th scope="row" class="col-1">001</th>
+							          <td class="col-4">Doe moe lorem ipsulom dedulos</td>
+							          <td class="col-1">12.00</td>
+							          <td class="col-1">100.00</td>
+							          <td class="col-2">Reducido 7%</td>
+							          <td class="col-1">1200.00</td>
+							          <td class="col-2">
+							            <button class="btn btn-secondary btn-sm">editar</button>
+							            <button class="btn btn-secondary btn-sm">borrar</button>
+							          </td>
+							        </tr>
+							      </tbody>
+							    </table>
+							    <button class="btn btn-primary btn-sm">A�adir</button>
 						</div>
-						<!-- panel body -->
-						<div class="panel-footer">Piefactura
-						    <div class="row">
-						       <div class="col-md-6"></div>
+						<div class="card-footer">
+						    <div class="row justify-content-end">
+						    	<div class="col-md-6">
+								 <table class="table table-sm">
+									<thead>
+										<tr>
+											<th>Subtotal</th>
+											<th>Irpf</th>
+											<th>Iva (21%)</th>
+											<th>Iva (10%)</th>
+											<th>Total</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1000.00</td>
+											<td><input class="form-control form-control-sm" type="number" id="irpf" placeholder="irpf"/></td>
+											<td>100.00</td>
+											<td>30.00</td>
+											<td>1140.00</td>
+										</tr>
+									</tbody>
+								</table>
+								</div>						       
 						    </div>
 						</div>
-					</div> <!-- panel -->
+					</div> <!-- card -->
 				</div>	<!-- col -->
 			</div> <!-- row -->
-			
-			
-			<div class="row text-center">
-				<button type="submit" class="btn btn-primary">Guardar</button>
-			</div>
+			<div class="row justify-content-end">
+				 <button type="submit" class="btn btn-primary">Guardar</button>
+			</div> 
 		</form>
-		<div id="linia" class="row">
-			<form class="form-inline" th:object="${linfac}">
- 				<div class="form-group">
-    			 <label for="id">concepto</label>
-    			 <input type="text" class="form-control" id="prod" placeholder="servicio o producto" />
-  				</div>
-  				<div class="form-group">
-    			 <label for="desc">Descripción</label>
-    			 <textarea rows="2" cols="50" class="form-control" id="desc" placeholder="descripción concepto"></textarea>
-  				</div>
-  				<div class="form-group">
-    			 <label for="qtt">Cantidad</label>
-    			 <input type="text" class="form-control" id="qtt" placeholder="cantidad" />
-  				</div>
-  				<div class="form-group">
-    			 <label for="pvp">Precio</label>
-    			 <input type="text" class="form-control" id="pvp" placeholder="precio" />
-  				</div>
-  				<div class="form-group">
-    			 <label for="imp">Importe</label>
-    			 <input type="text" class="form-control" id="pvp" placeholder="cantidad" />
-  				</div>
-			   <button type="submit" class="btn btn-default">Añadir</button>
-	        </form>
-        </div>
-	</div>
-	<!-- container -->
-	<script type="text/javascript">
-		$(function() {
-			$("#cliente").autocomplete(
-					{
-						source : '/ajax/clientes',
-						select : function(event, ui) {
-							var id = ui.item.value;
-							var nom = ui.item.label;
-							// $( "#divAjax" ).html( data.message+" "+data.timestamp );
-							event.preventDefault();
-							$("#clienteId").val(id);
-							$("#cliente").val(nom);
-							$("#dadesCli").html(
-									'<strong>' + ui.item.label + '</strong><br/>' 
-											+ ui.item.cif + '<br/>' 
-											+ ui.item.direccion + '<br/>' 
-											+ ui.item.value);
-						}
-					});
-			$("#concepto").autocomplete(
-					{
-						source : '/ajax/productos',
-						select : function(event, ui) {
-							var id = ui.item.value;
-							var nom = ui.item.label;
-							// $( "#divAjax" ).html( data.message+" "+data.timestamp );
-							event.preventDefault();
-							$("#productoId").val(id);
-							$("#producto").val(nom);
-							/* $("#dadesPro").html(
-									'<strong>' + ui.item.label + '</strong><br/>' 
-											+ ui.item.cif + '<br/>' 
-											+ ui.item.direccion + '<br/>' 
-											+ ui.item.value); */
-						}
-					});
-		});
-	</script>
+	</div> <!-- container --> 
+	<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	 -->
+	<th:block th:include="/common/footer-js :: footer-js"/>
+	<script type="text/javascript" th:src="@{/js/factura.js}"></script>
+	
+	
 </body>
 </html>

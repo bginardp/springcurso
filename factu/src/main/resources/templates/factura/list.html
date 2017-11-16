@@ -4,92 +4,101 @@
 <body>
 <th:block th:include="/common/header :: header"/>
 <div class="container">
-<h2 th:text="#{facturas.list.titol}">Lista de facturas</h2>
-		<div class="row">
-			<div class="col-md-6 col-md-offset-2">
-				<form id="frm" th:action="@{'/facturas'}">
-					<input  type="hidden" 
-							id="page"
-							name="page" 
-							th:value="${facturas.number}"/>
-					<div class="input-group">
-				      <input type="text" 
-				      		 name="term" 
-				      		 th:value="${term}" class="form-control" placeholder="Buscar por..." autofocus="autofocus"/>
-				     		 <span class="input-group-btn">
-				       		 <button class="btn btn-default" type="submit">Go!</button>
-				      </span>
-				    </div><!-- /input-group -->
-				
-					<hr/>
-				
-					<div class="media" th:each="factura:${facturas}">
-					  <div class="media-left">
-					    <a th:href="@{'factura/'+${factura.id}}">
-					      <span th:utext="${factura.cif}"></span>
-					    </a>
-					  </div>
-					  <div class="media-body">
-					    <h4 class="media-heading" th:text="${factura.nom}"></h4>
-					    <div class="text-muted">
-					    	<span th:text="${factura.direccion}"></span>
-					    	<span th:text="${factura.municipio}"></span>
-					    </div>
-					    <div class="text-info">
-					    	<span th:text="${factura.postal}"></span>
-					    	<span th:text="${factura.provincia}"></span>
-					     </div>
-					     <div class="text-info">
-					    	<span th:text="${factura.tel}"></span>
-					    	<span th:text="${factura.movil}"></span>
-					    	<span th:text="${factura.email}"></span>
-					     </div>
-					  </div>
-					</div><!-- fin foreach -->
-					<div  th:if="${facturas.totalPages==0}"
-						 class="alert alert-warning">
-						 No se han encontrado resultados
-						 <a th:href="@{/factura/new}" class="btn">Nuevo</a>
-					</div>
-					<!-- paginado -->
-					<nav aria-label="Page navigation"
-						 th:if="${facturas.totalPages>0}">
-					  <ul class="pagination">
-					    <li>
-					      <a	th:if="${(facturas.number-1)>=0}"
-					      		href="#"	
-					      		th:onclick="${'setPage('+(facturas.number-1)+')'}"> 
-					      		&lt;
-							</a>
-					    </li>
-					    <li th:each="page : ${#numbers.sequence(0,facturas.totalPages-1)}"
-					    	th:classappend="${facturas.number==page}?'active'">
-							<a 
-								href="#"	th:onclick="${'setPage('+page+')'}">
-								<span th:utext="${page+1}" ></span>
-							</a>
-						</li>
-					    <li>
-					    	<a	th:if="${facturas.number &lt; (facturas.totalPages -1)}"
-					    		href="#"
-					    		th:onclick="${'setPage('+(facturas.number+1)+')'}">  
-					    		&gt;
-							</a>
-							<a th:href="@{/factura/new}" class="btn">Nuevo</a>	
-					    </li>
-					  </ul>
-					</nav>				
-				</form>
-			</div>
-		</div> <!-- row -->
-		<th:block th:include="/common/footer :: footer"/>
-		<script type="text/javascript">
+ 	<div class="row">
+		<div class="col">
+			<form class="form-inline" id="frm" th:object="${criteris}" th:action="@{'/facturas/search'}">
+				<input  type="hidden" 
+						id="page"
+						name="page" 
+						th:value="${facturas.number}"/>
+				<label class="mr-sm-2" for="empresa">Empresa</label>
+				 
+				<select class="custom-select mb-2 mr-sm-2 mb-sm-0" th:field="*{empresaId}">
+				    <option th:each="empresa:${empresas}" th:value="${empresa.id}" th:text="${empresa.dec}">Salpon SL</option>
+				</select>
+				<label class="mr-sm-2" for="ejercicio">Ejercicio</label>
+				<select class="custom-select mb-2 mr-sm-2 mb-sm-0" th:field="*{ejercicioId}">
+				    <option th:each="ejercicio:${ejercicios}" th:value="${ejercicio.id}" th:text="${ejercicio.id}">2017</option>
+				</select>
+				<div class="input-group">
+			      <input type="text" 
+			      		 th:field="*{term}" 
+			      		 class="form-control" placeholder="Buscar por..." aria-label="Buscar por..." autofocus="autofocus"/>
+			      <span class="input-group-btn"><button class="btn btn-secondary" type="submit">Buscar!</button></span>
+			    </div><!-- /input-group -->
+				<hr/>
+				<table class="table table-sm">
+				  <caption th:text="#{facturas.list.titol}">Lista de Facturas</caption>
+				  <thead>
+				    <tr>
+				      <th scope="col">id</th>
+				      <th scope="col">Fecha</th>
+				      <th scope="col">Cif</th>
+				      <th scope="col">Serie</th>
+				      <th scope="col">Numero</th>
+				      <th scope="col">Facturado a</th>
+				      <th scope="col">Importe total</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="factura:${facturas}">
+				      <th scope="row">
+				      	<a th:href="@{'factura/'+${factura.id}}">
+						   <span th:text="${factura.id}">1</span>
+						</a>
+				      </th>
+				      <td th:text="${factura.dat}">15/07/2018</td>
+				      <td>A01234567B</td>
+				      <td th:text="${factura.serieDec}">A</td>
+				      <td th:text="${factura.numero}">001</td>
+				      <td th:text="${factura.clienteNom}">Magnolia S.L</td>
+				      <td th:text="${factura.total}">1200.60</td>
+				    </tr>
+				   
+				  </tbody>
+				</table>
+				<div  th:if="${facturas.totalPages==0}"
+					 class="alert alert-warning">
+					 No se han encontrado resultados
+					 <a th:href="@{/factura/new}" class="btn btn-primary">Nuevo</a>
+				</div>
+				<!-- paginado -->
+				<!-- <nav aria-label="Page navigation"
+					 th:if="${facturas.totalPages>0}">
+				  <ul class="pagination">
+				    <li>
+				      <a	th:if="${(facturas.number-1)>=0}"
+				      		href="#"	
+				      		th:onclick="${'setPage('+(facturas.number-1)+')'}"> 
+				      		&lt;
+						</a>
+				    </li>
+				    <li th:each="page : ${#numbers.sequence(0,facturas.totalPages-1)}"
+				    	th:classappend="${facturas.number==page}?'active'">
+						<a 
+							href="#"	th:onclick="${'setPage('+page+')'}">
+							<span th:utext="${page+1}" ></span>
+						</a>
+					</li>
+				    <li>
+				    	<a	th:if="${facturas.number &lt; (facturas.totalPages -1)}"
+				    		href="#"
+				    		th:onclick="${'setPage('+(facturas.number+1)+')'}">  
+				    		&gt;
+						</a>
+						<a th:href="@{/factura/new}" class="btn">Nuevo</a>	
+				    </li>
+				  </ul>
+				</nav>				 -->
+			</form>
+		</div>
+	</div> <!-- row -->
+</div> <!-- container -->
+<script type="text/javascript">
 			function setPage(num){
 				$("#page").val(num);
 				$("#frm").submit();
 			}
-		</script>
-</div> <!-- container -->
-
+</script>
 </body>
 </html>

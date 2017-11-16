@@ -1,5 +1,6 @@
 package es.palmademallorca.factu.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -37,7 +38,7 @@ public interface FactuService {
 	FacturaDto getFactura(Long facturaId);
 	FacLinDto getFaclin(Long faclinId);
 	TipivaDetDto getTipivaDet(Long id);
-	TipivaDetDto getTipivaDetVigent(String tipivaId);
+	TipivaDetDto getTipivaDetVigent(String tipivaId, Date data);
 	
 	void removeFormaPago(long formapagoId);
 	void removeProducto(String productoId);
@@ -55,6 +56,7 @@ public interface FactuService {
 	void saveTipiva(TipivaDto tipivaDto);
 	Long saveTipivaDet(TipivaDetDto tipivaDetDto);
 	Long saveFactura(FacturaDto facturaDto);
+	Long saveFaclin(FacLinDto faclinDto);
 	Long saveCliente(ClienteDto clienteDto);	
 	
 		
@@ -62,6 +64,7 @@ public interface FactuService {
 	public List<FacLinDto> getFaclinByFacturaId(Long facturaId);
 	public List<FacImpuestoDto> getImpuestosFactura(Long facturaId);
 	public Page<ProductoDto> getProductos(String term, Pageable pageRequest);
+	public Page<EmpresaDto> getEmpresas(String term, Pageable pageRequest);
 	public Page<FacturaDto> getFacturas(Long empresa, Long ejercicio,String term,Pageable pageRequest);
 	
 	public String init (long ejercicio, long empresaId);

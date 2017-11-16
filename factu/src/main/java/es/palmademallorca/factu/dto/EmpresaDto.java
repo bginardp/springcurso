@@ -14,17 +14,17 @@ public class EmpresaDto {
 	@Size(min=5,max=30)
 	private String dec;
 	private String dem;
+	private String nif;
 	@NotNull
 	@Size(min=5,max=80)
 	private String direccion;
-	private String fax;
 	@NotNull
 	@Size(max=80)
 	private String municipio;
-	private String nif;
 	private String provincia;
 	private String postal;
 	private String tel;
+	private String fax;
 	private String email;
 
 	public EmpresaDto() {

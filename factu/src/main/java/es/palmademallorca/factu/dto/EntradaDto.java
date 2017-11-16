@@ -1,14 +1,8 @@
 package es.palmademallorca.factu.dto;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 public class EntradaDto {
-//	@NotNull
-//	@Size(min=1,max=2099)
+
 	private Long ejercicioId;
-//	@NotNull
-//	@Size(min=1, max=10)
 	private Long empresaId;
 	private String empresaName;
 

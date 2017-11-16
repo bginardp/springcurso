@@ -32,7 +32,7 @@ public class ClienteTest {
 //
 //		}
 //
-System.out.println(ejercicio);
+System.out.println(ejercicio.getId());
 		assert(ejercicio!=null);
 
 

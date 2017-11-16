@@ -1,10 +1,14 @@
 package es.palmademallorca.factu.controller;
 
+import java.util.ArrayList;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -14,9 +18,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import es.palmademallorca.factu.beans.UserSession;
+import es.palmademallorca.factu.dto.CriteriosFacturasDto;
 import es.palmademallorca.factu.dto.FacLinDto;
 import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.service.FactuService;
@@ -37,26 +40,37 @@ public class FacturasController {
 	}
 
 	@RequestMapping(value = "/facturas", method = RequestMethod.GET)
-	public String listFacturas(HttpSession session, Model model, 
-			@PageableDefault(size = 10) Pageable pageRequest,
-			@RequestParam(value = "empresa", required = true) Long empresa,
-			@RequestParam(value = "ejercicio", required = true) Long ejercicio,
-			@RequestParam(value = "term", required = false) String term) {
-		// begin
-		UserSession userSession = (UserSession) session.getAttribute("user");
-		if (userSession == null) {
-			model.addAttribute("msgErr",
-					"Es necesario seleccionar una empresa y ejercicio para poder ver las facturas");
-			return null;
+	public String listFacturas(Model model, @PageableDefault(size = 10) Pageable pageRequest) {
+		CriteriosFacturasDto criteris = new CriteriosFacturasDto();
+		Page<FacturaDto> facturas=new PageImpl<>(new ArrayList<FacturaDto>(), pageRequest,0);
+		model.addAttribute("facturas", facturas);
+		model.addAttribute("criteris", criteris);
+		 return gotoFacturasList(model);
+			
+	}
+	
+	private String gotoFacturasList(Model model) {
+		model.addAttribute("empresas", factuService.findAllEmpresas());
+		model.addAttribute("ejercicios", factuService.findAllEjercicios());
+	return "factura/list";
+		
+	}
 
-		} else {
-			model.addAttribute("ejercicio", ejercicio);
-			model.addAttribute("empresa", empresa);
-			model.addAttribute("term", term);
-			model.addAttribute("user",userSession);
-			model.addAttribute("facturas", factuService.getFacturas(empresa, ejercicio, term, pageRequest));
-		}
-		return "factura/list";
+	@RequestMapping(value = "/facturas/search", method = RequestMethod.GET)
+	public String findFacturas(HttpSession session, Model model, 
+			@PageableDefault(size = 10) Pageable pageRequest, CriteriosFacturasDto criteris) {
+		// begin
+//		UserSession userSession = (UserSession) session.getAttribute("user");
+//		if (userSession == null) {
+//			model.addAttribute("msgErr",
+//					"Es necesario seleccionar una empresa y ejercicio para poder ver las facturas");
+//			return null;
+//
+//		} else {
+			model.addAttribute("criteris", criteris);
+			model.addAttribute("facturas", factuService.getFacturas(criteris.getEmpresaId(), criteris.getEjercicioId(), criteris.getTerm(), pageRequest));
+//	}
+		return gotoFacturasList(model);
 	}
 	
 	@RequestMapping(value = "/factura/save", method = RequestMethod.POST)
@@ -113,9 +127,9 @@ public class FacturasController {
 		if (results.hasErrors()){
 			return gotoEditLin(model, factura, faclin);
 		} else {
-			//Long faclinId=factuService.saveFactura(factura);
+			Long faclinId=factuService.saveFaclin(faclin);
 			
-			return null; //"redirect:/clientes/"+faclinId+"?msg=ok";
+			return "redirect:/clientes/"+faclinId+"?msg=ok";
 		}
 	}
 	

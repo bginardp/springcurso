@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="/common/head :: head('Facturaci&oacute;n')" />
+<body>
+<div class="container">
+     <div class="row">
+      <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+  			  <form class="form" th:object="${linfac}">
+              <div class="form-group">
+               <label for="id">identificador</label>
+               <input type="text" class="form-control form-control-sm" id="id" value="1" readonly/>
+              </div>
+     				  <div class="form-group">
+        			 <label for="cpto">concepto</label>
+        			 <input type="text" class="form-control form-control-sm" id="cpto" placeholder="servicio o producto" />
+      				</div>
+      				<div class="form-group">
+        			 <label for="desc">Descripci&oacute;n</label>
+        			 <textarea rows="3" class="form-control form-control-sm" id="desc" placeholder="descripci&oacute;n concepto"></textarea>
+      				</div> 
+              <div class="form-group">
+                <label for="tipiva">Tipo Iva</label>
+                <select class="form-control form-control-sm" id="tipiva" placeholder="Tipo Iva">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                   </select>
+              </div>
+              <div class="form-group">
+               <label for="poriva">% Iva</label>
+               <input type="text" class="form-control form-control-sm" id="poriva" placeholder="precio" />
+              </div>
+              <div class="row">
+                 <div class="col">
+        				   <label for="qtt">Cantidad</label>
+          			   <input type="number" class="form-control form-control-sm" id="qtt" placeholder="cantidad" />
+        				 </div>
+        				<div class="col">
+                 <label for="pvp">Precio</label>
+          			 <input type="number" class="form-control form-control-sm" id="pvp" placeholder="precio" />
+        				</div>
+        				<div class="col">
+                 <label for="imp">Importe</label>
+          			 <input type="number" class="form-control form-control-sm" id="pvp" placeholder="cantidad" />
+        				</div>
+              </div>
+              <br/>
+      			    <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-primary">Cancelar</button>
+              
+  	        </form>
+         </div>
+         <div class="col-sm-3"></div>
+     </div>
+</div>
+</body>
+</html>

@@ -4,13 +4,13 @@
 
 <body>
      <th:block th:include="/common/header :: header"/>
-     <th:block th:include="/common/entrada :: modal"/>
+     <!-- <th:block th:include="/common/entrada :: modal"/> -->
      <div class="container">
          <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
         <h2 th:utext="#{index.titol}">Entrada en el sistema de facturaci&oacute;n</h2>
         <p th:if="${session.user!=null}" th:text="#{index.selempresa(${session.user.empresaName},${session.user.ejercicioId})}">Has seleccionado facturar con la empresa xxxxxxx y el ejercicio xxxx</p>
-        <p>Alta de productos, alta de clientes, Gestión de facturas </p>
+        <p class="lead">Alta de productos, alta de clientes, Gesti&oacute;n de facturas </p>
         <a th:href="@{/factura/new}" class="btn btn-primary">Nueva factura</a>
       </div>
       <th:block th:include="/common/footer :: footer"/>

@@ -1,6 +1,8 @@
 package es.palmademallorca.factu.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -300,6 +302,15 @@ public class FactuServiceImpl implements FactuService {
 		return factura.getId();
 	}
 
+	
+	@Override
+	public Long saveFaclin(FacLinDto faclinDto) {
+		// TODO Auto-generated method stub
+		Facturalin faclin=new Facturalin(faclinDto);
+		factuDao.saveFacturalin(faclin);
+		return null;
+	}
+
 	@Override
 	public Page<ClienteDto> getClientes(String term, Pageable pageRequest) {
 		Page<Cliente> page = factuDao.findClientesByTerm(term, pageRequest);
@@ -316,6 +327,16 @@ public class FactuServiceImpl implements FactuService {
 		List<ProductoDto> content = new ArrayList<>();
 		for (Producto producto : page){
 			content.add(new ProductoDto(producto));
+		}
+		return new PageImpl<>(content, pageRequest, page.getTotalElements());
+	}
+	
+	@Override
+	public Page<EmpresaDto> getEmpresas(String term, Pageable pageRequest) {
+		Page<Empresa> page = factuDao.findEmpresasByTerm(term, pageRequest);
+		List<EmpresaDto> content = new ArrayList<>();
+		for (Empresa e : page){
+			content.add(new EmpresaDto(e));
 		}
 		return new PageImpl<>(content, pageRequest, page.getTotalElements());
 	}
@@ -353,9 +374,32 @@ public class FactuServiceImpl implements FactuService {
 
 
 	@Override
-	public TipivaDetDto getTipivaDetVigent(String tipivaId) {
-		// TODO Auto-generated method stub
-		return null;
+	public TipivaDetDto getTipivaDetVigent(String tipivaId, Date data) {
+		TipivaDetDto vRet=null;
+		TipivaDet aux=null;
+		if (data==null) {
+			data=new Date(System.currentTimeMillis());
+			
+		}
+		List<TipivaDet> llista = factuDao.findAllTipivaDetByTipivaId(tipivaId);
+		if (!llista.isEmpty()) {
+			Calendar cal = Calendar.getInstance();
+		    cal.setTime(data);
+		    int year = cal.get(Calendar.YEAR);
+		    int month = cal.get(Calendar.MONTH);
+		    int day = cal.get(Calendar.DAY_OF_MONTH);
+			for (TipivaDet tipivaDet : llista) {
+				if (tipivaDet.getAnyo().intValue()<=year) {
+					if (tipivaDet.getMes().intValue()<=month) {
+						aux=tipivaDet;
+					}
+				}
+			}
+		}
+		if (aux!=null) {
+			vRet=new TipivaDetDto(aux);
+		}
+		return vRet;
 	}
 
 	@Override
@@ -365,17 +409,6 @@ public class FactuServiceImpl implements FactuService {
 		return lindto;
 	}
 
-	
-
-	
-	
-
-	
-	
-	
-
-	
-	
 	
 
 }

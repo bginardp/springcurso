@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.palmademallorca.factu.dto.ClienteDto;
+import es.palmademallorca.factu.dto.EmpresaDto;
 import es.palmademallorca.factu.dto.ProductoDto;
 import es.palmademallorca.factu.dto.ajax.ClienteAjaxDto;
+import es.palmademallorca.factu.dto.ajax.EmpresaAjaxDto;
 import es.palmademallorca.factu.dto.ajax.ProductoAjaxDto;
 import es.palmademallorca.factu.service.FactuService;
 
@@ -34,13 +36,24 @@ public class AjaxController {
 		return result;
 	}
 	
-	@RequestMapping("/ajax/productos")
+	@RequestMapping("/productos")
 	public List<ProductoAjaxDto> productos(@RequestParam("term") String term) {
 		Page<ProductoDto> productos = factuService.getProductos(term, new PageRequest(0, 5));
 		List<ProductoAjaxDto> result = new ArrayList<>();
 		productos.getContent()
 				.forEach(c -> result.add(new ProductoAjaxDto(c.getDem(), c.getId().toString(), c.getDem(),
-						c.getPvp(),c.getTipivaId(), c.getTipivaDem())));
+						c.getPvp(),c.getTipivaId(), c.getTipivaDem(),c.getTipivaPoriva())));
+		return result;
+	}
+	
+	@RequestMapping("/empresas")
+	public List<EmpresaAjaxDto> empresas(@RequestParam("term") String term) {
+		Page<EmpresaDto> empresas = factuService.getEmpresas(term, new PageRequest(0, 5));
+		List<EmpresaAjaxDto> result = new ArrayList<>();
+		empresas.getContent()
+				.forEach(c -> result.add(new EmpresaAjaxDto(c.getDec(), c.getId().toString(), c.getDem(),
+						c.getNif(),	c.getDireccion(), c.getMunicipio(), c.getProvincia(), c.getPostal(), 
+						c.getTel(), c.getFax(),	c.getEmail())));
 		return result;
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import com.querydsl.jpa.impl.JPAQuery;
 
-import es.palmademallorca.factu.dto.EmpresaDto;
 import es.palmademallorca.factu.jpa.ClienteRepository;
 import es.palmademallorca.factu.jpa.EjercicioRepository;
 import es.palmademallorca.factu.jpa.EmpresaRepository;
@@ -36,6 +36,7 @@ import es.palmademallorca.factu.model.Facturalin;
 import es.palmademallorca.factu.model.Formapago;
 import es.palmademallorca.factu.model.Producto;
 import es.palmademallorca.factu.model.QCliente;
+import es.palmademallorca.factu.model.QEmpresa;
 import es.palmademallorca.factu.model.QFactura;
 import es.palmademallorca.factu.model.QFacturalin;
 import es.palmademallorca.factu.model.QProducto;
@@ -96,6 +97,32 @@ public class FactuDao {
 		List<Cliente> list = query.fetch();
 		Long total = query.fetchCount();
 		PageImpl<Cliente> result = new PageImpl<>(list, pageRequest, total);
+		return result;
+	}
+	
+	public Page<Empresa> findEmpresasByTerm(String term, Pageable pageRequest) {
+		// 1ª opción -> nombre de método complejo en el repositorio -> no
+		// 2ª opción -> HQL -> consulta dentro de un string, no se compila!
+		// List<Article> arts = entityManager.createQuery("from Articles where
+		// ....");
+		// 3ª opción -> QueryDSL -> permite que el compilador nos ayude a
+		// escribir HQL.
+		QEmpresa empresa = QEmpresa.empresa;
+		// creación de consulta
+		JPAQuery<Empresa> query = new JPAQuery<>(entityManager);
+		query.from(empresa);
+		if (term != null) {
+			query.where(empresa.dem.likeIgnoreCase("%" + term + "%").or(empresa.nif.likeIgnoreCase("%" + term + "%")));
+		}
+		query.orderBy(empresa.dem.asc());
+		// gestión de paginado
+		long offset = pageRequest.getPageSize() * pageRequest.getPageNumber();
+		query.limit(pageRequest.getPageSize());
+		query.offset(offset);
+		// preparación de resultado
+		List<Empresa> list = query.fetch();
+		Long total = query.fetchCount();
+		PageImpl<Empresa> result = new PageImpl<>(list, pageRequest, total);
 		return result;
 	}
 
@@ -171,6 +198,11 @@ public class FactuDao {
 		return convertItToList(tipivadet);
 	}
 
+	public List<TipivaDet> findAllTipivaDetByTipivaId(String tipivaId) {
+		Iterable<TipivaDet> tipivadet = tipivadetRepository.findByTipivaIdOrderByAnyoAscMesAsc(tipivaId);
+		return convertItToList(tipivadet);
+	}
+	
 	public Page<Factura> findFacturasByTerm(Long empresa, Long ejercicio, String term, Pageable pageRequest) {
 		// 1ª opción -> nombre de método complejo en el repositorio -> no
 		// 2ª opción -> HQL -> consulta dentro de un string, no se compila!
@@ -182,14 +214,10 @@ public class FactuDao {
 		// creación de consulta
 		JPAQuery<Factura> query = new JPAQuery<>(entityManager);
 		query.from(factura);
-		if (term != null) {
-			query.where(factura.ejercicioId.eq(ejercicio).and(factura.empresaId.eq(empresa)));
-
-			// query.where(factura..nom.likeIgnoreCase("%" + term + "%")
-			// .or(factura.cif.likeIgnoreCase("%" + term + "%")));
-		} else {
-			query.where(factura.ejercicioId.eq(ejercicio).and(factura.empresaId.eq(empresa)));
-		}
+		query.where(factura.ejercicioId.eq(ejercicio).and(factura.empresaId.eq(empresa)));
+		if (StringUtils.isNotBlank(term)) {
+			query.where(factura.cliente.nom.containsIgnoreCase(term).or(factura.cliente.cif.contains(term)));
+		} 
 		query.orderBy(factura.id.asc());
 		// gestión de paginado
 		long offset = pageRequest.getPageSize() * pageRequest.getPageNumber();
@@ -250,14 +278,7 @@ public class FactuDao {
 		}
 	}
 
-	private <T> List<T> convertItToList(Iterable<T> labels) {
-		List<T> result = new ArrayList<>();
-		for (T label : labels) {
-			result.add(label);
-		}
-		return result;
-	}
-
+	
 	public void saveFacturalin(Facturalin faclin) {
 		faclinRepository.save(faclin);
 
@@ -392,4 +413,13 @@ public class FactuDao {
 		
 	}
 
+	private <T> List<T> convertItToList(Iterable<T> labels) {
+		List<T> result = new ArrayList<>();
+		for (T label : labels) {
+			result.add(label);
+		}
+		return result;
+	}
+
+	
 }
