@@ -11,6 +11,10 @@ import es.palmademallorca.factu.dto.ItemDto;
  * @author BERNAT1
  *
  */
+/**
+ * @author BERNAT1
+ *
+ */
 public class ClienteAjaxDto extends ItemDto {
 	private String cif;
 	private String direccion;
@@ -98,6 +102,15 @@ public class ClienteAjaxDto extends ItemDto {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	@Override
+	public String toString() {
+		return "ClienteAjaxDto [cif=" + cif + ", direccion=" + direccion + ", municipio=" + municipio + ", provincia="
+				+ provincia + ", postal=" + postal + ", tel=" + tel + ", movil=" + movil + ", email=" + email
+				+ ", getLabel()=" + getLabel() + ", getValue()=" + getValue() + "]";
+	}
+
+	
 
 	
 }

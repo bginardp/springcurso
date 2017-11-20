@@ -48,7 +48,7 @@ public class AjaxTest {
 	
 	@Test
 	public void testClientes() {
-		String term="234";
+		String term="AJ";
 		Page<ClienteDto> clientes = factuService.getClientes(term, new PageRequest(0, 5));
         List<ClienteAjaxDto> result = new ArrayList<>();
 		clientes.getContent()

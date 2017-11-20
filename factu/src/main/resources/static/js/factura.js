@@ -4,55 +4,53 @@ var app={
   },
 
   iniciControls: function(){
-//	  $("#empresa").autocomplete({
-//			source: '/ajax/search',
-//			select: function( event, ui ) {
-//				 var value = ui.item.value;
-//				 var id = ui.item.id;
-//				 console.log("id:"+id + "  value:"+value);
-//			 }
-//		});
-	
+	  $("#btnAddlin").on("click", function(){
+		  $('#frmAddLin').submit();  
+	  });
 	  $("#cliente").autocomplete({
 					source : '/ajax/clientes',
+					minLength:2,
 					select : function(event, ui) {
-						var id = ui.item.value;
-						var nom = ui.item.label;
-						// $( "#divAjax" ).html( data.message+" "+data.timestamp );
 						event.preventDefault();
-						$("#clienteId").val(id);
-						$("#cliente").val(nom);
+						$("#clienteId").val(ui.item.value);
+						$("#cliente").val(ui.item.label);
 						$("#dadesCli").html(
-								'<strong>' + ui.item.label + '</strong><br/>' 
-										+ ui.item.cif + '<br/>' 
+								'<strong>' + ui.item.cif +  '</strong><br/>' 
 										+ ui.item.direccion + '<br/>' 
-										+ ui.item.value);
-					}
-				});
+										+ ui.item.postal + ' ' + ui.item.municipio + '<br/>' + ui.item.provincia				
+						);
+					},					
+				    focus: function(event, ui) {
+				        event.preventDefault();
+				        $("#cliente").val(ui.item.label);
+				    }
+		});
 		$("#empresa").autocomplete(
 				{
 					source : '/ajax/empresas',
 					select : function(event, ui) {
 						var id = ui.item.value;
 						var nom = ui.item.label;
-						// $( "#divAjax" ).html( data.message+" "+data.timestamp );
 						event.preventDefault();
-						$("#clienteId").val(id);
-						$("#cliente").val(nom);
-						$("#dadesCli").html(
-								'<strong>' + ui.item.label + '</strong><br/>' 
-										+ ui.item.cif + '<br/>' 
+						$("#empresaId").val(id);
+						$("#empresa").val(nom);
+						$("#dadesEmp").html(
+								'<strong>' + ui.item.nif + '</strong><br/>' 
 										+ ui.item.direccion + '<br/>' 
-										+ ui.item.value);
-					}
-				});
+										+ ui.item.postal + ' ' + ui.item.municipio + '<br/>' + ui.item.provincia
+						);
+					},					
+				    focus: function(event, ui) {
+				        event.preventDefault();
+				        $("#empresa").val(ui.item.label);
+				    }
+		});
 		$("#concepto").autocomplete(
 				{
 					source : '/ajax/productos',
 					select : function(event, ui) {
 						var id = ui.item.value;
 						var nom = ui.item.label;
-						// $( "#divAjax" ).html( data.message+" "+data.timestamp );
 						event.preventDefault();
 						$("#productoId").val(id);
 						$("#producto").val(nom);
@@ -61,7 +59,11 @@ var app={
 										+ ui.item.cif + '<br/>' 
 										+ ui.item.direccion + '<br/>' 
 										+ ui.item.value); */
-					}
+					},					
+				    focus: function(event, ui) {
+				        event.preventDefault();
+				        $("#producto").val(ui.item.label);
+				    }
 				});
   },
  

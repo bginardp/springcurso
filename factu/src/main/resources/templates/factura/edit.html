@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+  .ui-autocomplete-loading {
+    background: white url("img/ui-anim_basic_16x16.gif") right center no-repeat;
+  }
+  </style>
+</head>
 <th:block th:include="/common/head :: head('Facturaci&oacute;n')" />
 <body>
 	<th:block th:include="/common/header :: header" /> 
@@ -7,6 +14,7 @@
 		
 		<form th:object="${factura}" th:action="@{/factura/save}"	method="post">
 			<input type="hidden" id="clienteId" name="clienteId" value="*{clienteId}"></input>
+			<input type="hidden" id="empresaId" name="empresaId" value="*{empresaId}"></input>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="card">
@@ -14,19 +22,21 @@
 							<h3 class="card-title">Factura</h3>
 							<div class="row">
 								<div class="col-4">
-									<h5>De: <span><input class="form-control form-control-sm" id="empresa"
-												placeholder="escribir las primeras letras" type="text"/></span></h5>
+									<h5 class="mb-0">De:</h5>
+									<input class="form-control form-control-sm autocomplete" id="empresa"
+												placeholder="escribir las primeras letras" type="text"/>
 									<address id="dadesEmp">
-										<strong>Salpon S.l</strong><br /> Calle La Rambla 3 Bajos<br />
-										07001 Palma<br /> Illes Balears<br />
+										<!-- <strong>Salpon S.l</strong><br /> Calle La Rambla 3 Bajos<br />
+										07001 Palma<br /> Illes Balears<br /> -->
 									</address>
 								</div>
 								<div class="col-md-4">
-									<h5>Facturado a: <span><input class="form-control form-control-sm" id="cliente"
-												placeholder="escribir las primeras letras" type="text"/></span></h5>
+									<h5 class="mb-0">Facturado a:</h5>
+									<input class="form-control form-control-sm" id="cliente"
+												placeholder="escribir las primeras letras" type="text"/>
 									<address id="dadesCli">
-										<strong>MULCICINES PORTO PI S.L</strong><br /> Carrer
-										Ciutadella nº 26 A<br /> 07008 Palma<br /> Illes Balears<br />
+										<!-- <strong>MULCICINES PORTO PI S.L</strong><br /> Carrer
+										Ciutadella nï¿½ 26 A<br /> 07008 Palma<br /> Illes Balears<br /> -->
 									</address>
 								</div>
 								<div class="col-4">
@@ -63,12 +73,12 @@
 							      <thead>
 							        <tr class="row">
 							          <th scope="col" class="col-1">Producto</th>
-							          <th scope="col" class="col-4">Descripción</th>
+							          <th scope="col" class="col-4">DescripciÃ³n</th>
 							          <th scope="col" class="col-1">Cantidad</th>
 							          <th scope="col" class="col-1">Precio</th>
 							          <th scope="col" class="col-2">Tipo impuesto</th>
 							          <th scope="col" class="col-1">Importe</th>
-							          <th scope="col" class="col-2">Acción</th>
+							          <th scope="col" class="col-2">AcciÃ³n</th>
 							        </tr>
 							      </thead>
 							      <tbody>
@@ -86,7 +96,7 @@
 							        </tr>
 							      </tbody>
 							    </table>
-							    <button class="btn btn-primary btn-sm">Añadir</button>
+							    <button id="btnAddlin" type="button" class="btn btn-primary btn-sm">AÃ±adir</button>
 						</div>
 						<div class="card-footer">
 						    <div class="row justify-content-end">
@@ -120,6 +130,11 @@
 			<div class="row justify-content-end">
 				 <button type="submit" class="btn btn-primary">Guardar</button>
 			</div> 
+		</form>
+		<!-- formulario para borrar -->
+		<form id="frmAddLin"
+			  th:action="@{'/faclin/new'}" method="post">
+			<input type="hidden" name="id" th:value="${factura.id}"/>
 		</form>
 	</div> <!-- container --> 
 	<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
