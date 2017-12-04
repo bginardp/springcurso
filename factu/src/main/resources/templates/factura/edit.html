@@ -82,13 +82,13 @@
 							        </tr>
 							      </thead>
 							      <tbody>
-							        <tr class="row">
-							          <th scope="row" class="col-1">001</th>
-							          <td class="col-4">Doe moe lorem ipsulom dedulos</td>
-							          <td class="col-1">12.00</td>
-							          <td class="col-1">100.00</td>
-							          <td class="col-2">Reducido 7%</td>
-							          <td class="col-1">1200.00</td>
+							        <tr th:each="lin : *{detall}" class="row">
+							          <th scope="row" class="col-1" th:text="${lin.id}">001</th>
+							          <td class="col-4" th:text="${lin.dem}" contenteditable="true">Doe moe lorem ipsulom dedulos</td>
+							          <td class="col-1" th:text="${lin.cantidad}">12.00</td>
+							          <td class="col-1" th:text="${lin.preu}">100.00</td>
+							          <td class="col-2" th:text="${lin.poriva}">Reducido 7%</td>
+							          <td class="col-1" th:text="${lin.importe}">1200.00</td>
 							          <td class="col-2">
 							            <button class="btn btn-secondary btn-sm">editar</button>
 							            <button class="btn btn-secondary btn-sm">borrar</button>
