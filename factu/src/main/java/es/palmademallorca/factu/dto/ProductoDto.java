@@ -8,31 +8,30 @@ import javax.validation.constraints.Size;
 import es.palmademallorca.factu.model.Producto;
 
 public class ProductoDto {
-	// TODO afegir validacions s anivell d'atributs
+	
 	private String id;
 	@NotNull
 	@Size(min=3,max=256)
    	private String dem;
    	private BigDecimal pvp;
 	private boolean hbl;
-	private String tipivaId;
-	private String tipivaDem;
-	private BigDecimal tipivaPoriva;
-	private BigDecimal tipivaRequiv;
+	private TipivaDto tipiva;
+	private BigDecimal poriva;
+	
 	
 	public ProductoDto() {
 		this.hbl=true;
 	
 	}
-
+	//TODO obtenir el % de iva
 	public ProductoDto(Producto producto) {
-//TODO obtenir el % de iva
+
 		this.id=producto.getId();
 		this.dem=producto.getDem();
 		this.pvp=producto.getPvp();
 		this.hbl = producto.getHbl().equals("S")?true:false;
-		this.tipivaId=producto.getTipiva().getId();
-		this.tipivaDem=producto.getTipiva().getDem();
+		this.tipiva=new TipivaDto(producto.getTipiva());
+		
 	}
 	
 	public String getId() {
@@ -64,38 +63,20 @@ public class ProductoDto {
 		this.pvp = pvp;
 	}
 
-	
-	public String getTipivaId() {
-		return tipivaId;
+	public TipivaDto getTipiva() {
+		return tipiva;
 	}
 
-	public void setTipivaId(String tipivaId) {
-		this.tipivaId = tipivaId;
+	public void setTipiva(TipivaDto tipiva) {
+		this.tipiva = tipiva;
+	}
+	public BigDecimal getPoriva() {
+		return poriva;
+	}
+	public void setPoriva(BigDecimal poriva) {
+		this.poriva = poriva;
 	}
 
-	public String getTipivaDem() {
-		return tipivaDem;
-	}
-
-	public void setTipivaDem(String tipivaDem) {
-		this.tipivaDem = tipivaDem;
-	}
-
-	public BigDecimal getTipivaPoriva() {
-		return tipivaPoriva;
-	}
-
-	public void setTipivaPoriva(BigDecimal tipivaPoriva) {
-		this.tipivaPoriva = tipivaPoriva;
-	}
-
-	public BigDecimal getTipivaRequiv() {
-		return tipivaRequiv;
-	}
-
-	public void setTipivaRequiv(BigDecimal tipivaRequiv) {
-		this.tipivaRequiv = tipivaRequiv;
-	}	
 	
 	
 }

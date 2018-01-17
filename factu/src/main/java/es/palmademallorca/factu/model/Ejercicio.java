@@ -2,8 +2,6 @@ package es.palmademallorca.factu.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 
 import es.palmademallorca.factu.dto.EjercicioDto;
 
@@ -12,7 +10,6 @@ import es.palmademallorca.factu.dto.EjercicioDto;
  *
  */
 @Entity
-
 public class Ejercicio  {
 
     @Id
@@ -20,10 +17,9 @@ public class Ejercicio  {
 
     public Ejercicio() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Ejercicio(long id) {
+	public Ejercicio(Long id) {
     	this.id=id;
 	}
     

@@ -13,8 +13,17 @@
 	<div class="container">
 		
 		<form th:object="${factura}" th:action="@{/factura/save}"	method="post">
-			<input type="hidden" id="clienteId" name="clienteId" value="*{clienteId}"></input>
-			<input type="hidden" id="empresaId" name="empresaId" value="*{empresaId}"></input>
+			<input type="hidden" id="clienteId" name="cliente.id" value="*{cliente.id}"></input>
+			<input type="hidden" id="empresaId" name="empresa.id" value="*{empresa.id}"></input>
+			<!-- errors a include? -->
+			<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+		    	<ul>
+				    <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
+				        <span th:text="${e.global}? '*' : ${e.fieldName}">The field name</span> |
+				        <span th:text="${e.message}">The error message</span>
+				    </li>
+				</ul>
+			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="card">
@@ -23,21 +32,15 @@
 							<div class="row">
 								<div class="col-4">
 									<h5 class="mb-0">De:</h5>
-									<input class="form-control form-control-sm autocomplete" id="empresa"
-												placeholder="escribir las primeras letras" type="text"/>
-									<address id="dadesEmp">
-										<!-- <strong>Salpon S.l</strong><br /> Calle La Rambla 3 Bajos<br />
-										07001 Palma<br /> Illes Balears<br /> -->
-									</address>
+									<input class="form-control form-control-sm autocomplete" th:field="*{empresa.dem}" id="empresa"
+												placeholder="escribir las primeras letras" type="text" />
+									<address id="dadesEmp" th:utext="${factura.empresa.dadesEmpresa}"></address>
 								</div>
 								<div class="col-md-4">
 									<h5 class="mb-0">Facturado a:</h5>
-									<input class="form-control form-control-sm" id="cliente"
+									<input class="form-control form-control-sm"  th:field="*{cliente.nom}" id="cliente"
 												placeholder="escribir las primeras letras" type="text"/>
-									<address id="dadesCli">
-										<!-- <strong>MULCICINES PORTO PI S.L</strong><br /> Carrer
-										Ciutadella n� 26 A<br /> 07008 Palma<br /> Illes Balears<br /> -->
-									</address>
+									<address id="dadesCli" th:utext="${factura.cliente.dadesCliente}"></address>
 								</div>
 								<div class="col-4">
 									<h5 class="mb-0">Detalles:</h5>
@@ -48,7 +51,7 @@
 									    </div>
 									    <div class="col">
 								          <small class="form-text text-muted">Fecha factura</small>
-									      <input class="form-control form-control-sm" id="fecha" placeholder="fecha factura" type="date"/>
+									      <input class="form-control form-control-sm" th:field="*{dat}" placeholder="fecha factura" type="date"/>
 									    </div>
 									</div>
 									<div class="row">
@@ -69,34 +72,47 @@
 							</div> <!-- row -->
 						</div>	<!-- panel heading -->
 						<div class="card-body">
+						    <table class="table table-sm">
+						      <tbody>
+						      <tr class="row">
+						        <td scope="row" class="col-2"><input class="form-control autocomplete" type="text"  th:field="*{linea.producteId}"/></td>
+							    <td class="col-5"><input class="form-control" type="text" th:field="*{linea.dem}"/></td>
+							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.cantidad}"/></td>
+							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.preu}" /></td>
+							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.poriva}"/></td>
+							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.importe}"/></td> 
+							    <td><button id="btnAddlin" name="addRow" type="submit" class="btn btn-primary btn-sm">Añadir</button></td>
+							  </tr> 
+							   </tbody>
+							</table>
 						     <table class="table table-sm">
 							      <thead>
 							        <tr class="row">
-							          <th scope="col" class="col-1">Producto</th>
-							          <th scope="col" class="col-4">Descripción</th>
+							          <th scope="col" class="col-2">Producto</th>
+							          <th scope="col" class="col-5">Descripción</th>
 							          <th scope="col" class="col-1">Cantidad</th>
 							          <th scope="col" class="col-1">Precio</th>
-							          <th scope="col" class="col-2">Tipo impuesto</th>
+							          <th scope="col" class="col-1">% Iva</th>
 							          <th scope="col" class="col-1">Importe</th>
-							          <th scope="col" class="col-2">Acción</th>
+							          <th scope="col" class="col-1">Acción</th>
 							        </tr>
 							      </thead>
 							      <tbody>
-							        <tr th:each="lin : *{detall}" class="row">
-							          <th scope="row" class="col-1" th:text="${lin.id}">001</th>
-							          <td class="col-4" th:text="${lin.dem}" contenteditable="true">Doe moe lorem ipsulom dedulos</td>
-							          <td class="col-1" th:text="${lin.cantidad}">12.00</td>
-							          <td class="col-1" th:text="${lin.preu}">100.00</td>
-							          <td class="col-2" th:text="${lin.poriva}">Reducido 7%</td>
-							          <td class="col-1" th:text="${lin.importe}">1200.00</td>
-							          <td class="col-2">
-							            <button class="btn btn-secondary btn-sm">editar</button>
-							            <button class="btn btn-secondary btn-sm">borrar</button>
+							        <tr th:each="lin, stat : *{detall}" class="row">
+							          <td scope="row" class="col-2"><input class="form-control" type="text" id="concepto" th:field="*{detall[__${stat.index}__].producteId}" readonly="readonly"/></td>
+							          <td class="col-5"><input class="form-control" type="text" th:field="*{detall[__${stat.index}__].dem}" readonly="readonly"/></td>
+							          <td class="col-1"><input class="form-control" type="number" th:field="*{detall[__${stat.index}__].cantidad}" readonly="readonly"/></td>
+							          <td class="col-1"><input class="form-control" type="number" th:field="*{detall[__${stat.index}__].preu}" readonly="readonly"/></td>
+							          <td class="col-1"><input class="form-control" type="number" th:field="*{detall[__${stat.index}__].poriva}" readonly="readonly"/></td>
+							          <td class="col-1"><input class="form-control" type="number" th:field="*{detall[__${stat.index}__].importe}" readonly="readonly"/></td> 
+							          <td class="col-1">
+							            <button id="btnedit" class="btn btn-secondary btn-sm"></button>
+							            <button id="btndelete" class="btn btn-secondary btn-sm"></button>
 							          </td>
 							        </tr>
 							      </tbody>
 							    </table>
-							    <button id="btnAddlin" type="button" class="btn btn-primary btn-sm">Añadir</button>
+							    
 						</div>
 						<div class="card-footer">
 						    <div class="row justify-content-end">
@@ -128,14 +144,14 @@
 				</div>	<!-- col -->
 			</div> <!-- row -->
 			<div class="row justify-content-end">
-				 <button type="submit" class="btn btn-primary">Guardar</button>
+				 <button type="submit" name="save" class="btn btn-primary">Guardar</button>
 			</div> 
 		</form>
-		<!-- formulario para borrar -->
+		<!-- formulario para borrar 
 		<form id="frmAddLin"
 			  th:action="@{'/faclin/new'}" method="post">
 			<input type="hidden" name="id" th:value="${factura.id}"/>
-		</form>
+		</form> -->
 	</div> <!-- container --> 
 	<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

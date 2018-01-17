@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.palmademallorca.factu.dto.EmpresaDto;
-import es.palmademallorca.factu.service.FactuService;
+import es.palmademallorca.factu.service.AdminService;
 
 @Controller
 public class EmpresasController {
-	@Autowired 
-	FactuService factuService;
+
+	@Autowired
+	AdminService adminService;
 	
 	@ModelAttribute("page")
 	public String module() {
@@ -27,7 +28,7 @@ public class EmpresasController {
 	@RequestMapping(value="/empresas", method=RequestMethod.GET)
 	public String list(
 		Model model){
-		model.addAttribute("empresas", factuService.findAllEmpresas());
+		model.addAttribute("empresas", adminService.findAllEmpresas());
 		return "empresa/list";
 	}
 	
@@ -37,7 +38,7 @@ public class EmpresasController {
 			@PathVariable(value="id",required=false) Long empresaId){
 		EmpresaDto empresa=null;
 		if (empresaId!=null) {
-		  empresa = factuService.getEmpresa(empresaId);
+		  empresa = adminService.getEmpresa(empresaId);
 		} else {
 		  empresa = new EmpresaDto();	
 		}
@@ -57,7 +58,7 @@ public class EmpresasController {
 		if (results.hasErrors()){
 			return gotoEdit(model, empresa);
 		} else {
-			Long empresaId=factuService.saveEmpresa(empresa);
+			Long empresaId=adminService.saveEmpresa(empresa);
 			return "redirect:/empresa/"+empresaId+"?msg=ok";
 		}
 	}

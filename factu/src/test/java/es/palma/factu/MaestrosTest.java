@@ -5,31 +5,26 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import es.palmademallorca.factu.FactuApp;
-import es.palmademallorca.factu.dto.ClienteDto;
+import es.palmademallorca.factu.dto.EjercicioDto;
 import es.palmademallorca.factu.service.FactuService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = FactuApp.class)
-public class ClienteTest {
+public class MaestrosTest {
 	@Autowired
 	FactuService factuService;
-	
+
 	@Test
-	public void getClientes() {
-		System.out.println("############# inici getClientes(): ");
-		Pageable page = new PageRequest(0,10);
-		Page<ClienteDto> clientes = factuService.getClientes("43", page);
-		System.out.println("############# resultat getClientes(): "); 
-		clientes.forEach(item-> System.out.println(item.getId() + " " + item.getCif() + " " + item.getNom()));
-		assert (clientes != null);
+	public void getEjercicio() {
+		System.out.println("############# inici getEjercicio(): ");
+		EjercicioDto res = factuService.getEjercicio(2015);
+    	System.out.println("############# resultat getEjercicio(): "+ res); 
+		assert (res != null);
 	}
 
 }

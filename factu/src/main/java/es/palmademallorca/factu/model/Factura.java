@@ -44,18 +44,13 @@ public class Factura {
 	private Long empresaId;
 	@Column(name = "forpag_id")
 	private Long forpagId;
-	private BigDecimal baseirpf;
-	private BigDecimal baseiva1;
-	private BigDecimal baseiva2;
 	private BigDecimal impbru;
 	private BigDecimal pordto;
 	private BigDecimal impdto;
-	private BigDecimal porirpf;
-	private BigDecimal impirpf;
-	private BigDecimal poriva1;
-	private BigDecimal impiva1;
-	private BigDecimal poriva2;
 	private BigDecimal totfac;
+	@ManyToOne
+	@JoinColumn(name = "ejercicio_id", insertable = false, updatable = false)
+	private Ejercicio ejercicio;
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", insertable = false, updatable = false)
 	private Cliente cliente;
@@ -104,36 +99,7 @@ public class Factura {
 	}
 
 
-	public BigDecimal getBaseirpf() {
-		return baseirpf;
-	}
-
-
-	public void setBaseirpf(BigDecimal baseirpf) {
-		this.baseirpf = baseirpf;
-	}
-
-
-	public BigDecimal getBaseiva1() {
-		return baseiva1;
-	}
-
-
-	public void setBaseiva1(BigDecimal baseiva1) {
-		this.baseiva1 = baseiva1;
-	}
-
-
-	public BigDecimal getBaseiva2() {
-		return baseiva2;
-	}
-
-
-	public void setBaseiva2(BigDecimal baseiva2) {
-		this.baseiva2 = baseiva2;
-	}
-
-
+	
 	public Long getClienteId() {
 		return clienteId;
 	}
@@ -214,56 +180,6 @@ public class Factura {
 	}
 
 
-	public BigDecimal getPorirpf() {
-		return porirpf;
-	}
-
-
-	public void setPorirpf(BigDecimal porirpf) {
-		this.porirpf = porirpf;
-	}
-
-
-	public BigDecimal getImpirpf() {
-		return impirpf;
-	}
-
-
-	public void setImpirpf(BigDecimal impirpf) {
-		this.impirpf = impirpf;
-	}
-
-
-	public BigDecimal getPoriva1() {
-		return poriva1;
-	}
-
-
-	public void setPoriva1(BigDecimal poriva1) {
-		this.poriva1 = poriva1;
-	}
-
-
-	public BigDecimal getImpiva1() {
-		return impiva1;
-	}
-
-
-	public void setImpiva1(BigDecimal impiva1) {
-		this.impiva1 = impiva1;
-	}
-
-
-	public BigDecimal getPoriva2() {
-		return poriva2;
-	}
-
-
-	public void setPoriva2(BigDecimal poriva2) {
-		this.poriva2 = poriva2;
-	}
-
-
 	public String getSerieId() {
 		return serieId;
 	}
@@ -322,6 +238,18 @@ public class Factura {
 	public void setSerie(Serie serie) {
 		this.serie = serie;
 	}
+
+
+	public Ejercicio getEjercicio() {
+		return ejercicio;
+	}
+
+
+	public void setEjercicio(Ejercicio ejercicio) {
+		this.ejercicio = ejercicio;
+	}
+	
+	
 
 
 //	public List<Facturalin> getFactureslins() {

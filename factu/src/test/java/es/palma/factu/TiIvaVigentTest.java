@@ -28,6 +28,7 @@ public class TiIvaVigentTest {
 	
 	@Test
 	public void test() throws ParseException {
+		System.out.println("############# inici test(): ");
 		String tipivaId="3";  //2 o 3
 		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
 		Date fecha = df.parse("10-NOV-2017");
@@ -38,6 +39,7 @@ public class TiIvaVigentTest {
 	
 	@Test
 	public void test1() throws ParseException {
+		System.out.println("############# inici test1(): ");
 		String tipivaId="3";  //2 o 3
 		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
 		Date fecha = df.parse("10-OCT-2015");
@@ -48,6 +50,7 @@ public class TiIvaVigentTest {
 	
 	@Test
 	public void test2() throws ParseException {
+		System.out.println("############# inici test2(): ");
 		String tipivaId="3";  //2 o 3
 		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
 		Date fecha = df.parse("10-OCT-2011");
@@ -58,6 +61,7 @@ public class TiIvaVigentTest {
 	
 	@Test
 	public void test3() throws ParseException {
+		System.out.println("############# inici test3(): ");
 		String tipivaId="3";  //2 o 3
 		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
 		Date fecha = df.parse("10-OCT-2009");

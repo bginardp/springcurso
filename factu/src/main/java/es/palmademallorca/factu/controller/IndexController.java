@@ -1,8 +1,5 @@
 package es.palmademallorca.factu.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -16,15 +13,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.palmademallorca.factu.beans.UserSession;
-import es.palmademallorca.factu.dto.EjercicioDto;
-import es.palmademallorca.factu.dto.EmpresaDto;
 import es.palmademallorca.factu.dto.EntradaDto;
+import es.palmademallorca.factu.service.AdminService;
 import es.palmademallorca.factu.service.FactuService;
 
 @Controller
 public class IndexController {
 	@Autowired 
 	FactuService factuService;
+	@Autowired 
+	AdminService adminService;
 	
 	@ModelAttribute("page")
 	public String module() {
@@ -44,7 +42,7 @@ public class IndexController {
 	
 	private String gotoIndex(Model model, EntradaDto entrada) {
 		model.addAttribute("entrada", entrada);
-		model.addAttribute("empresas",factuService.findAllEmpresas());
+		model.addAttribute("empresas",adminService.findAllEmpresas());
 		model.addAttribute("ejercicios",factuService.findAllEjercicios());
 		return "index";
 	}

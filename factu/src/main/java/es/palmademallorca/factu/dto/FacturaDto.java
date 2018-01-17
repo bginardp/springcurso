@@ -1,66 +1,77 @@
 package es.palmademallorca.factu.dto;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import es.palmademallorca.factu.dto.common.ErrorsDto;
 import es.palmademallorca.factu.model.Factura;
 
-public class FacturaDto {
-	// TODO afegir validacions s anivell d'atributs
+/**
+ * @author BERNAT1
+ *
+ */
+public class FacturaDto extends ErrorsDto{
 	private Long id;
 	private Long numero;
 	@NotNull
+//	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date dat;
-	@NotNull
 	private String serieId;
 	private String serieDec;
+	private ClienteDto cliente;
 	@NotNull
-	private Long clienteId;
-	private String clienteNom;
-	@NotNull
-	private Long ejercicioId;
-	@NotNull
-	private Long empresaId;
-	private String empresaNom;
-	private Long forpagId;
-	private String forPagDem;
-	
+	private EjercicioDto ejercicio;
+	private EmpresaDto empresa;
+	private FormapagoDto forpag;
 	private List<FacLinDto> detall;
+	private List<FacturaBasesDto> bases;
+	private FacLinDto linea;
+	private BigDecimal impbru;
+	private BigDecimal pordto;
+	private BigDecimal impdto;
+	private BigDecimal totfac;
+	
 	
 	public FacturaDto() {
 	
 	}
-	public FacturaDto(Long id, Long numero, Date dat, String serieId, String serieDec, Long clienteId,
-			String clienteNom, Long ejercicioId, Long empresaId, String empresaNom, Long forpagId, String forPagDem) {
-		this.id = id;
-		this.numero = numero;
-		this.dat = dat;
-		this.serieId = serieId;
-		this.serieDec = serieDec;
-		this.clienteId = clienteId;
-		this.clienteNom = clienteNom;
-		this.ejercicioId = ejercicioId;
-		this.empresaId = empresaId;
-		this.empresaNom = empresaNom;
-		this.forpagId = forpagId;
-		this.forPagDem = forPagDem;
-	}
+//	public FacturaDto(Long id, Long numero, Date dat, String serieId, String serieDec, Long clienteId,
+//			String clienteNom, Long ejercicioId, Long empresaId, String empresaNom, Long forpagId, String forPagDem) {
+//		this.id = id;
+//		this.numero = numero;
+//		this.dat = dat;
+//		this.serieId = serieId;
+//		this.serieDec = serieDec;
+//		this.clienteId = clienteId;
+//		this.clienteNom = clienteNom;
+//		this.ejercicioId = ejercicioId;
+//		this.empresaId = empresaId;
+//		this.empresaNom = empresaNom;
+//		this.forpagId = forpagId;
+//		this.forPagDem = forPagDem;
+//	}
 	public FacturaDto(Factura factura) {
 		this.id = factura.getId();
 		this.numero = factura.getNumero();
 		this.dat = factura.getDat();
 		this.serieId = factura.getSerieId();
 		this.serieDec = factura.getSerie().getDec();
-		this.clienteId = factura.getClienteId();
-		this.clienteNom = factura.getCliente().getNom();
-		this.ejercicioId = factura.getEjercicioId();
-		this.empresaId = factura.getEmpresaId();
-		this.empresaNom = factura.getEmpresa().getDec();
-		this.forpagId = factura.getForpagId();
-		this.forPagDem = factura.getFormaspago().getDem();
+		this.cliente=new ClienteDto(factura.getCliente());
+		this.empresa=new EmpresaDto(factura.getEmpresa());
+		this.ejercicio = new EjercicioDto(factura.getEjercicio());
+		this.forpag = new FormapagoDto(factura.getFormaspago());
+		this.impbru=factura.getImpbru();
+		this.pordto=factura.getPordto();
+		this.impdto=factura.getImpdto();
+		this.totfac=factura.getTotfac();
+		this.bases=null; //TODO 
+ 		
 	}
 	public Long getId() {
 		return id;
@@ -92,47 +103,29 @@ public class FacturaDto {
 	public void setSerieDec(String serieDec) {
 		this.serieDec = serieDec;
 	}
-	public Long getClienteId() {
-		return clienteId;
+	public ClienteDto getCliente() {
+		return cliente;
 	}
-	public void setClienteId(Long clienteId) {
-		this.clienteId = clienteId;
+	public void setCliente(ClienteDto cliente) {
+		this.cliente = cliente;
 	}
-	public String getClienteNom() {
-		return clienteNom;
+	public EjercicioDto getEjercicio() {
+		return ejercicio;
 	}
-	public void setClienteNom(String clienteNom) {
-		this.clienteNom = clienteNom;
+	public void setEjercicio(EjercicioDto ejercicio) {
+		this.ejercicio = ejercicio;
 	}
-	public Long getEjercicioId() {
-		return ejercicioId;
+	public EmpresaDto getEmpresa() {
+		return empresa;
 	}
-	public void setEjercicioId(Long ejercicioId) {
-		this.ejercicioId = ejercicioId;
+	public void setEmpresa(EmpresaDto empresa) {
+		this.empresa = empresa;
 	}
-	public Long getEmpresaId() {
-		return empresaId;
+	public FormapagoDto getForpag() {
+		return forpag;
 	}
-	public void setEmpresaId(Long empresaId) {
-		this.empresaId = empresaId;
-	}
-	public String getEmpresaNom() {
-		return empresaNom;
-	}
-	public void setEmpresaNom(String empresaNom) {
-		this.empresaNom = empresaNom;
-	}
-	public Long getForpagId() {
-		return forpagId;
-	}
-	public void setForpagId(Long forpagId) {
-		this.forpagId = forpagId;
-	}
-	public String getForPagDem() {
-		return forPagDem;
-	}
-	public void setForPagDem(String forPagDem) {
-		this.forPagDem = forPagDem;
+	public void setForpag(FormapagoDto forpag) {
+		this.forpag = forpag;
 	}
 	public List<FacLinDto> getDetall() {
 		return detall;
@@ -140,5 +133,54 @@ public class FacturaDto {
 	public void setDetall(List<FacLinDto> detall) {
 		this.detall = detall;
 	}
+	public List<FacturaBasesDto> getBases() {
+		return bases;
+	}
+	public void setBases(List<FacturaBasesDto> bases) {
+		this.bases = bases;
+	}
+	public FacLinDto getLinea() {
+		return linea;
+	}
+	public void setLinea(FacLinDto linea) {
+		this.linea = linea;
+	}
+	public BigDecimal getImpbru() {
+		return impbru;
+	}
+	public void setImpbru(BigDecimal impbru) {
+		this.impbru = impbru;
+	}
+	public BigDecimal getPordto() {
+		return pordto;
+	}
+	public void setPordto(BigDecimal pordto) {
+		this.pordto = pordto;
+	}
+	public BigDecimal getImpdto() {
+		return impdto;
+	}
+	public void setImpdto(BigDecimal impdto) {
+		this.impdto = impdto;
+	}
+	public BigDecimal getTotfac() {
+		return totfac;
+	}
+	public void setTotfac(BigDecimal totfac) {
+		this.totfac = totfac;
+	}
+	@Override
+	public String toString() {
+		return "FacturaDto [id=" + id + ", numero=" + numero + ", dat=" + dat + ", serieId=" + serieId + ", serieDec="
+				+ serieDec + ", cliente=" + cliente + ", ejercicio=" + ejercicio + ", empresa=" + empresa + ", forpag="
+				+ forpag + ", detall=" + detall + ", bases=" + bases + ", linea=" + linea + ", impbru=" + impbru
+				+ ", pordto=" + pordto + ", impdto=" + impdto + ", totfac=" + totfac + "]";
+	}
+			  
+	
+	
+	
+	
+	
 
 }

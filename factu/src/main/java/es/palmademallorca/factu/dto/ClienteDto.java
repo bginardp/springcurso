@@ -29,7 +29,7 @@ public class ClienteDto {
 	private String ctecon;
 	private Long forpagId;
 	private String forpagDem;
-
+	private String dadesCliente;
 	public ClienteDto(){
 		
 	}
@@ -137,7 +137,12 @@ public class ClienteDto {
 		this.forpagDem = forpagDem;
 	}
 
-		
+	public String getDadesCliente() {
+		StringBuilder sb = new StringBuilder().append("<strong>").append(nom).append("</strong><br />").
+				append(direccion).append("<br />").append(postal).append(" ").append(municipio).append("<br />").
+				append("Illes Balears").append("<br />");
+		return sb.toString();
+	}
 	
 	
 	

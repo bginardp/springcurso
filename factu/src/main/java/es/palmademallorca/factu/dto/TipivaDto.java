@@ -17,8 +17,10 @@ public class TipivaDto {
 	}
 
 	public TipivaDto(Tipiva tipiva) {
-		this.id=tipiva.getId();
-		this.dem=tipiva.getDem();
+		if (tipiva !=null) {
+		  this.id=tipiva.getId();
+		  this.dem=tipiva.getDem();
+		}
 	}
 
 	public String getId() {

@@ -27,6 +27,7 @@ public class TestInDateRange {
     
     @Test
     public void testDateRange() {
+    	System.out.println("############# inici testDateRange(): ");
         SomeBean test = new SomeBean();
         LocalDate localDate = LocalDate.now();
         test.setDate(Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));

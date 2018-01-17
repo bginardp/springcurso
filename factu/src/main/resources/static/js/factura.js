@@ -45,15 +45,15 @@ var app={
 				        $("#empresa").val(ui.item.label);
 				    }
 		});
-		$("#concepto").autocomplete(
+		$("#linea\\.producteId").autocomplete(
 				{
 					source : '/ajax/productos',
 					select : function(event, ui) {
 						var id = ui.item.value;
 						var nom = ui.item.label;
 						event.preventDefault();
-						$("#productoId").val(id);
-						$("#producto").val(nom);
+						$("#linea\\.producteId").val(id);
+						$("#linea\\.dem").val(nom);
 						/* $("#dadesPro").html(
 								'<strong>' + ui.item.label + '</strong><br/>' 
 										+ ui.item.cif + '<br/>' 

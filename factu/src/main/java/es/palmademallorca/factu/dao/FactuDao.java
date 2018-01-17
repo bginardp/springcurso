@@ -421,5 +421,9 @@ public class FactuDao {
 		return result;
 	}
 
+	public Ejercicio getDefaultEjercicio() {
+		return ejercicioRepository.findFirstByOrderByIdDesc();
+	}
+
 	
 }

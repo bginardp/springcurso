@@ -16,6 +16,7 @@ import es.palmademallorca.factu.dto.ProductoDto;
 import es.palmademallorca.factu.dto.ajax.ClienteAjaxDto;
 import es.palmademallorca.factu.dto.ajax.EmpresaAjaxDto;
 import es.palmademallorca.factu.dto.ajax.ProductoAjaxDto;
+import es.palmademallorca.factu.service.AdminService;
 import es.palmademallorca.factu.service.FactuService;
 
 @RestController
@@ -24,6 +25,8 @@ public class AjaxController {
 
 	@Autowired
 	FactuService factuService;
+	@Autowired
+	AdminService adminService;
 
 	@RequestMapping("/clientes")
 	public List<ClienteAjaxDto> clientes(@RequestParam("term") String term) {
@@ -42,13 +45,13 @@ public class AjaxController {
 		List<ProductoAjaxDto> result = new ArrayList<>();
 		productos.getContent()
 				.forEach(c -> result.add(new ProductoAjaxDto(c.getDem(), c.getId().toString(), c.getDem(),
-						c.getPvp(),c.getTipivaId(), c.getTipivaDem(),c.getTipivaPoriva())));
+						c.getPvp(),c.getTipiva().getId(), c.getTipiva().getDem(),c.getPoriva())));
 		return result;
 	}
 	
 	@RequestMapping("/empresas")
 	public List<EmpresaAjaxDto> empresas(@RequestParam("term") String term) {
-		Page<EmpresaDto> empresas = factuService.getEmpresas(term, new PageRequest(0, 5));
+		Page<EmpresaDto> empresas = adminService.getEmpresas(term, new PageRequest(0, 5));
 		List<EmpresaAjaxDto> result = new ArrayList<>();
 		empresas.getContent()
 				.forEach(c -> result.add(new EmpresaAjaxDto(c.getDec(), c.getId().toString(), c.getDem(),

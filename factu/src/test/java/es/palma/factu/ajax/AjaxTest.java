@@ -22,6 +22,7 @@ import es.palmademallorca.factu.dto.ProductoDto;
 import es.palmademallorca.factu.dto.ajax.ClienteAjaxDto;
 import es.palmademallorca.factu.dto.ajax.EmpresaAjaxDto;
 import es.palmademallorca.factu.dto.ajax.ProductoAjaxDto;
+import es.palmademallorca.factu.service.AdminService;
 import es.palmademallorca.factu.service.FactuService;
 
 
@@ -31,11 +32,13 @@ import es.palmademallorca.factu.service.FactuService;
 public class AjaxTest {
 	@Autowired
 	FactuService factuService;
+	@Autowired
+	AdminService adminService;
 	
 	@Test
 	public void testEmpresas() {
 		String term="234";
-		Page<EmpresaDto> empresas = factuService.getEmpresas(term, new PageRequest(0, 5));
+		Page<EmpresaDto> empresas = adminService.getEmpresas(term, new PageRequest(0, 5));
         List<EmpresaAjaxDto> result = new ArrayList<>();
 		empresas.getContent()
 				.forEach(c -> result.add(new EmpresaAjaxDto(c.getDec(), c.getId().toString(), c.getDem(),
@@ -66,7 +69,7 @@ public class AjaxTest {
 		Page<ProductoDto> productos = factuService.getProductos(term, new PageRequest(0, 5));
         List<ProductoAjaxDto> result = new ArrayList<>();
         productos.getContent()
-				.forEach(c -> result.add(new ProductoAjaxDto(c.getDem(),c.getId(), c.getDem(),c.getPvp(),c.getTipivaId(),c.getTipivaDem(),c.getTipivaPoriva())));
+				.forEach(c -> result.add(new ProductoAjaxDto(c.getDem(),c.getId(), c.getDem(),c.getPvp(),c.getTipiva().getId(),c.getTipiva().getDem(),c.getPoriva())));
 
 		result.forEach(e -> System.out.println("####  "+e));
 		assertNotNull(productos);

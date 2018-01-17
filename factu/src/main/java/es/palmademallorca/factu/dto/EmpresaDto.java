@@ -26,7 +26,7 @@ public class EmpresaDto {
 	private String tel;
 	private String fax;
 	private String email;
-
+	private String dadesEmpresa;
 	public EmpresaDto() {
 	
 	}
@@ -45,7 +45,6 @@ public class EmpresaDto {
 		this.postal=empresa.getPostal();
 	}
 
-	
 	
 	public EmpresaDto(Long id, String dec, String dem, String direccion, String fax, String municipio, String nif,
 			String provincia, String postal, String tel, String email) {
@@ -151,6 +150,12 @@ public class EmpresaDto {
 		this.postal = postal;
 	}
 	
-	
-	
+	public String getDadesEmpresa() {
+		StringBuilder sb = new StringBuilder().append("<strong>").append(dec).append("</strong><br />").
+				append(direccion).append("<br />").append(postal).append(" ").append(municipio).append("<br />").
+				append("Illes Balears").append("<br />");
+		return sb.toString();
+	}
+
+		
 }
