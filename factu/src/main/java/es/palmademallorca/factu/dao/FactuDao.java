@@ -89,8 +89,12 @@ public class FactuDao {
 			Formapago fp = new Formapago("transferencia", "S");
 			formapagoRepository.save(fp);
 			fp = new Formapago("talon", "S");
-		    Cliente cliente=new Cliente("A12345678", "ZARDOYA S.A", "POLIGOCO CAN VALERO NAVE 34", "PALMA", "ILLES BALEARS", "08002",
+			formapagoRepository.save(fp);
+		    Cliente cliente=new Cliente("432345678", "ZARDOYA S.A", "POLIGOCO CAN VALERO NAVE 34", "PALMA", "ILLES BALEARS", "08002",
 					"917234123", "616232323", "zardoya@company.com", null, 1L);
+		    clienteRepository.save(cliente);
+		    cliente=new Cliente("A02345678", "LICOR 43 S.A", "POLIGOCO SON ROSSINYOL 23", "PALMA", "ILLES BALEARS", "02002",
+					"937234123", "618232323", "licor43@company.com", null, 1L);
 		    clienteRepository.save(cliente);
 		    Tipiva tipiva = new Tipiva("1","ordinario");
 		    tipivaRepository.save(tipiva);
