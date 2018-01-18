@@ -24,6 +24,16 @@ public class Formapago {
 
 	public Formapago() {
 	}
+	
+	
+
+	public Formapago(String dem, String hbl) {
+		super();
+		this.dem = dem;
+		this.hbl = hbl;
+	}
+
+
 
 	public Formapago(FormapagoDto formapagoDto) {
 		this.id = formapagoDto.getId();

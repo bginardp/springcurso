@@ -38,6 +38,19 @@ public class TipivaDet {
 
 	public TipivaDet() {
 	}
+	
+	
+
+	public TipivaDet(Tipiva tipiva, Long anyo, Long mes, BigDecimal poriva, BigDecimal requiv) {
+		super();
+		this.tipiva = tipiva;
+		this.anyo = anyo;
+		this.mes = mes;
+		this.poriva = poriva;
+		this.requiv = requiv;
+	}
+
+
 
 	public TipivaDet(TipivaDetDto tipivadetDto) {
 		this.id=tipivadetDto.getId();

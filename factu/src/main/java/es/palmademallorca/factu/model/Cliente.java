@@ -47,6 +47,27 @@ public class Cliente  {
 		super();
 	}
 
+	
+	
+	public Cliente( String cif, String nom, String direccion, String municipio, String provincia, String postal,
+			String tel, String movil, String email, String ctecon, Long forpagId) {
+		super();
+		this.cif = cif;
+		this.nom = nom;
+		this.direccion = direccion;
+		this.municipio = municipio;
+		this.provincia = provincia;
+		this.postal = postal;
+		this.tel = tel;
+		this.movil = movil;
+		this.email = email;
+		this.ctecon = ctecon;
+		this.forpagId = forpagId;
+		this.formaspago = formaspago;
+	}
+
+
+
 	public Cliente(ClienteDto cliente) {
 		this.id=cliente.getId();
 		this.cif=cliente.getCif();

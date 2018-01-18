@@ -30,6 +30,18 @@ public class Producto {
 	public Producto() {
 	}
 
+	
+
+	public Producto(String id, String dem, BigDecimal pvp, String hbl, Tipiva tipiva) {
+		super();
+		this.id = id;
+		this.dem = dem;
+		this.pvp = pvp;
+		this.hbl = hbl;
+		this.tipiva = tipiva;
+	}
+
+
 
 	public Producto(ProductoDto productoDto) {
 		this.id=productoDto.getId();

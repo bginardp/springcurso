@@ -1,5 +1,6 @@
 package es.palmademallorca.factu.dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -68,10 +71,45 @@ public class FactuDao {
 	private TipivadetRepository tipivadetRepository;
 	@Autowired
 	private EntityManager entityManager;
-
+	
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	
 	@PostConstruct
 	public void init() {
-		System.out.println("########### dao post construct");
+		
+		Empresa empresa=empresaRepository.findOne(1L);
+		if (empresa==null) {
+			LOGGER.info("################ iniciant les dades #################");
+			empresa=new Empresa(1L, "EMPRESA 1", "EMPRESA 1 AMPLIADA", "C/PRUEBAS NUM:14 BAJOS", "", "PALMA","B01234567", "MADRID", "911232342", "provae@dmaoin.com", "07008");
+			empresaRepository.save(empresa);
+			Serie serie = new Serie("A", "SA", "S", 1L);
+			serieRepository.save(serie);
+			Ejercicio ejercicio=new Ejercicio(2018L);
+			ejercicioRepository.save(ejercicio);
+			Formapago fp = new Formapago("transferencia", "S");
+			formapagoRepository.save(fp);
+			fp = new Formapago("talon", "S");
+		    Cliente cliente=new Cliente("A12345678", "ZARDOYA S.A", "POLIGOCO CAN VALERO NAVE 34", "PALMA", "ILLES BALEARS", "08002",
+					"917234123", "616232323", "zardoya@company.com", null, 1L);
+		    clienteRepository.save(cliente);
+		    Tipiva tipiva = new Tipiva("1","ordinario");
+		    tipivaRepository.save(tipiva);
+		    TipivaDet tipivadet = new TipivaDet(tipiva, 2017L, 01L, new BigDecimal(21), BigDecimal.ZERO);
+		    tipivadetRepository.save(tipivadet);
+		    Producto producto = new Producto("P1", "PRODUCTO 01", new BigDecimal(10.5), "S", tipiva);
+		    productoRepository.save(producto);
+		    
+		    tipiva = new Tipiva("2","reducido");
+		    tipivaRepository.save(tipiva);
+		    tipivadet = new TipivaDet(tipiva, 2017L, 01L, new BigDecimal(10), BigDecimal.ZERO);
+		    tipivadetRepository.save(tipivadet);
+		    producto = new Producto("P2", "PRODUCTO 02", new BigDecimal(100), "S", tipiva);
+		    productoRepository.save(producto);
+		    
+		    LOGGER.info("################ finalitzada inicialització de les dades #################");
+		}
+		
+		
 	}
 
 	public Page<Cliente> findClientesByTerm(String term, Pageable pageRequest) {

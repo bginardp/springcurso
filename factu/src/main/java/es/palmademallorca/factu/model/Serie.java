@@ -33,6 +33,18 @@ public class Serie {
 	public Serie() {
 	}
 
+	
+	
+	public Serie(String id, String dec, String hbl, Long empresaId) {
+		super();
+		this.id = id;
+		this.dec = dec;
+		this.hbl = hbl;
+		this.empresaId = empresaId;
+	}
+
+
+
 	public Serie(SerieDto serieDto) {
 		this.id=serieDto.getId();
 		this.dec=serieDto.getDec();
