@@ -30,6 +30,7 @@ import es.palmademallorca.factu.model.Cliente;
 import es.palmademallorca.factu.model.Ejercicio;
 import es.palmademallorca.factu.model.Empresa;
 import es.palmademallorca.factu.model.Factura;
+import es.palmademallorca.factu.model.FacturaBases;
 import es.palmademallorca.factu.model.Facturalin;
 import es.palmademallorca.factu.model.Formapago;
 import es.palmademallorca.factu.model.Producto;
@@ -269,25 +270,38 @@ public class FactuServiceImpl implements FactuService {
 
 	@Override
 	public Long saveFactura(FacturaDto facturaDto) {
-		Factura factura=new Factura(facturaDto);
-		factuDao.saveFactura(factura);
-//		TODO
-//		for (FacLinDto faclindto:detalleDto) {
-//			Facturalin faclin=new Facturalin(faclindto);
-//			factuDao.saveFacturalin(faclin);	
-//		}
-		
-		return factura.getId();
+		// 1 guardem la factura
+		if (facturaDto.hasDetall()) {
+			Factura factura=new Factura(facturaDto);
+			factuDao.saveFactura(factura);
+			
+			// 2 guardem el detall
+			for (FacLinDto faclindto:facturaDto.getDetall()) {
+				Facturalin faclin=new Facturalin(faclindto);
+				factuDao.saveFacturalin(faclin);	
+			}
+			// 3 guardem les bases                 ####################### es necessari?
+//			for (FacturaBasesDto baseDto:facturaDto.getBases()) {
+//				FacturaBases base=new FacturaBases(baseDto);
+//				factuDao.saveFacturaBase(base);	
+//			}
+			
+			return factura.getId();
+		}
+		return null;
 	}
 
 	
+	
 	@Override
 	public Long saveFaclin(FacLinDto faclinDto) {
-		// TODO Auto-generated method stub
+		// TODO retornar Con?
 		Facturalin faclin=new Facturalin(faclinDto);
 		factuDao.saveFacturalin(faclin);
 		return null;
 	}
+
+		
 
 	@Override
 	public Page<ClienteDto> getClientes(String term, Pageable pageRequest) {

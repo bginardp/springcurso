@@ -25,6 +25,7 @@ import es.palmademallorca.factu.jpa.ClienteRepository;
 import es.palmademallorca.factu.jpa.EjercicioRepository;
 import es.palmademallorca.factu.jpa.EmpresaRepository;
 import es.palmademallorca.factu.jpa.FaclinRepository;
+import es.palmademallorca.factu.jpa.FacturaBasesRepository;
 import es.palmademallorca.factu.jpa.FacturaRepository;
 import es.palmademallorca.factu.jpa.FormapagoRepository;
 import es.palmademallorca.factu.jpa.ProductoRepository;
@@ -35,6 +36,7 @@ import es.palmademallorca.factu.model.Cliente;
 import es.palmademallorca.factu.model.Ejercicio;
 import es.palmademallorca.factu.model.Empresa;
 import es.palmademallorca.factu.model.Factura;
+import es.palmademallorca.factu.model.FacturaBases;
 import es.palmademallorca.factu.model.Facturalin;
 import es.palmademallorca.factu.model.Formapago;
 import es.palmademallorca.factu.model.Producto;
@@ -59,6 +61,7 @@ public class FactuDao {
 	private FacturaRepository facturaRepository;
 	@Autowired
 	private FaclinRepository faclinRepository;
+	
 	@Autowired
 	private ProductoRepository productoRepository;
 	@Autowired
@@ -325,7 +328,8 @@ public class FactuDao {
 		faclinRepository.save(faclin);
 
 	}
-
+	
+	
 	public Empresa getEmpresa(Long empresaId) {
 		if (empresaId != null) {
 			return empresaRepository.findOne(empresaId);
@@ -467,5 +471,6 @@ public class FactuDao {
 		return ejercicioRepository.findFirstByOrderByIdDesc();
 	}
 
+	
 	
 }

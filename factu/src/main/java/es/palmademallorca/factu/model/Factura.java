@@ -20,6 +20,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import es.palmademallorca.factu.dto.FacturaDto;
+import es.palmademallorca.factu.utils.Converter;
 
 /**
  * The persistent class for the facturas database table.
@@ -73,9 +74,19 @@ public class Factura {
 	public Factura() {
 	}
 
-
 	public Factura(FacturaDto facturaDto) {
-		// TODO Auto-generated constructor stub
+		this.id=facturaDto.getId();
+		this.numero=facturaDto.getNumero();
+		this.dat=facturaDto.getDat();
+		this.serie=Converter.toDao(facturaDto.getSerie());
+		this.ejercicio=Converter.toDao(facturaDto.getEjercicio());
+		this.cliente=Converter.toDao(facturaDto.getCliente());
+		this.empresa=Converter.toDao(facturaDto.getEmpresa());
+		this.formaspago=Converter.toDao(facturaDto.getForpag());
+		this.impbru=facturaDto.getImpbru();
+		this.pordto=facturaDto.getPordto();
+		this.impdto=facturaDto.getImpdto();
+		this.totfac=facturaDto.getTotfac();
 	}
 
 

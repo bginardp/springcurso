@@ -43,8 +43,6 @@ public class Serie {
 		this.empresaId = empresaId;
 	}
 
-
-
 	public Serie(SerieDto serieDto) {
 		this.id=serieDto.getId();
 		this.dec=serieDto.getDec();

@@ -19,8 +19,7 @@ public class FacLinDto {
 	private BigDecimal preu;
 	private BigDecimal importe;
 	private BigDecimal pordte;
-	private String tipivaId;
-	private String tipivaDem;
+	private TipivaDto tipiva;
 	private BigDecimal poriva;
 	@NotNull
 	private String producteId;
@@ -33,15 +32,14 @@ public class FacLinDto {
 
 
 	public FacLinDto(Long id, Long facturaId, BigDecimal cantidad, String dem, BigDecimal importe, BigDecimal pordte,
-			String tipivaId, String tipivaDem, BigDecimal poriva, BigDecimal preu, String producteId, BigDecimal requiv) {
+			TipivaDto tipiva, BigDecimal poriva, BigDecimal preu, String producteId, BigDecimal requiv) {
 		this.id = id;
 		this.facturaId = facturaId;
 		this.cantidad = cantidad;
 		this.dem = dem;
 		this.importe = importe;
 		this.pordte = pordte;
-		this.tipivaId = tipivaId;
-		this.tipivaDem = tipivaDem;
+		this.tipiva = tipiva;
 		this.poriva = poriva;
 		this.preu = preu;
 		this.producteId = producteId;
@@ -56,8 +54,7 @@ public class FacLinDto {
 		this.dem = faclin.getDem();
 		this.importe = faclin.getImporte();
 		this.pordte = faclin.getPordte();
-		this.tipivaId = faclin.getTipivaId();
-		this.tipivaDem = faclin.getTipiva().getDem();
+		this.tipiva = new TipivaDto(faclin.getTipiva());
 		this.poriva = faclin.getPoriva();
 		this.preu = faclin.getPreu();
 		this.producteId = faclin.getProducteId();
@@ -101,18 +98,15 @@ public class FacLinDto {
 	public void setPordte(BigDecimal pordte) {
 		this.pordte = pordte;
 	}
-	public String getTipivaId() {
-		return tipivaId;
+	
+	public TipivaDto getTipiva() {
+		return tipiva;
 	}
-	public void setTipivaId(String tipivaId) {
-		this.tipivaId = tipivaId;
+
+	public void setTipiva(TipivaDto tipiva) {
+		this.tipiva = tipiva;
 	}
-	public String getTipivaDem() {
-		return tipivaDem;
-	}
-	public void setTipivaDec(String tipivaDem) {
-		this.tipivaDem = tipivaDem;
-	}
+
 	public BigDecimal getPoriva() {
 		return poriva;
 	}
@@ -138,4 +132,13 @@ public class FacLinDto {
 		this.requiv = requiv;
 	}
 
+	@Override
+	public String toString() {
+		return "FacLinDto [id=" + id + ", facturaId=" + facturaId + ", dem=" + dem + ", cantidad=" + cantidad
+				+ ", preu=" + preu + ", importe=" + importe + ", pordte=" + pordte + ", tipiva=" + tipiva + ", poriva="
+				+ poriva + ", producteId=" + producteId + ", requiv=" + requiv + "]";
+	}
+
+	
+	
 }

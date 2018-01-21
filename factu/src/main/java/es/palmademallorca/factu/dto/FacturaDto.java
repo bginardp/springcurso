@@ -3,17 +3,20 @@ package es.palmademallorca.factu.dto;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import es.palmademallorca.factu.dto.common.ErrorDto;
 import es.palmademallorca.factu.dto.common.ErrorsDto;
 import es.palmademallorca.factu.model.Factura;
+import es.palmademallorca.factu.utils.Converter;
 
 /**
- * @author BERNAT1
+ * @author bernat
  *
  */
 public class FacturaDto extends ErrorsDto{
@@ -22,10 +25,11 @@ public class FacturaDto extends ErrorsDto{
 	@NotNull
 //	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date dat;
-	private String serieId;
-	private String serieDec;
+//	private String serieId;
+//	private String serieDec;
 	private ClienteDto cliente;
 	@NotNull
+	private SerieDto serie;
 	private EjercicioDto ejercicio;
 	private EmpresaDto empresa;
 	private FormapagoDto forpag;
@@ -41,27 +45,36 @@ public class FacturaDto extends ErrorsDto{
 	public FacturaDto() {
 	
 	}
-//	public FacturaDto(Long id, Long numero, Date dat, String serieId, String serieDec, Long clienteId,
-//			String clienteNom, Long ejercicioId, Long empresaId, String empresaNom, Long forpagId, String forPagDem) {
-//		this.id = id;
-//		this.numero = numero;
-//		this.dat = dat;
-//		this.serieId = serieId;
-//		this.serieDec = serieDec;
-//		this.clienteId = clienteId;
-//		this.clienteNom = clienteNom;
-//		this.ejercicioId = ejercicioId;
-//		this.empresaId = empresaId;
-//		this.empresaNom = empresaNom;
-//		this.forpagId = forpagId;
-//		this.forPagDem = forPagDem;
-//	}
+	
+	
+	
+public FacturaDto(Long id, Long numero, Date dat, SerieDto serie, ClienteDto cliente, EjercicioDto ejercicio, EmpresaDto empresa, FormapagoDto forpag, List<FacLinDto> detall,
+			List<FacturaBasesDto> bases, FacLinDto linea, BigDecimal impbru, BigDecimal pordto, BigDecimal impdto,
+			BigDecimal totfac) {
+		
+		this.id = id;
+		this.numero = numero;
+		this.dat = dat;
+		this.serie = serie;
+		this.cliente = cliente;
+		this.ejercicio = ejercicio;
+		this.empresa = empresa;
+		this.forpag = forpag;
+		this.detall = detall;
+		this.bases = bases;
+		this.linea = linea;
+		this.impbru = impbru;
+		this.pordto = pordto;
+		this.impdto = impdto;
+		this.totfac = totfac;
+	}
+
+	
 	public FacturaDto(Factura factura) {
 		this.id = factura.getId();
 		this.numero = factura.getNumero();
 		this.dat = factura.getDat();
-		this.serieId = factura.getSerieId();
-		this.serieDec = factura.getSerie().getDec();
+		this.serie = Converter.toDto(factura.getSerie());
 		this.cliente=new ClienteDto(factura.getCliente());
 		this.empresa=new EmpresaDto(factura.getEmpresa());
 		this.ejercicio = new EjercicioDto(factura.getEjercicio());
@@ -91,18 +104,15 @@ public class FacturaDto extends ErrorsDto{
 	public void setDat(Date dat) {
 		this.dat = dat;
 	}
-	public String getSerieId() {
-		return serieId;
+	
+	public SerieDto getSerie() {
+		return serie;
 	}
-	public void setSerieId(String serieId) {
-		this.serieId = serieId;
+
+	public void setSerie(SerieDto serie) {
+		this.serie = serie;
 	}
-	public String getSerieDec() {
-		return serieDec;
-	}
-	public void setSerieDec(String serieDec) {
-		this.serieDec = serieDec;
-	}
+
 	public ClienteDto getCliente() {
 		return cliente;
 	}
@@ -169,12 +179,39 @@ public class FacturaDto extends ErrorsDto{
 	public void setTotfac(BigDecimal totfac) {
 		this.totfac = totfac;
 	}
+	
+	
 	@Override
 	public String toString() {
-		return "FacturaDto [id=" + id + ", numero=" + numero + ", dat=" + dat + ", serieId=" + serieId + ", serieDec="
-				+ serieDec + ", cliente=" + cliente + ", ejercicio=" + ejercicio + ", empresa=" + empresa + ", forpag="
-				+ forpag + ", detall=" + detall + ", bases=" + bases + ", linea=" + linea + ", impbru=" + impbru
-				+ ", pordto=" + pordto + ", impdto=" + impdto + ", totfac=" + totfac + "]";
+		return "FacturaDto [id=" + id + ", numero=" + numero + ", dat=" + dat + ", cliente=" + cliente + ", serie="
+				+ serie + ", ejercicio=" + ejercicio + ", empresa=" + empresa + ", forpag=" + forpag + ", detall="
+				+ detall + ", bases=" + bases + ", linea=" + linea + ", impbru=" + impbru + ", pordto=" + pordto
+				+ ", impdto=" + impdto + ", totfac=" + totfac + "]";
+	}
+
+
+
+	public void addLinea(FacLinDto facLinDto) {
+		// TODO Auto-generated method stub
+		detall.add(facLinDto);
+		actualitzaBases();
+		
+	}
+	private void actualitzaBases() {
+		bases.clear();
+		
+		for (FacLinDto lin : detall) {
+		   if (lin.getTipiva() != null) {
+			   if (bases.isEmpty()) {
+				   bases.add(new FacturaBasesDto(lin.getTipiva(),lin.getPoriva(),lin.getRequiv(),lin.getImporte()));   
+			   } else {
+			   }
+		   }
+		}
+	}
+	
+	public boolean hasDetall( ) {
+		return detall!=null && detall.size()>0;
 	}
 			  
 	

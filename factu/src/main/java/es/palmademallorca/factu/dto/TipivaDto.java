@@ -16,6 +16,11 @@ public class TipivaDto {
 		
 	}
 
+	public TipivaDto (String id, String dem) {
+		this.id=id;
+		this.dem=dem;
+	}
+	
 	public TipivaDto(Tipiva tipiva) {
 		if (tipiva !=null) {
 		  this.id=tipiva.getId();
@@ -39,5 +44,12 @@ public class TipivaDto {
 		this.dem = dem;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
+	}
+	
+	
 	
 }

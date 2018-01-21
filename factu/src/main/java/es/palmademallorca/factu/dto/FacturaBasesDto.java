@@ -13,13 +13,14 @@ public class FacturaBasesDto {
 	private Long id;
 	private TipivaDto tipiva;
 	private BigDecimal por;
+	private BigDecimal requiv;
 	private BigDecimal base;
 	
 	
-	public FacturaBasesDto(Long id,TipivaDto tipiva, BigDecimal por, BigDecimal base) {
+	public FacturaBasesDto(TipivaDto tipiva, BigDecimal por, BigDecimal requiv, BigDecimal base) {
 		super();
-		this.id=id;
 		this.tipiva = tipiva;
+		this.requiv = requiv;
 		this.por = por;
 		this.base = base;
 	}
@@ -60,6 +61,16 @@ public class FacturaBasesDto {
 
 	public void setPor(BigDecimal por) {
 		this.por = por;
+	}
+
+
+	public BigDecimal getRequiv() {
+		return requiv;
+	}
+
+
+	public void setRequiv(BigDecimal requiv) {
+		this.requiv = requiv;
 	}
 
 

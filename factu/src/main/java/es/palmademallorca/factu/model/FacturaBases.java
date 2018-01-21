@@ -21,6 +21,7 @@ public class FacturaBases {
 	@JoinColumn(name = "tipiva_id", insertable = false, updatable = false)
 	private Tipiva tipiva;
 	private BigDecimal por;
+	private BigDecimal requiv;
 	private BigDecimal base;
 	@ManyToOne
 	@JoinColumn(name = "factura_id", insertable = false, updatable = false)
@@ -67,6 +68,14 @@ public class FacturaBases {
 
 	public void setPor(BigDecimal por) {
 		this.por = por;
+	}
+	
+	public BigDecimal getRequiv() {
+		return requiv;
+	}
+
+	public void setRequiv(BigDecimal requiv) {
+		this.requiv = requiv;
 	}
 
 	public BigDecimal getBase() {
