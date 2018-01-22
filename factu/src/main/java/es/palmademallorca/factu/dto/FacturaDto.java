@@ -25,8 +25,6 @@ public class FacturaDto extends ErrorsDto{
 	@NotNull
 //	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date dat;
-//	private String serieId;
-//	private String serieDec;
 	private ClienteDto cliente;
 	@NotNull
 	private SerieDto serie;
@@ -214,10 +212,6 @@ public FacturaDto(Long id, Long numero, Date dat, SerieDto serie, ClienteDto cli
 		return detall!=null && detall.size()>0;
 	}
 			  
-	
-	
-	
-	
-	
+
 
 }

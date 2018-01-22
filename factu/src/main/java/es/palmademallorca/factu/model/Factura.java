@@ -66,8 +66,8 @@ public class Factura {
 			@JoinColumn(name = "empresa_id", referencedColumnName = "empresa_id", insertable = false, updatable = false),
 			@JoinColumn(name = "serie_id", referencedColumnName = "id", insertable = false, updatable = false), })
 	private Serie serie;
-//	@OneToMany(mappedBy = "factura", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-//	private List<Facturalin> factureslins;
+	@OneToMany(mappedBy = "factura", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private List<Facturalin> factureslins;
 	// bi-directional many-to-one association to Factureslin
 	
 	
@@ -78,10 +78,15 @@ public class Factura {
 		this.id=facturaDto.getId();
 		this.numero=facturaDto.getNumero();
 		this.dat=facturaDto.getDat();
+		this.serieId=facturaDto.getSerie().getId();
 		this.serie=Converter.toDao(facturaDto.getSerie());
+		this.ejercicioId=facturaDto.getEjercicio().getId();
 		this.ejercicio=Converter.toDao(facturaDto.getEjercicio());
+		this.clienteId=facturaDto.getCliente().getId();
 		this.cliente=Converter.toDao(facturaDto.getCliente());
+		this.empresaId=facturaDto.getEmpresa().getId();
 		this.empresa=Converter.toDao(facturaDto.getEmpresa());
+		this.forpagId=facturaDto.getForpag().getId();
 		this.formaspago=Converter.toDao(facturaDto.getForpag());
 		this.impbru=facturaDto.getImpbru();
 		this.pordto=facturaDto.getPordto();

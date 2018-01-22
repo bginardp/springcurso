@@ -3,14 +3,15 @@ package es.palmademallorca.factu.dto;
 import es.palmademallorca.factu.model.Ejercicio;
 
 public class EjercicioDto {
-	// TODO afegir validaciones
 	private Long id;
 
 	public EjercicioDto(Long id) {
 		this.id=id;
 	}
 	public EjercicioDto(Ejercicio ejercicio) {
-		this.id=ejercicio.getId();
+		if (ejercicio!=null) {
+	     	this.id=ejercicio.getId();
+		}
 	}
 	public Long getId() {
 		return id;
@@ -19,5 +20,12 @@ public class EjercicioDto {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	@Override
+	public String toString() {
+		return "EjercicioDto [id=" + id + "]";
+	}
+	
+	
 
 }

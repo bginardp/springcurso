@@ -336,6 +336,14 @@ public class FactuDao {
 		}
 		return null;
 	}
+	
+	public Ejercicio getEjercicio(long ejercicioId) {
+		if (ejercicioId >0) {
+			return ejercicioRepository.findOne(ejercicioId);
+		}
+		return null;
+	}
+
 
 	public Formapago getFormapago(Long formapagoId) {
 		if (formapagoId != null) {
@@ -471,6 +479,7 @@ public class FactuDao {
 		return ejercicioRepository.findFirstByOrderByIdDesc();
 	}
 
+	
 	
 	
 }

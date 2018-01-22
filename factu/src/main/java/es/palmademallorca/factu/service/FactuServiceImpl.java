@@ -37,6 +37,7 @@ import es.palmademallorca.factu.model.Producto;
 import es.palmademallorca.factu.model.Serie;
 import es.palmademallorca.factu.model.Tipiva;
 import es.palmademallorca.factu.model.TipivaDet;
+import es.palmademallorca.factu.utils.Converter;
 
 @Service(value = "factuService")
 public class FactuServiceImpl implements FactuService {
@@ -142,9 +143,13 @@ public class FactuServiceImpl implements FactuService {
 	}
 	
 	@Override
-	public EjercicioDto getEjercicio(long ejercicio) {
-		return new EjercicioDto(new Ejercicio(2016L));
-
+	public EjercicioDto getEjercicio(long ejercicioId) {
+		Ejercicio ejercicio=factuDao.getEjercicio(ejercicioId);
+		if (ejercicio==null) {
+			ejercicio= new Ejercicio(ejercicioId);
+			factuDao.saveEjercicio(ejercicio);
+		}
+		return Converter.toDto(ejercicio);
 	}
 	
 	@Override
@@ -277,6 +282,7 @@ public class FactuServiceImpl implements FactuService {
 			
 			// 2 guardem el detall
 			for (FacLinDto faclindto:facturaDto.getDetall()) {
+				faclindto.setFacturaId(factura.getId());
 				Facturalin faclin=new Facturalin(faclindto);
 				factuDao.saveFacturalin(faclin);	
 			}

@@ -24,6 +24,7 @@ import es.palmademallorca.factu.dto.FacLinDto;
 import es.palmademallorca.factu.dto.FacturaBasesDto;
 import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.dto.FormapagoDto;
+import es.palmademallorca.factu.dto.ProductoDto;
 import es.palmademallorca.factu.dto.SerieDto;
 import es.palmademallorca.factu.dto.TipivaDto;
 import es.palmademallorca.factu.service.AdminService;
@@ -60,35 +61,52 @@ public class FacturaTest {
 		
 		EmpresaDto empresa=adminService.getEmpresa(1L);
 		EjercicioDto ejercicio =factuService.getEjercicio(2018L);
+		
 		FormapagoDto forpag=factuService.getFormapago(1L); // talon
 		ClienteDto cliente=factuService.getCliente(1L);
 		SerieDto serie=factuService.getSerie("A");
 		
 		List<FacLinDto> detall = new ArrayList<FacLinDto>();
 		// 2 preparem una línia de detall
-		TipivaDto ivaordinario = factuService.getTipIva("1");
+		//TipivaDto ivaordinario = factuService.getTipIva("1");
+		//TipivaDto ivareducido = factuService.getTipIva("2");
 		BigDecimal cantidad=new BigDecimal(10);
 		BigDecimal poriva=new BigDecimal(21);		
 		BigDecimal precio = new BigDecimal(1000);
 		BigDecimal importe= cantidad.multiply(precio);
 		BigDecimal pordte = BigDecimal.ZERO;
 		String descripcio="Material caro";
-		String producteId="01";
+		ProductoDto producto=factuService.getProducto("01");
 		Date dat=new Date(System.currentTimeMillis());
-		
-		detall.add(new FacLinDto(null, null, cantidad, descripcio, importe, pordte,
-				ivaordinario, poriva, precio, producteId, null));
-		
-		// 3 preparem el total
 		List<FacturaBasesDto> bases = new ArrayList<FacturaBasesDto>();
-		bases.add(new FacturaBasesDto(ivaordinario,poriva, null, importe));
-//		
-		BigDecimal impbru=detall.stream().map(FacLinDto::getImporte).reduce(BigDecimal.ZERO,BigDecimal::add);
-		BigDecimal totfac=impbru.multiply(poriva.divide(new BigDecimal(100)));
+		BigDecimal impbru=null;
+		BigDecimal totfac=null;
 		
 		FacturaDto factura=new FacturaDto(null, null, dat, serie,
 				cliente, ejercicio, empresa, forpag,  detall, bases, null, impbru, BigDecimal.ZERO, BigDecimal.ZERO,
 				totfac);
+		// 3 afegim linies
+		 factura.addLinea(new FacLinDto(null, null, cantidad, descripcio, importe, pordte,
+				producto.getTipiva(), poriva, precio, producto.getId(), null));
+		
+		 cantidad=new BigDecimal(20);
+		 poriva=new BigDecimal(11);		
+		 precio = new BigDecimal(1000);
+		 importe= cantidad.multiply(precio);
+		 pordte = BigDecimal.ZERO;
+		 descripcio="Servicios diversos ";
+		 producto=factuService.getProducto("02");
+		 factura.addLinea(new FacLinDto(null, null, cantidad, descripcio, importe, pordte,
+				 producto.getTipiva(), poriva, precio, producto.getId(), null));
+	
+		
+		// 3 preparem els totals
+		
+		bases.add(new FacturaBasesDto(producto.getTipiva(),poriva, null, importe));
+	
+		impbru=detall.stream().map(FacLinDto::getImporte).reduce(BigDecimal.ZERO,BigDecimal::add);
+		totfac=impbru.multiply(poriva.divide(new BigDecimal(100)));
+
 		
 		
 		Long id=factuService.saveFactura(factura);

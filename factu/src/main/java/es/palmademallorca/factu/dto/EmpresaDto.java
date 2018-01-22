@@ -150,6 +150,15 @@ public class EmpresaDto {
 		this.postal = postal;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "EmpresaDto [id=" + id + ", dec=" + dec + ", dem=" + dem + ", nif=" + nif + ", direccion=" + direccion
+				+ ", municipio=" + municipio + ", provincia=" + provincia + ", postal=" + postal + ", tel=" + tel
+				+ ", fax=" + fax + ", email=" + email + ", dadesEmpresa=" + dadesEmpresa + "]";
+	}
+	
+	
 	public String getDadesEmpresa() {
 		StringBuilder sb = new StringBuilder().append("<strong>").append(dec).append("</strong><br />").
 				append(direccion).append("<br />").append(postal).append(" ").append(municipio).append("<br />").
@@ -157,5 +166,8 @@ public class EmpresaDto {
 		return sb.toString();
 	}
 
+	
+
+	
 		
 }

@@ -33,6 +33,11 @@ public class Converter {
 		return dto;
 	}
 	
+	public static EjercicioDto toDto(Ejercicio ejercicio) {
+		EjercicioDto dto=new EjercicioDto(ejercicio);
+		return dto;
+	}
+	
 //	public static FacturaBases toDao(FacturaBasesDto dto) {
 //		FacturaBases dao = new FacturaBases(dto);
 //		return dao;
@@ -67,6 +72,8 @@ public class Converter {
 		Formapago dao=new Formapago(dto);
 		return dao;
 	}
+
+	
 
 	
 }

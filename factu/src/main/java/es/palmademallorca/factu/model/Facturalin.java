@@ -5,12 +5,15 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 
 import es.palmademallorca.factu.dto.FacLinDto;
+import es.palmademallorca.factu.utils.Converter;
 
 
 /**
@@ -20,6 +23,8 @@ import es.palmademallorca.factu.dto.FacLinDto;
 @Entity
 public class Facturalin {
 	@Id
+	@GeneratedValue(generator = "FacturaLinSeq")
+	@SequenceGenerator(name = "FacturaLinSeq", sequenceName = "factu.facturalin_seq", allocationSize = 1)
 	private Long id;
 	private BigDecimal cantidad;
 	private String dem;
@@ -47,7 +52,19 @@ public class Facturalin {
 	}
 
 	public Facturalin(FacLinDto faclinDto) {
-		// TODO Auto-generated constructor stub
+		this.id=faclinDto.getId();
+		this.producteId=faclinDto.getProducteId();
+		this.cantidad=faclinDto.getCantidad();
+		this.dem=faclinDto.getDem();
+		this.importe=faclinDto.getImporte();
+		this.pordte=faclinDto.getPordte();
+		this.poriva=faclinDto.getPoriva();
+		this.preu=faclinDto.getPreu();
+		this.requiv=faclinDto.getRequiv();
+		this.tipivaId=faclinDto.getTipiva().getId();
+		this.facturaId=faclinDto.getFacturaId();
+		this.tipiva=Converter.toDao(faclinDto.getTipiva());
+				
 	}
 
 	public Long getId() {
