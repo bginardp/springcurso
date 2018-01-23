@@ -136,6 +136,16 @@ public class ClienteDto {
 	public void setForpagDem(String forpagDem) {
 		this.forpagDem = forpagDem;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "ClienteDto [id=" + id + ", cif=" + cif + ", nom=" + nom + ", direccion=" + direccion + ", municipio="
+				+ municipio + ", provincia=" + provincia + ", postal=" + postal + ", tel=" + tel + ", movil=" + movil
+				+ ", email=" + email + ", ctecon=" + ctecon + ", forpagId=" + forpagId + ", forpagDem=" + forpagDem
+				+ ", dadesCliente=" + dadesCliente + "]";
+	}
 
 	public String getDadesCliente() {
 		StringBuilder sb = new StringBuilder().append("<strong>").append(nom).append("</strong><br />").

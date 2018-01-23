@@ -81,6 +81,7 @@ public FacturaDto(Long id, Long numero, Date dat, SerieDto serie, ClienteDto cli
 		this.pordto=factura.getPordto();
 		this.impdto=factura.getImpdto();
 		this.totfac=factura.getTotfac();
+		this.detall=Converter.toDto(factura.getDetall());
 		this.bases=null; //TODO 
  		
 	}

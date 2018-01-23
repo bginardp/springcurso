@@ -115,6 +115,31 @@ public class FacturaTest {
 		assert (id != null);
 	}
 	
+	@Test
+	public void getFactura() {
+		System.out.println("############# inici getFactura(): ");
+		Long facturaId=11L;
+		FacturaDto factura = factuService.getFactura(facturaId);
+		System.out.println("############# resultat getFactura(): "); 
+		System.out.println("### identificador:"+factura.getId());
+		System.out.println("############ data:"+factura.getDat());
+		System.out.println("########## empresa:"+factura.getEmpresa());
+		System.out.println("########### client:"+factura.getCliente());
+		System.out.println("### forma pagament:"+factura.getForpag());
+		System.out.println("######### exercici:"+factura.getEjercicio());
+		System.out.println("############ serie:"+factura.getSerie());
+		System.out.println("########### numero:"+factura.getNumero());
+		System.out.println("##### detall ######:");
+		if (factura.getDetall()!=null) {
+		   factura.getDetall().forEach(item->System.out.println(item));
+		}
+		System.out.println("##### bases  ######:");
+		if (factura.getBases()!=null) {
+		   factura.getBases().forEach(base->System.out.println(base));
+		}
+		assert (factura != null);
+	}
+	
 	
 
 }

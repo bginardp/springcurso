@@ -1,5 +1,7 @@
 package es.palmademallorca.factu.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +21,11 @@ import es.palmademallorca.factu.dto.SerieDto;
  */
 @Entity
 @Table(name="serie")
-public class Serie {
+public class Serie implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	private String id;
 	private String dec;

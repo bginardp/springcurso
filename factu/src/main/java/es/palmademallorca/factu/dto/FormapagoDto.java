@@ -49,6 +49,11 @@ public class FormapagoDto {
 		this.hbl = hbl;
 	}
 
+	@Override
+	public String toString() {
+		return "FormapagoDto [id=" + id + ", dem=" + dem + ", hbl=" + hbl + "]";
+	}
+
 	
 	
 	

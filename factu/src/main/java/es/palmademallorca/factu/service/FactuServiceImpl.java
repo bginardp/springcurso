@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,9 +16,8 @@ import org.springframework.stereotype.Service;
 import es.palmademallorca.factu.dao.FactuDao;
 import es.palmademallorca.factu.dto.ClienteDto;
 import es.palmademallorca.factu.dto.EjercicioDto;
-import es.palmademallorca.factu.dto.EmpresaDto;
-import es.palmademallorca.factu.dto.FacturaBasesDto;
 import es.palmademallorca.factu.dto.FacLinDto;
+import es.palmademallorca.factu.dto.FacturaBasesDto;
 import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.dto.FormapagoDto;
 import es.palmademallorca.factu.dto.ProductoDto;
@@ -28,9 +26,7 @@ import es.palmademallorca.factu.dto.TipivaDetDto;
 import es.palmademallorca.factu.dto.TipivaDto;
 import es.palmademallorca.factu.model.Cliente;
 import es.palmademallorca.factu.model.Ejercicio;
-import es.palmademallorca.factu.model.Empresa;
 import es.palmademallorca.factu.model.Factura;
-import es.palmademallorca.factu.model.FacturaBases;
 import es.palmademallorca.factu.model.Facturalin;
 import es.palmademallorca.factu.model.Formapago;
 import es.palmademallorca.factu.model.Producto;
@@ -177,7 +173,7 @@ public class FactuServiceImpl implements FactuService {
 	@Override
 	public FacturaDto getFactura(Long facturaId) {
 		Factura factura=factuDao.getFactura(facturaId);
-		FacturaDto facDto=new FacturaDto(factura);
+		FacturaDto facDto=Converter.toDto(factura);
 		return facDto;
 	}
 

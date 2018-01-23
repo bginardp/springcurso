@@ -1,7 +1,6 @@
 package es.palmademallorca.factu.model;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
 
 import es.palmademallorca.factu.dto.FacLinDto;
 import es.palmademallorca.factu.utils.Converter;
@@ -23,6 +22,7 @@ import es.palmademallorca.factu.utils.Converter;
 @Entity
 public class Facturalin {
 	@Id
+	@NotNull
 	@GeneratedValue(generator = "FacturaLinSeq")
 	@SequenceGenerator(name = "FacturaLinSeq", sequenceName = "factu.facturalin_seq", allocationSize = 1)
 	private Long id;
@@ -39,10 +39,12 @@ public class Facturalin {
 	@Column(name="tipiva_id")
 	private String tipivaId;
 	@Column(name="factura_id")
+	@NotNull
 	private Long facturaId;
 	@ManyToOne
 	@JoinColumn(name = "tipiva_id", insertable = false, updatable = false)
 	private Tipiva tipiva;
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "factura_id", insertable = false, updatable = false)
 	private Factura factura;

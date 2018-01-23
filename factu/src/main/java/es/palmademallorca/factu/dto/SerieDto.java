@@ -71,6 +71,13 @@ public class SerieDto {
 		this.empresaName = empresaName;
 	}
 
+	@Override
+	public String toString() {
+		return "SerieDto [id=" + id + ", dec=" + dec + ", hbl=" + hbl + ", empresaId=" + empresaId + ", empresaName="
+				+ empresaName + "]";
+	}
+
+	
 
 	
 }

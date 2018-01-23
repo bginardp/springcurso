@@ -1,16 +1,21 @@
 package es.palmademallorca.factu.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import es.palmademallorca.factu.dto.ClienteDto;
 import es.palmademallorca.factu.dto.EjercicioDto;
 import es.palmademallorca.factu.dto.EmpresaDto;
-import es.palmademallorca.factu.dto.FacturaBasesDto;
+import es.palmademallorca.factu.dto.FacLinDto;
+import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.dto.FormapagoDto;
 import es.palmademallorca.factu.dto.SerieDto;
 import es.palmademallorca.factu.dto.TipivaDto;
 import es.palmademallorca.factu.model.Cliente;
 import es.palmademallorca.factu.model.Ejercicio;
 import es.palmademallorca.factu.model.Empresa;
-import es.palmademallorca.factu.model.FacturaBases;
+import es.palmademallorca.factu.model.Factura;
+import es.palmademallorca.factu.model.Facturalin;
 import es.palmademallorca.factu.model.Formapago;
 import es.palmademallorca.factu.model.Serie;
 import es.palmademallorca.factu.model.Tipiva;
@@ -35,6 +40,24 @@ public class Converter {
 	
 	public static EjercicioDto toDto(Ejercicio ejercicio) {
 		EjercicioDto dto=new EjercicioDto(ejercicio);
+		return dto;
+	}
+	
+	public static FacturaDto toDto(Factura factura) {
+		FacturaDto dto=new FacturaDto(factura);
+		return dto;
+	}
+	
+	public static List<FacLinDto> toDto(List<Facturalin> detall) {
+		List<FacLinDto> dto= new ArrayList<FacLinDto>();
+		if (detall!=null) {
+		   detall.forEach(lin->dto.add(Converter.toDto(lin)));
+		}
+		return null;
+	}
+
+	private static FacLinDto toDto(Facturalin lin) {
+		FacLinDto dto = new FacLinDto(lin);
 		return dto;
 	}
 	
@@ -72,6 +95,10 @@ public class Converter {
 		Formapago dao=new Formapago(dto);
 		return dao;
 	}
+
+	
+
+	
 
 	
 

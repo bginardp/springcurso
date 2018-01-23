@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.utils.Converter;
@@ -34,13 +35,18 @@ public class Factura {
 	@SequenceGenerator(name = "FacturaSeq", sequenceName = "factu.factura_seq", allocationSize = 1)
 	private Long id;
 	private Long numero;
+	@NotNull
 	private Date dat;
+	
 	@Column(name = "serie_id")
 	private String serieId;
+	@NotNull
 	@Column(name = "cliente_id")
 	private Long clienteId;
+	@NotNull
 	@Column(name = "ejercicio_id")
 	private Long ejercicioId;
+	@NotNull
 	@Column(name = "empresa_id")
 	private Long empresaId;
 	@Column(name = "forpag_id")
@@ -49,15 +55,19 @@ public class Factura {
 	private BigDecimal pordto;
 	private BigDecimal impdto;
 	private BigDecimal totfac;
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "ejercicio_id", insertable = false, updatable = false)
 	private Ejercicio ejercicio;
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", insertable = false, updatable = false)
 	private Cliente cliente;
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "empresa_id", insertable = false, updatable = false)
 	private Empresa empresa;
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "forpag_id", insertable = false, updatable = false)
 	private Formapago formaspago;
@@ -66,8 +76,8 @@ public class Factura {
 			@JoinColumn(name = "empresa_id", referencedColumnName = "empresa_id", insertable = false, updatable = false),
 			@JoinColumn(name = "serie_id", referencedColumnName = "id", insertable = false, updatable = false), })
 	private Serie serie;
-	@OneToMany(mappedBy = "factura", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	private List<Facturalin> factureslins;
+	@OneToMany(mappedBy = "factura", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private List<Facturalin> detall;
 	// bi-directional many-to-one association to Factureslin
 	
 	
@@ -264,19 +274,19 @@ public class Factura {
 	public void setEjercicio(Ejercicio ejercicio) {
 		this.ejercicio = ejercicio;
 	}
+
+	public List<Facturalin> getDetall() {
+		return detall;
+	}
+
+	public void setDetall(List<Facturalin> detall) {
+		this.detall = detall;
+	}
 	
 	
 
 
-//	public List<Facturalin> getFactureslins() {
-//		return factureslins;
-//	}
-//
-//
-//	public void setFactureslins(List<Facturalin> factureslins) {
-//		this.factureslins = factureslins;
-//	}
-	
+
 	
 /*
    

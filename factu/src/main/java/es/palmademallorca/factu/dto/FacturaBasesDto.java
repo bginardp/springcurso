@@ -2,9 +2,6 @@ package es.palmademallorca.factu.dto;
 
 import java.math.BigDecimal;
 
-import es.palmademallorca.factu.model.FacturaBases;
-import es.palmademallorca.factu.utils.Converter;
-
 /**
  * @author BERNAT1
  *
@@ -25,15 +22,7 @@ public class FacturaBasesDto {
 		this.base = base;
 	}
 
-
-	public FacturaBasesDto(FacturaBases dao) {
-		this.id=dao.getId();
-		this.tipiva=Converter.toDdto(dao.getTipiva());
-		this.por=dao.getPor();
-		this.base=dao.getBase();
-	}
 	
-
 	public Long getId() {
 		return id;
 	}
