@@ -69,20 +69,22 @@ public FacturaDto(Long id, Long numero, Date dat, SerieDto serie, ClienteDto cli
 
 	
 	public FacturaDto(Factura factura) {
-		this.id = factura.getId();
-		this.numero = factura.getNumero();
-		this.dat = factura.getDat();
-		this.serie = Converter.toDto(factura.getSerie());
-		this.cliente=new ClienteDto(factura.getCliente());
-		this.empresa=new EmpresaDto(factura.getEmpresa());
-		this.ejercicio = new EjercicioDto(factura.getEjercicio());
-		this.forpag = new FormapagoDto(factura.getFormaspago());
-		this.impbru=factura.getImpbru();
-		this.pordto=factura.getPordto();
-		this.impdto=factura.getImpdto();
-		this.totfac=factura.getTotfac();
-		this.detall=Converter.toDto(factura.getDetall());
-		this.bases=null; //TODO 
+		if (factura !=null) {
+			this.id = factura.getId();
+			this.numero = factura.getNumero();
+			this.dat = factura.getDat();
+			this.serie = Converter.toDto(factura.getSerie());
+			this.cliente=new ClienteDto(factura.getCliente());
+			this.empresa=new EmpresaDto(factura.getEmpresa());
+			this.ejercicio = new EjercicioDto(factura.getEjercicio());
+			this.forpag = new FormapagoDto(factura.getFormaspago());
+			this.impbru=factura.getImpbru();
+			this.pordto=factura.getPordto();
+			this.impdto=factura.getImpdto();
+			this.totfac=factura.getTotfac();
+			this.detall=Converter.toDto(factura.getDetall());
+			this.bases=null; //TODO
+		}
  		
 	}
 	public Long getId() {

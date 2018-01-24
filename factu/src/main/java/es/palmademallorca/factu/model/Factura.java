@@ -61,11 +61,11 @@ public class Factura {
 	private Ejercicio ejercicio;
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "cliente_id", insertable = false, updatable = false)
+	@JoinColumn(name = "cliente_id", nullable=false, insertable = false, updatable = false)
 	private Cliente cliente;
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "empresa_id", insertable = false, updatable = false)
+	@JoinColumn(name = "empresa_id", nullable=false, insertable = false, updatable = false)
 	private Empresa empresa;
 	@NotNull
 	@ManyToOne

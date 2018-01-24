@@ -277,7 +277,7 @@ public class FactuDao {
 		// TODO Auto-generated method stub
 		QFacturalin faclin = QFacturalin.facturalin;
 		JPAQuery<Facturalin> query = new JPAQuery<>(entityManager);
-		query.from(faclin).where(faclin.facturaId.eq(facturaId)).orderBy(faclin.id.asc());
+		query.from(faclin).where(faclin.factura.id.eq(facturaId)).orderBy(faclin.id.asc());
 		List<Facturalin> result = query.fetch();
 		return result;
 	}

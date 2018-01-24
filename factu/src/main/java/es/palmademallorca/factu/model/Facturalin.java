@@ -33,20 +33,17 @@ public class Facturalin {
 	private BigDecimal pordte;
 	private BigDecimal poriva;
 	private BigDecimal preu;
-	@Column(name="producte_id")
-	private String producteId;
 	private BigDecimal requiv;
-	@Column(name="tipiva_id")
-	private String tipivaId;
 	@Column(name="factura_id")
-	@NotNull
 	private Long facturaId;
+	@ManyToOne
+	@JoinColumn(name = "producte_id", insertable = false, updatable = false)
+	private Producto producto;
 	@ManyToOne
 	@JoinColumn(name = "tipiva_id", insertable = false, updatable = false)
 	private Tipiva tipiva;
-	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "factura_id", insertable = false, updatable = false)
+	@JoinColumn(name = "factura_id", nullable = false, insertable = false, updatable = false)
 	private Factura factura;
 
 	
@@ -55,7 +52,6 @@ public class Facturalin {
 
 	public Facturalin(FacLinDto faclinDto) {
 		this.id=faclinDto.getId();
-		this.producteId=faclinDto.getProducteId();
 		this.cantidad=faclinDto.getCantidad();
 		this.dem=faclinDto.getDem();
 		this.importe=faclinDto.getImporte();
@@ -63,8 +59,9 @@ public class Facturalin {
 		this.poriva=faclinDto.getPoriva();
 		this.preu=faclinDto.getPreu();
 		this.requiv=faclinDto.getRequiv();
-		this.tipivaId=faclinDto.getTipiva().getId();
 		this.facturaId=faclinDto.getFacturaId();
+//		this.factura=Converter.toDao(faclinDto.getFacturaId());
+		this.producto=Converter.toDao(faclinDto.getProducto());
 		this.tipiva=Converter.toDao(faclinDto.getTipiva());
 				
 	}
@@ -125,14 +122,6 @@ public class Facturalin {
 		this.preu = preu;
 	}
 
-	public String getProducteId() {
-		return producteId;
-	}
-
-	public void setProducteId(String producteId) {
-		this.producteId = producteId;
-	}
-
 	public BigDecimal getRequiv() {
 		return requiv;
 	}
@@ -141,28 +130,22 @@ public class Facturalin {
 		this.requiv = requiv;
 	}
 
-	public Long getFacturaId() {
-		return facturaId;
-	}
-
-	public void setFacturaId(Long facturaId) {
-		this.facturaId = facturaId;
-	}
 	
-	public String getTipivaId() {
-		return tipivaId;
-	}
-
-	public void setTipivaId(String tipivaId) {
-		this.tipivaId = tipivaId;
-	}
-
 	public Tipiva getTipiva() {
 		return tipiva;
 	}
 
 	public void setTipiva(Tipiva tipiva) {
 		this.tipiva = tipiva;
+	}
+
+	
+	public Long getFacturaId() {
+		return facturaId;
+	}
+
+	public void setFacturaId(Long facturaId) {
+		this.facturaId = facturaId;
 	}
 
 	public Factura getFactura() {
@@ -173,18 +156,20 @@ public class Facturalin {
 		this.factura = factura;
 	}
 
-	
-//	public Factura getFactura() {
-//		return factura;
-//	}
-//
-//	public void setFactura(Factura factura) {
-//		this.factura = factura;
-//	}
+	public Producto getProducto() {
+		return producto;
+	}
 
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
 
-
-
+	@Override
+	public String toString() {
+		return "Facturalin [id=" + id + ", cantidad=" + cantidad + ", dem=" + dem + ", importe=" + importe + ", pordte="
+				+ pordte + ", poriva=" + poriva + ", preu=" + preu + ", requiv=" + requiv + ", facturaId=" + facturaId
+				+ ", producto=" + producto + ", tipiva=" + tipiva + "]";
+	}
 
 	
 

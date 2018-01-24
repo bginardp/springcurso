@@ -86,9 +86,9 @@ public class FacturaTest {
 				cliente, ejercicio, empresa, forpag,  detall, bases, null, impbru, BigDecimal.ZERO, BigDecimal.ZERO,
 				totfac);
 		// 3 afegim linies
-		 factura.addLinea(new FacLinDto(null, null, cantidad, descripcio, importe, pordte,
-				producto.getTipiva(), poriva, precio, producto.getId(), null));
 		
+		 factura.addLinea(new FacLinDto(null, null, cantidad, descripcio, importe, pordte,
+				producto.getTipiva(), poriva, precio, producto, null));
 		 cantidad=new BigDecimal(20);
 		 poriva=new BigDecimal(11);		
 		 precio = new BigDecimal(1000);
@@ -97,7 +97,7 @@ public class FacturaTest {
 		 descripcio="Servicios diversos ";
 		 producto=factuService.getProducto("02");
 		 factura.addLinea(new FacLinDto(null, null, cantidad, descripcio, importe, pordte,
-				 producto.getTipiva(), poriva, precio, producto.getId(), null));
+				 producto.getTipiva(), poriva, precio, producto, null));
 	
 		
 		// 3 preparem els totals
@@ -118,7 +118,7 @@ public class FacturaTest {
 	@Test
 	public void getFactura() {
 		System.out.println("############# inici getFactura(): ");
-		Long facturaId=11L;
+		Long facturaId=15L;
 		FacturaDto factura = factuService.getFactura(facturaId);
 		System.out.println("############# resultat getFactura(): "); 
 		System.out.println("### identificador:"+factura.getId());

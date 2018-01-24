@@ -25,12 +25,13 @@ public class ProductoDto {
 	}
 	//TODO obtenir el % de iva
 	public ProductoDto(Producto producto) {
-
-		this.id=producto.getId();
-		this.dem=producto.getDem();
-		this.pvp=producto.getPvp();
-		this.hbl = producto.getHbl().equals("S")?true:false;
-		this.tipiva=new TipivaDto(producto.getTipiva());
+		if (producto !=null) {
+			this.id=producto.getId();
+			this.dem=producto.getDem();
+			this.pvp=producto.getPvp();
+			this.hbl = producto.getHbl().equals("S")?true:false;
+			this.tipiva=new TipivaDto(producto.getTipiva());
+		}
 		
 	}
 	

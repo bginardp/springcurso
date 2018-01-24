@@ -9,6 +9,7 @@ import es.palmademallorca.factu.dto.EmpresaDto;
 import es.palmademallorca.factu.dto.FacLinDto;
 import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.dto.FormapagoDto;
+import es.palmademallorca.factu.dto.ProductoDto;
 import es.palmademallorca.factu.dto.SerieDto;
 import es.palmademallorca.factu.dto.TipivaDto;
 import es.palmademallorca.factu.model.Cliente;
@@ -17,6 +18,7 @@ import es.palmademallorca.factu.model.Empresa;
 import es.palmademallorca.factu.model.Factura;
 import es.palmademallorca.factu.model.Facturalin;
 import es.palmademallorca.factu.model.Formapago;
+import es.palmademallorca.factu.model.Producto;
 import es.palmademallorca.factu.model.Serie;
 import es.palmademallorca.factu.model.Tipiva;
 
@@ -53,11 +55,16 @@ public class Converter {
 		if (detall!=null) {
 		   detall.forEach(lin->dto.add(Converter.toDto(lin)));
 		}
-		return null;
+		return dto;
 	}
 
 	private static FacLinDto toDto(Facturalin lin) {
 		FacLinDto dto = new FacLinDto(lin);
+		return dto;
+	}
+	
+	public static ProductoDto toDto(Producto dao) {
+		ProductoDto dto = new ProductoDto(dao);
 		return dto;
 	}
 	
@@ -95,6 +102,13 @@ public class Converter {
 		Formapago dao=new Formapago(dto);
 		return dao;
 	}
+
+	public static Producto toDao(ProductoDto dto) {
+		Producto dao=new Producto(dto);
+		return dao;
+	}
+
+	
 
 	
 

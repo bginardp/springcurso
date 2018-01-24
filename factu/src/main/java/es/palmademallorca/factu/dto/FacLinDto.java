@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import es.palmademallorca.factu.model.Facturalin;
+import es.palmademallorca.factu.utils.Converter;
 
 public class FacLinDto {
 	// TODO afegir validacions s anivell d'atributs
@@ -21,8 +22,7 @@ public class FacLinDto {
 	private BigDecimal pordte;
 	private TipivaDto tipiva;
 	private BigDecimal poriva;
-	@NotNull
-	private String producteId;
+	private ProductoDto producto;
 	private BigDecimal requiv;
 	
 	
@@ -32,7 +32,7 @@ public class FacLinDto {
 
 
 	public FacLinDto(Long id, Long facturaId, BigDecimal cantidad, String dem, BigDecimal importe, BigDecimal pordte,
-			TipivaDto tipiva, BigDecimal poriva, BigDecimal preu, String producteId, BigDecimal requiv) {
+			TipivaDto tipiva, BigDecimal poriva, BigDecimal preu, ProductoDto producto, BigDecimal requiv) {
 		this.id = id;
 		this.facturaId = facturaId;
 		this.cantidad = cantidad;
@@ -42,14 +42,14 @@ public class FacLinDto {
 		this.tipiva = tipiva;
 		this.poriva = poriva;
 		this.preu = preu;
-		this.producteId = producteId;
+		this.producto = producto;
 		this.requiv = requiv;
 	}
 	
 	
 	public FacLinDto(Facturalin faclin) {
 		this.id = faclin.getId();
-		this.facturaId = faclin.getFacturaId();
+		this.facturaId = faclin.getFactura().getId();
 		this.cantidad = faclin.getCantidad();
 		this.dem = faclin.getDem();
 		this.importe = faclin.getImporte();
@@ -57,7 +57,7 @@ public class FacLinDto {
 		this.tipiva = new TipivaDto(faclin.getTipiva());
 		this.poriva = faclin.getPoriva();
 		this.preu = faclin.getPreu();
-		this.producteId = faclin.getProducteId();
+		this.producto = Converter.toDto(faclin.getProducto());
 		this.requiv = faclin.getRequiv();
 	}
 
@@ -119,12 +119,19 @@ public class FacLinDto {
 	public void setPreu(BigDecimal preu) {
 		this.preu = preu;
 	}
-	public String getProducteId() {
-		return producteId;
+
+	
+	
+	public ProductoDto getProducto() {
+		return producto;
 	}
-	public void setProducteId(String producteId) {
-		this.producteId = producteId;
+
+
+	public void setProducto(ProductoDto producto) {
+		this.producto = producto;
 	}
+
+
 	public BigDecimal getRequiv() {
 		return requiv;
 	}
@@ -132,12 +139,15 @@ public class FacLinDto {
 		this.requiv = requiv;
 	}
 
+
 	@Override
 	public String toString() {
 		return "FacLinDto [id=" + id + ", facturaId=" + facturaId + ", dem=" + dem + ", cantidad=" + cantidad
 				+ ", preu=" + preu + ", importe=" + importe + ", pordte=" + pordte + ", tipiva=" + tipiva + ", poriva="
-				+ poriva + ", producteId=" + producteId + ", requiv=" + requiv + "]";
+				+ poriva + ", producto=" + producto + ", requiv=" + requiv + "]";
 	}
+
+	
 
 	
 	
