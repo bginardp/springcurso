@@ -11,6 +11,7 @@ import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.dto.FormapagoDto;
 import es.palmademallorca.factu.dto.ProductoDto;
 import es.palmademallorca.factu.dto.SerieDto;
+import es.palmademallorca.factu.dto.TipivaDetDto;
 import es.palmademallorca.factu.dto.TipivaDto;
 import es.palmademallorca.factu.model.Cliente;
 import es.palmademallorca.factu.model.Ejercicio;
@@ -21,6 +22,7 @@ import es.palmademallorca.factu.model.Formapago;
 import es.palmademallorca.factu.model.Producto;
 import es.palmademallorca.factu.model.Serie;
 import es.palmademallorca.factu.model.Tipiva;
+import es.palmademallorca.factu.model.TipivaDet;
 
 public class Converter {
 	
@@ -67,7 +69,18 @@ public class Converter {
 		ProductoDto dto = new ProductoDto(dao);
 		return dto;
 	}
+
+	public static ClienteDto toDto(Cliente dao) {
+		ClienteDto dto = new ClienteDto(dao);
+		return dto;
+	}
 	
+	public static TipivaDetDto toDto(TipivaDet dao) {
+		TipivaDetDto dto=new TipivaDetDto(dao);
+		return dto;
+	}
+
+
 //	public static FacturaBases toDao(FacturaBasesDto dto) {
 //		FacturaBases dao = new FacturaBases(dto);
 //		return dao;
@@ -107,14 +120,6 @@ public class Converter {
 		Producto dao=new Producto(dto);
 		return dao;
 	}
-
-	
-
-	
-
-	
-
-	
 
 	
 }

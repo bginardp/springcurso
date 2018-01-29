@@ -26,6 +26,7 @@ public interface FactuService {
     public List<SerieDto> findAllSeries(Long empresaId);
     public List<TipivaDto> findAllTiposIva();
     public List<TipivaDetDto> findAllTiposIvaDet();
+    public List<ClienteDto> findAllClientes();
     
     
 	EjercicioDto getEjercicio(long ejercicioId);
@@ -64,9 +65,8 @@ public interface FactuService {
 		
 	public Page<ClienteDto> getClientes(String term, Pageable pageRequest);
 	public List<FacLinDto> getFaclinByFacturaId(Long facturaId);
-	public List<FacturaBasesDto> getImpuestosFactura(Long facturaId);
+//	public List<FacturaBasesDto> getImpuestosFactura(Long facturaId);
 	public Page<ProductoDto> getProductos(String term, Pageable pageRequest);
-	
 	public Page<FacturaDto> getFacturas(Long empresa, Long ejercicio,String term,Pageable pageRequest);
 	
 	public String init (long ejercicio, long empresaId);

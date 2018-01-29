@@ -60,23 +60,13 @@ public class FacturaTest {
 		// 1 preparem els paramatres que has d'intervenir amb l'alta
 		
 		EmpresaDto empresa=adminService.getEmpresa(1L);
-		EjercicioDto ejercicio =factuService.getEjercicio(2018L);
-		
+		EjercicioDto ejercicio =factuService.getEjercicio(2018L);		
 		FormapagoDto forpag=factuService.getFormapago(1L); // talon
 		ClienteDto cliente=factuService.getCliente(1L);
 		SerieDto serie=factuService.getSerie("A");
 		
 		List<FacLinDto> detall = new ArrayList<FacLinDto>();
-		// 2 preparem una línia de detall
-		//TipivaDto ivaordinario = factuService.getTipIva("1");
-		//TipivaDto ivareducido = factuService.getTipIva("2");
-		BigDecimal cantidad=new BigDecimal(10);
-		BigDecimal poriva=new BigDecimal(21);		
-		BigDecimal precio = new BigDecimal(1000);
-		BigDecimal importe= cantidad.multiply(precio);
-		BigDecimal pordte = BigDecimal.ZERO;
-		String descripcio="Material caro";
-		ProductoDto producto=factuService.getProducto("01");
+		
 		Date dat=new Date(System.currentTimeMillis());
 		List<FacturaBasesDto> bases = new ArrayList<FacturaBasesDto>();
 		BigDecimal impbru=null;
@@ -85,10 +75,24 @@ public class FacturaTest {
 		FacturaDto factura=new FacturaDto(null, null, dat, serie,
 				cliente, ejercicio, empresa, forpag,  detall, bases, null, impbru, BigDecimal.ZERO, BigDecimal.ZERO,
 				totfac);
-		// 3 afegim linies
+		// 2 afegim linia 1
+		
+		
+				//TipivaDto ivaordinario = factuService.getTipIva("1");
+				//TipivaDto ivareducido = factuService.getTipIva("2");
+				BigDecimal cantidad=new BigDecimal(10);
+				BigDecimal poriva=new BigDecimal(21);		
+				BigDecimal precio = new BigDecimal(1000);
+				BigDecimal importe= cantidad.multiply(precio);
+				BigDecimal pordte = BigDecimal.ZERO;
+				String descripcio="Material caro";
+				ProductoDto producto=factuService.getProducto("01");
 		
 		 factura.addLinea(new FacLinDto(null, null, cantidad, descripcio, importe, pordte,
 				producto.getTipiva(), poriva, precio, producto, null));
+		
+		 // 3 afegim linia 2
+		 
 		 cantidad=new BigDecimal(20);
 		 poriva=new BigDecimal(11);		
 		 precio = new BigDecimal(1000);
@@ -100,14 +104,15 @@ public class FacturaTest {
 				 producto.getTipiva(), poriva, precio, producto, null));
 	
 		
-		// 3 preparem els totals
+		// 4 acumulem les bases imponibles  i el total
 		
 		bases.add(new FacturaBasesDto(producto.getTipiva(),poriva, null, importe));
 	
 		impbru=detall.stream().map(FacLinDto::getImporte).reduce(BigDecimal.ZERO,BigDecimal::add);
+		
 		totfac=impbru.multiply(poriva.divide(new BigDecimal(100)));
 
-		
+		// 5 guardem a bd els canvis
 		
 		Long id=factuService.saveFactura(factura);
 		

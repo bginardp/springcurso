@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import com.querydsl.jpa.impl.JPAQuery;
 
+import es.palmademallorca.factu.dto.ClienteDto;
 import es.palmademallorca.factu.jpa.ClienteRepository;
 import es.palmademallorca.factu.jpa.EjercicioRepository;
 import es.palmademallorca.factu.jpa.EmpresaRepository;
@@ -116,6 +117,8 @@ public class FactuDao {
 		
 		
 	}
+	
+	
 
 	public Page<Cliente> findClientesByTerm(String term, Pageable pageRequest) {
 		// 1ª opción -> nombre de método complejo en el repositorio -> no
@@ -190,6 +193,11 @@ public class FactuDao {
 	public List<Producto> findAllProductos() {
 		Iterable<Producto> productos = productoRepository.findAll(new Sort(new Order(Direction.ASC, "dem")));
 		return convertItToList(productos);
+	}
+	
+	public List<Cliente> findAllClientes() {
+		Iterable<Cliente> clientes = clienteRepository.findAll(new Sort(new Order(Direction.ASC, "id")));
+		return convertItToList(clientes);
 	}
 
 	public Page<Producto> findProductosByTerm(String term, Pageable pageRequest) {
@@ -282,20 +290,6 @@ public class FactuDao {
 		return result;
 	}
 
-	public Factura getFactura(Long facturaId) {
-		if (facturaId != null) {
-			return facturaRepository.findOne(facturaId);
-		}
-		return null;
-	}
-
-	public Facturalin findOneFaclin(Long faclinId) {
-		if (faclinId != null) {
-			return faclinRepository.findOne(faclinId);
-		}
-		return null;
-	}
-
 	
 	public void saveFactura(Factura factura) {
 		if (factura != null) {
@@ -377,6 +371,21 @@ public class FactuDao {
 		}
 		return null;
 	}
+	
+	public Factura getFactura(Long facturaId) {
+		if (facturaId != null) {
+			return facturaRepository.findOne(facturaId);
+		}
+		return null;
+	}
+
+	public Facturalin getFacturaLin(Long faclinId) {
+		if (faclinId != null) {
+			return faclinRepository.findOne(faclinId);
+		}
+		return null;
+	}
+
 	
 	public void removeFormaPago(Long formapagoId) {
 		if (formapagoId != null) {
@@ -476,6 +485,8 @@ public class FactuDao {
 	public Ejercicio getDefaultEjercicio() {
 		return ejercicioRepository.findFirstByOrderByIdDesc();
 	}
+
+	
 
 	
 	

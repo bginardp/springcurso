@@ -1,5 +1,7 @@
 package es.palma.factu;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,19 @@ public class ClienteTest {
 	FactuService factuService;
 	
 	@Test
-	public void getClientes() {
-		System.out.println("############# inici getClientes(): ");
+	public void getClientesByTerm() {
+		System.out.println("############# inici getClientesByTerm(): ");
 		Pageable page = new PageRequest(0,10);
 		Page<ClienteDto> clientes = factuService.getClientes("43", page);
+		System.out.println("############# resultat getClientesByTerm(): "); 
+		clientes.forEach(item-> System.out.println(item.getId() + " " + item.getCif() + " " + item.getNom()));
+		assert (clientes != null);
+	}
+	
+	@Test
+	public void getClientes() {
+		System.out.println("############# inici getClientes(): ");
+		List<ClienteDto> clientes = factuService.findAllClientes();
 		System.out.println("############# resultat getClientes(): "); 
 		clientes.forEach(item-> System.out.println(item.getId() + " " + item.getCif() + " " + item.getNom()));
 		assert (clientes != null);
