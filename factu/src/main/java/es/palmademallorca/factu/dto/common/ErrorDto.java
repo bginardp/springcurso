@@ -33,6 +33,11 @@ public class ErrorDto {
 		this.dem = dem;
 	}
 
+	public ErrorDto(String dem) {
+		super();
+		this.tip = "E";
+		this.dem = dem;
+	}
 	public Long getCon() {
 		return con;
 	}

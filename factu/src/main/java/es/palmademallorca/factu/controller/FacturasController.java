@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -30,8 +32,10 @@ import es.palmademallorca.factu.dto.EjercicioDto;
 import es.palmademallorca.factu.dto.EmpresaDto;
 import es.palmademallorca.factu.dto.FacLinDto;
 import es.palmademallorca.factu.dto.FacturaDto;
+import es.palmademallorca.factu.dto.common.ErrorDto;
 import es.palmademallorca.factu.service.AdminService;
 import es.palmademallorca.factu.service.FactuService;
+import es.palmademallorca.factu.utils.Constants;
 
 @Controller
 public class FacturasController {
@@ -84,19 +88,35 @@ public class FacturasController {
 		return gotoFacturasList(model);
 	}
 	
-	@RequestMapping(value = "/factura/save", method = RequestMethod.POST, params={"save"})
-	public String save(
-			Model model,
-			@Valid @ModelAttribute("factura") FacturaDto factura,
-			BindingResult results){
+	@PostMapping(value = "/factura/save", params={"save"})
+	public String save(Model model, @Valid @ModelAttribute("factura") FacturaDto factura, BindingResult results){
 		if (results.hasErrors()){
 			return gotoEditFactura(model, factura);
 		} else {
-			Long facturaId=factuService.saveFactura(factura);
-			return "redirect:/factura/"+facturaId+"?msg=ok";
+			factura=validaFacturaForm(factura);
+			if (factura.hasErrors()) {
+				return gotoEditFactura(model, factura);	
+			} else {
+				Long facturaId=factuService.saveFactura(factura);
+				return "redirect:/factura/"+facturaId+"?msg=ok";	
+			}
+			
 		}
 	}
 	
+	private FacturaDto validaFacturaForm(FacturaDto factura) {
+		if (factura.getCliente()==null || StringUtils.isBlank(factura.getCliente().getCif())) {
+			factura.addError(new ErrorDto(Constants.ERR_CLIENT_NOTNULL));
+		}
+		if (factura.getEmpresa()==null || factura.getEmpresa().getId()==0) {
+			factura.addError(new ErrorDto(Constants.ERR_EMPRESA_NOTNULL));
+		}
+		if (!factura.hasDetall()) {
+			factura.addError(new ErrorDto(Constants.ERR_LINDET_NOTNULL));
+		}
+		return factura;
+	}
+
 	@RequestMapping(value = "/factura/save", method = RequestMethod.POST, params={"addRow"})
 	public String addRow (Model model,@Valid @ModelAttribute("factura") FacturaDto factura,BindingResult results) {
 		// 1 obtenim la linia que s'ha editat a la pantalla

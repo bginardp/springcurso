@@ -45,14 +45,14 @@ var app={
 				        $("#empresa").val(ui.item.label);
 				    }
 		});
-		$("#linea\\.producteId").autocomplete(
+		$("#producte").autocomplete(
 				{
 					source : '/ajax/productos',
 					select : function(event, ui) {
 						var id = ui.item.value;
 						var nom = ui.item.label;
 						event.preventDefault();
-						$("#linea\\.producteId").val(id);
+						$("#linea\\.producto\\.id").val(id);
 						$("#linea\\.dem").val(nom);
 						/* $("#dadesPro").html(
 								'<strong>' + ui.item.label + '</strong><br/>' 
@@ -62,7 +62,7 @@ var app={
 					},					
 				    focus: function(event, ui) {
 				        event.preventDefault();
-				        $("#producto").val(ui.item.label);
+				        $("#producte").val(ui.item.label);
 				    }
 				});
   },

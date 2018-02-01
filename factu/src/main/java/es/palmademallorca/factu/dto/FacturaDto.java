@@ -19,14 +19,13 @@ import es.palmademallorca.factu.utils.Converter;
  * @author bernat
  *
  */
-public class FacturaDto extends ErrorsDto{
+public class FacturaDto extends ErrorsDto {
 	private Long id;
 	private Long numero;
 	@NotNull
-//	@DateTimeFormat(pattern="dd/MM/yyyy")
+	// @DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date dat;
 	private ClienteDto cliente;
-	@NotNull
 	private SerieDto serie;
 	private EjercicioDto ejercicio;
 	private EmpresaDto empresa;
@@ -38,18 +37,15 @@ public class FacturaDto extends ErrorsDto{
 	private BigDecimal pordto;
 	private BigDecimal impdto;
 	private BigDecimal totfac;
-	
-	
+
 	public FacturaDto() {
-	
+
 	}
-	
-	
-	
-public FacturaDto(Long id, Long numero, Date dat, SerieDto serie, ClienteDto cliente, EjercicioDto ejercicio, EmpresaDto empresa, FormapagoDto forpag, List<FacLinDto> detall,
-			List<FacturaBasesDto> bases, FacLinDto linea, BigDecimal impbru, BigDecimal pordto, BigDecimal impdto,
-			BigDecimal totfac) {
-		
+
+	public FacturaDto(Long id, Long numero, Date dat, SerieDto serie, ClienteDto cliente, EjercicioDto ejercicio,
+			EmpresaDto empresa, FormapagoDto forpag, List<FacLinDto> detall, List<FacturaBasesDto> bases,
+			FacLinDto linea, BigDecimal impbru, BigDecimal pordto, BigDecimal impdto, BigDecimal totfac) {
+
 		this.id = id;
 		this.numero = numero;
 		this.dat = dat;
@@ -67,45 +63,50 @@ public FacturaDto(Long id, Long numero, Date dat, SerieDto serie, ClienteDto cli
 		this.totfac = totfac;
 	}
 
-	
 	public FacturaDto(Factura factura) {
-		if (factura !=null) {
+		if (factura != null) {
 			this.id = factura.getId();
 			this.numero = factura.getNumero();
 			this.dat = factura.getDat();
 			this.serie = Converter.toDto(factura.getSerie());
-			this.cliente=new ClienteDto(factura.getCliente());
-			this.empresa=new EmpresaDto(factura.getEmpresa());
+			this.cliente = new ClienteDto(factura.getCliente());
+			this.empresa = new EmpresaDto(factura.getEmpresa());
 			this.ejercicio = new EjercicioDto(factura.getEjercicio());
 			this.forpag = new FormapagoDto(factura.getFormaspago());
-			this.impbru=factura.getImpbru();
-			this.pordto=factura.getPordto();
-			this.impdto=factura.getImpdto();
-			this.totfac=factura.getTotfac();
-			this.detall=Converter.toDto(factura.getDetall());
-			this.bases=null; //TODO
+			this.impbru = factura.getImpbru();
+			this.pordto = factura.getPordto();
+			this.impdto = factura.getImpdto();
+			this.totfac = factura.getTotfac();
+			this.detall = Converter.toDto(factura.getDetall());
+			this.bases = null; // TODO
 		}
- 		
+
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public Long getNumero() {
 		return numero;
 	}
+
 	public void setNumero(Long numero) {
 		this.numero = numero;
 	}
+
 	public Date getDat() {
 		return dat;
 	}
+
 	public void setDat(Date dat) {
 		this.dat = dat;
 	}
-	
+
 	public SerieDto getSerie() {
 		return serie;
 	}
@@ -117,71 +118,91 @@ public FacturaDto(Long id, Long numero, Date dat, SerieDto serie, ClienteDto cli
 	public ClienteDto getCliente() {
 		return cliente;
 	}
+
 	public void setCliente(ClienteDto cliente) {
 		this.cliente = cliente;
 	}
+
 	public EjercicioDto getEjercicio() {
 		return ejercicio;
 	}
+
 	public void setEjercicio(EjercicioDto ejercicio) {
 		this.ejercicio = ejercicio;
 	}
+
 	public EmpresaDto getEmpresa() {
 		return empresa;
 	}
+
 	public void setEmpresa(EmpresaDto empresa) {
 		this.empresa = empresa;
 	}
+
 	public FormapagoDto getForpag() {
 		return forpag;
 	}
+
 	public void setForpag(FormapagoDto forpag) {
 		this.forpag = forpag;
 	}
+
 	public List<FacLinDto> getDetall() {
 		return detall;
 	}
+
 	public void setDetall(List<FacLinDto> detall) {
 		this.detall = detall;
 	}
+
 	public List<FacturaBasesDto> getBases() {
 		return bases;
 	}
+
 	public void setBases(List<FacturaBasesDto> bases) {
 		this.bases = bases;
 	}
+
 	public FacLinDto getLinea() {
 		return linea;
 	}
+
 	public void setLinea(FacLinDto linea) {
 		this.linea = linea;
 	}
+
 	public BigDecimal getImpbru() {
 		return impbru;
 	}
+
 	public void setImpbru(BigDecimal impbru) {
 		this.impbru = impbru;
 	}
+
 	public BigDecimal getPordto() {
 		return pordto;
 	}
+
 	public void setPordto(BigDecimal pordto) {
 		this.pordto = pordto;
 	}
+
 	public BigDecimal getImpdto() {
 		return impdto;
 	}
+
 	public void setImpdto(BigDecimal impdto) {
 		this.impdto = impdto;
 	}
+
 	public BigDecimal getTotfac() {
 		return totfac;
 	}
+
 	public void setTotfac(BigDecimal totfac) {
 		this.totfac = totfac;
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		return "FacturaDto [id=" + id + ", numero=" + numero + ", dat=" + dat + ", cliente=" + cliente + ", serie="
@@ -190,31 +211,28 @@ public FacturaDto(Long id, Long numero, Date dat, SerieDto serie, ClienteDto cli
 				+ ", impdto=" + impdto + ", totfac=" + totfac + "]";
 	}
 
-
-
 	public void addLinea(FacLinDto facLinDto) {
 		// TODO Auto-generated method stub
 		detall.add(facLinDto);
 		actualitzaBases();
-		
+
 	}
+
 	private void actualitzaBases() {
 		bases.clear();
-		
+
 		for (FacLinDto lin : detall) {
-		   if (lin.getTipiva() != null) {
-			   if (bases.isEmpty()) {
-				   bases.add(new FacturaBasesDto(lin.getTipiva(),lin.getPoriva(),lin.getRequiv(),lin.getImporte()));   
-			   } else {
-			   }
-		   }
+			if (lin.getTipiva() != null) {
+				if (bases.isEmpty()) {
+					bases.add(new FacturaBasesDto(lin.getTipiva(), lin.getPoriva(), lin.getRequiv(), lin.getImporte()));
+				} else {
+				}
+			}
 		}
 	}
-	
-	public boolean hasDetall( ) {
-		return detall!=null && detall.size()>0;
-	}
-			  
 
+	public boolean hasDetall() {
+		return detall != null && detall.size() > 0;
+	}
 
 }

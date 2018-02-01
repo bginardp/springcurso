@@ -77,6 +77,12 @@ public class ProductoDto {
 	public void setPoriva(BigDecimal poriva) {
 		this.poriva = poriva;
 	}
+	
+	@Override
+	public String toString() {
+		return "ProductoDto [id=" + id + ", dem=" + dem + ", pvp=" + pvp + ", hbl=" + hbl + ", tipiva=" + tipiva
+				+ ", poriva=" + poriva + "]";
+	}
 
 	
 	

@@ -5,6 +5,10 @@ import es.palmademallorca.factu.model.Ejercicio;
 public class EjercicioDto {
 	private Long id;
 
+	public EjercicioDto() {
+		
+	}
+	
 	public EjercicioDto(Long id) {
 		this.id=id;
 	}

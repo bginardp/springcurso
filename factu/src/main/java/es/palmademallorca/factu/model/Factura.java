@@ -88,7 +88,7 @@ public class Factura {
 		this.id=facturaDto.getId();
 		this.numero=facturaDto.getNumero();
 		this.dat=facturaDto.getDat();
-		this.serieId=facturaDto.getSerie().getId();
+		this.serieId=facturaDto.getSerie()!=null?facturaDto.getSerie().getId():null;
 		this.serie=Converter.toDao(facturaDto.getSerie());
 		this.ejercicioId=facturaDto.getEjercicio().getId();
 		this.ejercicio=Converter.toDao(facturaDto.getEjercicio());
