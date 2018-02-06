@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -80,7 +81,12 @@ public class FactuServiceImpl implements FactuService {
 		List<Producto> productos = factuDao.findAllProductos();
 		List<ProductoDto> content = new ArrayList<ProductoDto>();
 		for (Producto producto : productos) {
-			content.add(new ProductoDto(producto));
+			TipivaDetDto detiva=getTipivaDetVigent(producto.getTipiva().getId(), null);
+			if (detiva!=null) {
+			   producto.setPoriva(detiva.getPoriva());
+			   producto.setRequiv(detiva.getRequiv());
+			}
+			content.add(Converter.toDto(producto));
 		}
 		return content;
 	}
@@ -132,6 +138,11 @@ public class FactuServiceImpl implements FactuService {
 	@Override
 	public ProductoDto getProducto(String productoId) {
 		Producto producto = factuDao.getProducto(productoId);
+		TipivaDetDto detiva=getTipivaDetVigent(producto.getTipiva().getId(), null);
+		if (detiva!=null) {
+		   producto.setPoriva(detiva.getPoriva());
+		   producto.setRequiv(detiva.getRequiv());
+		}
 		ProductoDto productoDto = new ProductoDto(producto);
 		return productoDto;
 	}
@@ -358,7 +369,12 @@ public class FactuServiceImpl implements FactuService {
 		Page<Producto> page = factuDao.findProductosByTerm(term, pageRequest);
 		List<ProductoDto> content = new ArrayList<>();
 		for (Producto producto : page) {
-			content.add(new ProductoDto(producto));
+			TipivaDetDto detiva=getTipivaDetVigent(producto.getTipiva().getId(), null);
+			if (detiva!=null) {
+			   producto.setPoriva(detiva.getPoriva());
+			   producto.setRequiv(detiva.getRequiv());
+			}
+			content.add(Converter.toDto(producto));
 		}
 		return new PageImpl<>(content, pageRequest, page.getTotalElements());
 	}

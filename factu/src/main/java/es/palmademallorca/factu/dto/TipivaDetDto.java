@@ -64,8 +64,6 @@ public class TipivaDetDto {
 	}
 
 
-	
-
 	public Long getMes() {
 		return mes;
 	}

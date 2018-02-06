@@ -80,12 +80,6 @@ public class Converter {
 		return dto;
 	}
 
-
-//	public static FacturaBases toDao(FacturaBasesDto dto) {
-//		FacturaBases dao = new FacturaBases(dto);
-//		return dao;
-//	}
-
 	public static Tipiva toDao(TipivaDto tipiva) {
 		Tipiva dao=new Tipiva(tipiva);
 		return dao;

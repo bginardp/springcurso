@@ -49,6 +49,12 @@ public class TipivaDto {
 		// TODO Auto-generated method stub
 		return super.equals(obj);
 	}
+
+	@Override
+	public String toString() {
+		return "TipivaDto [id=" + id + ", dem=" + dem + "]";
+	}
+	
 	
 	
 	

@@ -4,9 +4,12 @@ var app={
   },
 
   iniciControls: function(){
+	  document.getElementById("linea\.preu").onchange=this.updateTotal;
+	  document.getElementById("linea\.cantidad").onchange=this.updateTotal;
 	  $("#btnAddlin").on("click", function(){
 		  $('#frmAddLin').submit();  
 	  });
+	  
 	  $("#cliente").autocomplete({
 					source : '/ajax/clientes',
 					minLength:2,
@@ -54,6 +57,8 @@ var app={
 						event.preventDefault();
 						$("#linea\\.producto\\.id").val(id);
 						$("#linea\\.dem").val(nom);
+						$("#linea\\.preu").val(ui.item.pvp);
+						$("#linea\\.poriva").val(ui.item.poriva);
 						/* $("#dadesPro").html(
 								'<strong>' + ui.item.label + '</strong><br/>' 
 										+ ui.item.cif + '<br/>' 
@@ -66,14 +71,16 @@ var app={
 				    }
 				});
   },
+  updateTotal: function(){
+	    var total=0;
+	    var preu = Number(document.getElementById("linea\.preu").value);
+	    var cantidad = Number(document.getElementById("linea\.cantidad").value);    
+	    total = preu * cantidad;
+	      /* Attempt to update the value (Inside a TD tag) */
+	     document.getElementById('linea\.importe').value=total;
+	  }
  
 };
-
-//if ('addEventListener' in document) {
-//    document.addEventListener('DOMContentLoaded', function() {
-//        app.iniciFactura();
-//    }, false);
-//}
 
 $(document).ready(function(){
 	app.iniciFactura();

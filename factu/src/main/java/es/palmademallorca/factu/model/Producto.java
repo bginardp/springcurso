@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import es.palmademallorca.factu.dto.ProductoDto;
 
@@ -26,6 +27,10 @@ public class Producto {
 	@ManyToOne
 	@JoinColumn(name = "tipiva_id", insertable = false, updatable = false)
 	private Tipiva tipiva;
+	@Transient 
+	private BigDecimal poriva;
+	@Transient 
+	private BigDecimal requiv;
 
 	public Producto() {
 	}
@@ -99,6 +104,32 @@ public class Producto {
 	public void setTipiva(Tipiva tipiva) {
 		this.tipiva = tipiva;
 	}
+
+
+
+	public BigDecimal getPoriva() {
+		return poriva;
+	}
+
+
+
+	public void setPoriva(BigDecimal poriva) {
+		this.poriva = poriva;
+	}
+
+
+
+	public BigDecimal getRequiv() {
+		return requiv;
+	}
+
+
+
+	public void setRequiv(BigDecimal requiv) {
+		this.requiv = requiv;
+	}
+	
+
 
 
 }

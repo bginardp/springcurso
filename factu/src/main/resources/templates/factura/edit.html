@@ -90,10 +90,10 @@
 						      <tr class="row">
 						        <td scope="row" class="col-2"><input class="form-control autocomplete" type="text"  id="producte" th:field="*{linea.producto.id}"/></td>
 							    <td class="col-5"><input class="form-control" type="text" th:field="*{linea.dem}"/></td>
-							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.cantidad}"/></td>
-							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.preu}" /></td>
-							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.poriva}"/></td>
-							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.importe}"/></td> 
+							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.cantidad}" step=".01"/></td>
+							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.preu}" step=".01" /></td>
+							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.poriva}" readonly="readonly"/></td>
+							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.importe}" step=".01"/></td> 
 							    <td><button id="btnAddlin" name="addRow" type="submit" class="btn btn-primary btn-sm">Añadir</button></td>
 							  </tr> 
 							   </tbody>

@@ -6,7 +6,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import es.palmademallorca.factu.model.Producto;
+import es.palmademallorca.factu.utils.Converter;
 
+/**
+ * @author BERNAT1
+ *
+ */
 public class ProductoDto {
 	
 	private String id;
@@ -17,22 +22,24 @@ public class ProductoDto {
 	private boolean hbl;
 	private TipivaDto tipiva;
 	private BigDecimal poriva;
+	private BigDecimal requiv;
 	
 	
 	public ProductoDto() {
 		this.hbl=true;
 	
 	}
-	//TODO obtenir el % de iva
+
 	public ProductoDto(Producto producto) {
 		if (producto !=null) {
 			this.id=producto.getId();
 			this.dem=producto.getDem();
 			this.pvp=producto.getPvp();
 			this.hbl = producto.getHbl().equals("S")?true:false;
-			this.tipiva=new TipivaDto(producto.getTipiva());
+			this.tipiva=Converter.toDdto(producto.getTipiva());
+			this.poriva=producto.getPoriva();
+			this.requiv=producto.getRequiv();
 		}
-		
 	}
 	
 	public String getId() {
@@ -78,12 +85,20 @@ public class ProductoDto {
 		this.poriva = poriva;
 	}
 	
+	public BigDecimal getRequiv() {
+		return requiv;
+	}
+	public void setRequiv(BigDecimal requiv) {
+		this.requiv = requiv;
+	}
+	
 	@Override
 	public String toString() {
 		return "ProductoDto [id=" + id + ", dem=" + dem + ", pvp=" + pvp + ", hbl=" + hbl + ", tipiva=" + tipiva
-				+ ", poriva=" + poriva + "]";
+				+ ", poriva=" + poriva + ", requiv=" + requiv + "]";
 	}
 
+	
 	
 	
 }
