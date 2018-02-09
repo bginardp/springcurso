@@ -82,6 +82,7 @@ public class FactuDao {
 		Empresa empresa=empresaRepository.findOne(1L);
 		if (empresa==null) {
 			LOGGER.info("################ iniciant les dades #################");
+			// datos genericos
 			empresa=new Empresa(1L, "EMPRESA 1", "EMPRESA 1 AMPLIADA", "C/PRUEBAS NUM:14 BAJOS", "", "PALMA","B01234567", "MADRID", "911232342", "provae@dmaoin.com", "07008");
 			empresaRepository.save(empresa);
 			Serie serie = new Serie("A", "SA", "S", 1L);
@@ -92,24 +93,43 @@ public class FactuDao {
 			formapagoRepository.save(fp);
 			fp = new Formapago("talon", "S");
 			formapagoRepository.save(fp);
+			// clientes
 		    Cliente cliente=new Cliente("432345678", "ZARDOYA S.A", "POLIGOCO CAN VALERO NAVE 34", "PALMA", "ILLES BALEARS", "08002",
 					"917234123", "616232323", "zardoya@company.com", null, 1L);
 		    clienteRepository.save(cliente);
 		    cliente=new Cliente("A02345678", "LICOR 43 S.A", "POLIGOCO SON ROSSINYOL 23", "PALMA", "ILLES BALEARS", "02002",
 					"937234123", "618232323", "licor43@company.com", null, 1L);
 		    clienteRepository.save(cliente);
-		    Tipiva tipiva = new Tipiva("1","ordinario");
-		    tipivaRepository.save(tipiva);
-		    TipivaDet tipivadet = new TipivaDet(tipiva, 2017L, 01L, new BigDecimal(21), BigDecimal.ZERO);
+		    // tipos de iva
+		    Tipiva ordinario = new Tipiva("1","ordinario");
+		    tipivaRepository.save(ordinario);
+		    TipivaDet tipivadet = new TipivaDet(ordinario, 2017L, 01L, new BigDecimal("21"), BigDecimal.ZERO);
 		    tipivadetRepository.save(tipivadet);
-		    Producto producto = new Producto("P1", "PRODUCTO 01", new BigDecimal(10.5), "S", tipiva);
-		    productoRepository.save(producto);
+		    Tipiva reducido  = new Tipiva("2","reducido");
+		    tipivaRepository.save(reducido);
+		    tipivadet = new TipivaDet(reducido, 2017L, 01L, new BigDecimal("10"), BigDecimal.ZERO);
+		    tipivadetRepository.save(tipivadet);
+		    Tipiva superreducido  = new Tipiva("2","reducido");
+		    tipivaRepository.save(superreducido);
+		    tipivadet = new TipivaDet(superreducido, 2017L, 01L, new BigDecimal("3"), BigDecimal.ZERO);
+		    tipivadetRepository.save(tipivadet);
+		    Tipiva exento  = new Tipiva("4","exento");
+		    tipivaRepository.save(exento);
+		    tipivadet = new TipivaDet(exento, 2017L, 01L, new BigDecimal("0"), BigDecimal.ZERO);
+		    tipivadetRepository.save(tipivadet);
 		    
-		    tipiva = new Tipiva("2","reducido");
-		    tipivaRepository.save(tipiva);
-		    tipivadet = new TipivaDet(tipiva, 2017L, 01L, new BigDecimal(10), BigDecimal.ZERO);
-		    tipivadetRepository.save(tipivadet);
-		    producto = new Producto("P2", "PRODUCTO 02", new BigDecimal(100), "S", tipiva);
+		    // productos
+		    Producto producto = new Producto("P1", "PRODUCTO 01", new BigDecimal("10.5"), "S", ordinario);
+		    productoRepository.save(producto);
+		    producto = new Producto("P2", "PRODUCTO 02", new BigDecimal("1.5"), "S", reducido);
+		    productoRepository.save(producto);
+		    producto = new Producto("P3", "PRODUCTO 03", new BigDecimal("2.5"), "S", ordinario);
+		    productoRepository.save(producto);
+		    producto = new Producto("P4", "PRODUCTO 04", new BigDecimal("100"), "S", reducido);
+		    productoRepository.save(producto);
+		    producto = new Producto("P5", "PRODUCTO 05", new BigDecimal("1000"), "S", ordinario);
+		    productoRepository.save(producto);
+		    producto = new Producto("P6", "PRODUCTO 06", new BigDecimal("456.50"), "S", exento);
 		    productoRepository.save(producto);
 		    
 		    LOGGER.info("################ finalitzada inicialització de les dades #################");

@@ -2,7 +2,6 @@ package es.palmademallorca.factu.dto;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -30,6 +29,23 @@ public class FacLinDto {
 	
 	}
 
+	public FacLinDto(String dem, BigDecimal cantidad, BigDecimal preu,  BigDecimal importe, BigDecimal pordte,
+			ProductoDto producto) {
+		this.dem = dem;
+		this.cantidad = cantidad;
+		this.preu = preu;
+		if (cantidad!=null && preu!=null) {
+			this.importe=cantidad.multiply(preu);
+		    this.importe = this.importe.setScale(2, BigDecimal.ROUND_HALF_UP);
+		} else {
+		  this.importe = importe;}
+		
+		this.pordte = pordte;
+		this.producto = producto;
+		this.tipiva = producto.getTipiva();
+		this.poriva = producto.getPoriva();
+		this.requiv = producto.getRequiv();
+	}
 
 	public FacLinDto(Long id, Long facturaId, BigDecimal cantidad, String dem, BigDecimal importe, BigDecimal pordte,
 			TipivaDto tipiva, BigDecimal poriva, BigDecimal preu, ProductoDto producto, BigDecimal requiv) {

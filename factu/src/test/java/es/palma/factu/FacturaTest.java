@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -106,7 +109,7 @@ public class FacturaTest {
 		
 		// 4 acumulem les bases imponibles  i el total
 		
-		bases.add(new FacturaBasesDto(producto.getTipiva(),poriva, null, importe));
+		bases.add(new FacturaBasesDto(producto.getTipiva(),poriva, importe));
 	
 		impbru=detall.stream().map(FacLinDto::getImporte).reduce(BigDecimal.ZERO,BigDecimal::add);
 		
@@ -144,6 +147,102 @@ public class FacturaTest {
 		}
 		assert (factura != null);
 	}
+	
+	
+	@Test
+	public void calculImportFactura() {
+		FacturaDto factura= new FacturaDto();
+		Date data=new Date(System.currentTimeMillis());
+		factura.setDat(data);
+		factura.setNumero(1L);
+		// 1 inventem un detall
+		List<FacLinDto> detall = initDetall();
+		factura.setDetall(detall);
+		System.out.println(" #### detall " );
+		detall.forEach(item->{
+			System.out.println(item);
+		});
+		
+		// 2 acumula les bases agrupant per tipus de iva i % iva
+
+//		Map<TipivaDto,Set<FacLinDto>> tipivaMap=detall.stream().collect(Collectors.groupingBy(FacLinDto::getTipiva,Collectors.toSet()));
+//		System.out.println("Detall agrupat per tipus de iva");
+//		tipivaMap.forEach((TipivaDto key, Set<FacLinDto> llista)->System.out.println(key + "-> "+llista));
+		List<FacturaBasesDto> bases = detall.stream()
+			    .collect(Collectors.groupingBy(
+			    	FacLinDto::getTipiva,
+			        Collectors.groupingBy(
+			        	FacLinDto::getPoriva,
+			            Collectors.reducing(
+			                BigDecimal.ZERO,
+			                FacLinDto::getImporte,
+			                BigDecimal::add))))
+			    .entrySet()
+			    .stream()
+			    .flatMap(e1 -> e1.getValue()
+			         .entrySet()
+			         .stream()
+			         .map(e2 -> new FacturaBasesDto(e1.getKey(), e2.getKey(), e2.getValue())))  //TipivaDto tipiva, BigDecimal por, BigDecimal requiv, BigDecimal base
+			    .collect(Collectors.toList());
+		
+		factura.setBases(bases);
+
+		
+		System.out.println("##### bases acumulades per tipus iva");
+		bases.forEach(item->System.out.println(item));
+		
+		// 3 sumem totes les bases 
+
+		BigDecimal sumbases = bases
+				.stream()
+				.map(FacturaBasesDto::getBase)
+				.reduce(BigDecimal::add)
+				.get();
+		// 4 sumem els imports dels impostos
+		BigDecimal sumimpostos = bases.stream().map(FacturaBasesDto::getImpiva).reduce(BigDecimal::add).get();
+		
+		// 5 sumem el irpf
+		BigDecimal impirpf=BigDecimal.ZERO;		
+	    // 6 sumem el total de la factura
+		BigDecimal totfac= sumbases.add(sumimpostos).add(impirpf);
+		factura.setTotfac(totfac);
+		System.out.println("##### total factura :"+totfac);
+		
+		
+//		BigDecimal sum = detall
+//	    .stream()
+//	    .map(FacLinDto::getImporte)
+//	    .reduce(BigDecimal::add)
+//	    .get();
+
+		
+		
+		}
+
+	private List<FacLinDto> initDetall() {
+		List<FacLinDto> detall= new ArrayList<>();
+		
+	//  				String dem, BigDecimal cantidad, BigDecimal preu, BigDecimal pordte String productoId 
+		detall.add(newDetall("A", new BigDecimal("2.5"), new BigDecimal("3.75"),null,"P1" ));
+		detall.add(newDetall("B", new BigDecimal("3.22"), new BigDecimal("3.90"),BigDecimal.ZERO,"P2"));
+		detall.add(newDetall("C", new BigDecimal("4.8"), new BigDecimal("4.1"),null,"P3"));
+		detall.add(newDetall("D", new BigDecimal("5.21"), new BigDecimal("5.4"),null,"P4"));
+		detall.add(newDetall("E", new BigDecimal("7.2"), new BigDecimal("7.7"),null,"P5"));
+		detall.add(newDetall("F", new BigDecimal("8.5"), new BigDecimal("8"),null,"P6"));
+		
+		return detall;
+	}
+	
+	private FacLinDto newDetall(String dem, BigDecimal cantidad, BigDecimal preu, BigDecimal pordte, String productoId) {
+		ProductoDto producto=factuService.getProducto(productoId);
+		
+		BigDecimal importe=null; // cantidad.multiply(preu);
+	    // importe = importe.setScale(2, BigDecimal.ROUND_HALF_UP);
+	    // (String dem, BigDecimal cantidad, BigDecimal preu,  BigDecimal importe, BigDecimal pordte, ProductoDto producto, TipivaDto tipiva, BigDecimal poriva,   BigDecimal requiv
+		return new FacLinDto(dem, cantidad, preu, importe,pordte,producto);
+		
+	}
+	
 	
 	
 

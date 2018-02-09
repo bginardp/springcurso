@@ -3,6 +3,7 @@ package es.palmademallorca.factu.model;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,8 +25,8 @@ public class Producto {
    	private String dem;
    	private BigDecimal pvp;
 	private String hbl;
-	@ManyToOne
-	@JoinColumn(name = "tipiva_id", insertable = false, updatable = false)
+	@ManyToOne()
+	@JoinColumn(name = "tipiva_id")
 	private Tipiva tipiva;
 	@Transient 
 	private BigDecimal poriva;

@@ -27,13 +27,13 @@ public class TipivaDet {
 	@GeneratedValue(generator="TipivaSeq")
     @SequenceGenerator(name="TipivaSeq",sequenceName="factu.tipiva_seq", allocationSize=1)	
 	private Long id;
-	@ManyToOne
-	@JoinColumn(name = "tipiva_id", insertable = false, updatable = false)
-	private Tipiva tipiva;
 	private Long anyo;
 	private Long mes;
 	private BigDecimal poriva;
 	private BigDecimal requiv;
+	@ManyToOne
+	@JoinColumn(name = "tipiva_id")
+	private Tipiva tipiva;
 	
 
 	public TipivaDet() {

@@ -224,7 +224,8 @@ public class FacturaDto extends ErrorsDto {
 		for (FacLinDto lin : detall) {
 			if (lin.getTipiva() != null) {
 				if (bases.isEmpty()) {
-					bases.add(new FacturaBasesDto(lin.getTipiva(), lin.getPoriva(), lin.getRequiv(), lin.getImporte()));
+					// bases.add(new FacturaBasesDto(lin.getTipiva(), lin.getPoriva(), lin.getRequiv(), lin.getImporte()));
+					bases.add(new FacturaBasesDto(lin.getTipiva(), lin.getPoriva(), lin.getImporte()));
 				} else {
 				}
 			}

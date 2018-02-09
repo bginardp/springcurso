@@ -81,10 +81,10 @@ public class FactuServiceImpl implements FactuService {
 		List<Producto> productos = factuDao.findAllProductos();
 		List<ProductoDto> content = new ArrayList<ProductoDto>();
 		for (Producto producto : productos) {
-			TipivaDetDto detiva=getTipivaDetVigent(producto.getTipiva().getId(), null);
-			if (detiva!=null) {
-			   producto.setPoriva(detiva.getPoriva());
-			   producto.setRequiv(detiva.getRequiv());
+			TipivaDetDto detiva = getTipivaDetVigent(producto.getTipiva().getId(), null);
+			if (detiva != null) {
+				producto.setPoriva(detiva.getPoriva());
+				producto.setRequiv(detiva.getRequiv());
 			}
 			content.add(Converter.toDto(producto));
 		}
@@ -115,17 +115,17 @@ public class FactuServiceImpl implements FactuService {
 	public List<TipivaDetDto> findAllTiposIvaDet() {
 		List<TipivaDet> tiposivadet = factuDao.findAllTipivaDet();
 		List<TipivaDetDto> content = new ArrayList<TipivaDetDto>();
-		tiposivadet.forEach(t->content.add(Converter.toDto(t)));
+		tiposivadet.forEach(t -> content.add(Converter.toDto(t)));
 		return content;
 	}
-	
+
 	@Override
 	public List<ClienteDto> findAllClientes() {
 		List<Cliente> clientes = factuDao.findAllClientes();
 		List<ClienteDto> content = new ArrayList<ClienteDto>();
-		clientes.forEach(c->content.add(Converter.toDto(c)));
+		clientes.forEach(c -> content.add(Converter.toDto(c)));
 		return content;
-	    
+
 	}
 
 	@Override
@@ -138,10 +138,12 @@ public class FactuServiceImpl implements FactuService {
 	@Override
 	public ProductoDto getProducto(String productoId) {
 		Producto producto = factuDao.getProducto(productoId);
-		TipivaDetDto detiva=getTipivaDetVigent(producto.getTipiva().getId(), null);
-		if (detiva!=null) {
-		   producto.setPoriva(detiva.getPoriva());
-		   producto.setRequiv(detiva.getRequiv());
+		if (producto.getTipiva() != null) {
+			TipivaDetDto detiva = getTipivaDetVigent(producto.getTipiva().getId(), null);
+			if (detiva != null) {
+				producto.setPoriva(detiva.getPoriva());
+				producto.setRequiv(detiva.getRequiv());
+			}
 		}
 		ProductoDto productoDto = new ProductoDto(producto);
 		return productoDto;
@@ -296,15 +298,15 @@ public class FactuServiceImpl implements FactuService {
 			factura.setEjercicio(Converter.toDao(facturaDto.getEjercicio()));
 			factura.setTotfac(facturaDto.getTotfac());
 			factuDao.saveFactura(factura);
-//			for (FacLinDto faclindto : facturaDto.getDetall()) {
-//				if (faclindto.getFacturaId() == null) {
-//					faclindto.setFacturaId(factura.getId());
-//				}
-//				// TODO tractament modificacio linia
-//				Facturalin faclin = new Facturalin(faclindto);
-//
-//				factuDao.saveFacturalin(faclin);
-//			}
+			// for (FacLinDto faclindto : facturaDto.getDetall()) {
+			// if (faclindto.getFacturaId() == null) {
+			// faclindto.setFacturaId(factura.getId());
+			// }
+			// // TODO tractament modificacio linia
+			// Facturalin faclin = new Facturalin(faclindto);
+			//
+			// factuDao.saveFacturalin(faclin);
+			// }
 			return factura.getId();
 		} else {
 			// ALTA
@@ -328,12 +330,12 @@ public class FactuServiceImpl implements FactuService {
 
 	@Override
 	public Long saveFaclin(FacLinDto faclinDto) {
-		Facturalin faclin=null;
-		Long vRet=null;
-		if (faclinDto!=null) {
-			if (faclinDto.getId()!=null) {
-				faclin=factuDao.getFacturaLin(faclinDto.getId());
-				vRet=faclin.getId();
+		Facturalin faclin = null;
+		Long vRet = null;
+		if (faclinDto != null) {
+			if (faclinDto.getId() != null) {
+				faclin = factuDao.getFacturaLin(faclinDto.getId());
+				vRet = faclin.getId();
 				faclin.setCantidad(faclinDto.getCantidad());
 				faclin.setDem(faclinDto.getDem());
 				faclin.setImporte(faclinDto.getImporte());
@@ -342,16 +344,15 @@ public class FactuServiceImpl implements FactuService {
 				faclin.setRequiv(faclinDto.getRequiv());
 				faclin.setProducto(Converter.toDao(faclinDto.getProducto()));
 				faclin.setTipiva(Converter.toDao(faclinDto.getTipiva()));
-			} 
-		 else {
-			faclin = new Facturalin(faclinDto);
-			factuDao.saveFacturalin(faclin);
-			vRet=faclin.getId();
-		 }
+			} else {
+				faclin = new Facturalin(faclinDto);
+				factuDao.saveFacturalin(faclin);
+				vRet = faclin.getId();
+			}
 
 		}
-		
-		return vRet ;
+
+		return vRet;
 	}
 
 	@Override
@@ -369,10 +370,10 @@ public class FactuServiceImpl implements FactuService {
 		Page<Producto> page = factuDao.findProductosByTerm(term, pageRequest);
 		List<ProductoDto> content = new ArrayList<>();
 		for (Producto producto : page) {
-			TipivaDetDto detiva=getTipivaDetVigent(producto.getTipiva().getId(), null);
-			if (detiva!=null) {
-			   producto.setPoriva(detiva.getPoriva());
-			   producto.setRequiv(detiva.getRequiv());
+			TipivaDetDto detiva = getTipivaDetVigent(producto.getTipiva().getId(), null);
+			if (detiva != null) {
+				producto.setPoriva(detiva.getPoriva());
+				producto.setRequiv(detiva.getRequiv());
 			}
 			content.add(Converter.toDto(producto));
 		}
@@ -442,7 +443,5 @@ public class FactuServiceImpl implements FactuService {
 		EjercicioDto dto = new EjercicioDto(ejercicio);
 		return dto;
 	}
-
-
 
 }

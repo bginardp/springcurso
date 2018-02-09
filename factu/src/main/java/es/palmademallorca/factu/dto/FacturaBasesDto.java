@@ -12,14 +12,21 @@ public class FacturaBasesDto {
 	private BigDecimal por;
 	private BigDecimal requiv;
 	private BigDecimal base;
+	private BigDecimal impiva;
+	private BigDecimal imprequiv;
 	
-	
-	public FacturaBasesDto(TipivaDto tipiva, BigDecimal por, BigDecimal requiv, BigDecimal base) {
+	public FacturaBasesDto(TipivaDto tipiva, BigDecimal por, BigDecimal base) {
 		super();
 		this.tipiva = tipiva;
-		this.requiv = requiv;
+		//this.requiv = requiv;
 		this.por = por;
 		this.base = base;
+		this.impiva=por.multiply(base).divide(new BigDecimal("100"));
+		impiva=impiva.setScale(2,BigDecimal.ROUND_HALF_UP);
+		if (requiv!=null) {
+		  this.imprequiv=requiv.multiply(base).divide(new BigDecimal("100"));
+		  imprequiv=imprequiv.setScale(2,BigDecimal.ROUND_HALF_UP);
+		}
 	}
 
 	
@@ -72,12 +79,34 @@ public class FacturaBasesDto {
 		this.base = base;
 	}
 
+	public BigDecimal getImpiva() {
+		return impiva;
+	}
+
+
+	public void setImpiva(BigDecimal impiva) {
+		this.impiva = impiva;
+	}
+
+
+	public BigDecimal getImprequiv() {
+		return imprequiv;
+	}
+
+
+	public void setImprequiv(BigDecimal imprequiv) {
+		this.imprequiv = imprequiv;
+	}
+
 
 	@Override
 	public String toString() {
-		return "FacImpuestoDto [tipiva=" + tipiva + ", por=" + por + ", base=" + base + "]";
+		return "FacturaBasesDto [id=" + id + ", tipiva=" + tipiva + ", por=" + por + ", requiv=" + requiv + ", base="
+				+ base + ", impiva=" + impiva + ", imprequiv=" + imprequiv + "]";
 	}
 
+
+	
 	
 	
 }

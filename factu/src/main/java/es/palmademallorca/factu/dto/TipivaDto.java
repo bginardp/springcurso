@@ -1,5 +1,7 @@
 package es.palmademallorca.factu.dto;
 
+import java.util.Objects;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -46,8 +48,18 @@ public class TipivaDto {
 
 	@Override
 	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
+		if (obj==null) return false;
+		if (!(obj instanceof TipivaDto)) {
+            return false;
+        }
+		if (obj==this) return true;
+		TipivaDto other = (TipivaDto) obj;
+		return Objects.equals(id,other.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -56,6 +68,6 @@ public class TipivaDto {
 	}
 	
 	
-	
+
 	
 }
