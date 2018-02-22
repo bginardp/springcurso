@@ -69,7 +69,7 @@ public class AjaxTest {
 		Page<ProductoDto> productos = factuService.getProductos(term, new PageRequest(0, 5));
         List<ProductoAjaxDto> result = new ArrayList<>();
         productos.getContent()
-				.forEach(c -> result.add(new ProductoAjaxDto(c.getDem(),c.getId(), c.getDem(),c.getPvp(),c.getTipiva().getId(),c.getTipiva().getDem(),c.getPoriva())));
+				.forEach(c -> result.add(new ProductoAjaxDto(c.getDem(),c.getId(), c.getDem(),c.getPvp(),c.getTipiva(),c.getPoriva())));
 
 		result.forEach(e -> System.out.println("####  "+e));
 		assertNotNull(productos);

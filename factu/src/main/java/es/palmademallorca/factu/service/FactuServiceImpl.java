@@ -287,17 +287,24 @@ public class FactuServiceImpl implements FactuService {
 	@Override
 	public Long saveFactura(FacturaDto facturaDto) {
 		if (facturaDto.getId() != null) {
+			// TODO modificació factura
 			Factura factura = factuDao.getFactura(facturaDto.getId());
-			// TODO MODIFICACION lineas?
+			
 			factura.setDat(facturaDto.getDat());
 			factura.setImpbru(facturaDto.getImpbru());
-			factura.setImpdto(facturaDto.getImpdto());
 			factura.setFormaspago(Converter.toDao(facturaDto.getForpag()));
 			factura.setPordto(facturaDto.getPordto());
+			factura.setPorirpf(facturaDto.getPorirpf());
+
 			factura.setSerie(Converter.toDao(facturaDto.getSerie()));
 			factura.setEjercicio(Converter.toDao(facturaDto.getEjercicio()));
 			factura.setTotfac(facturaDto.getTotfac());
+			// TODO detall?
+			// factura.setDetall(detall);
 			factuDao.saveFactura(factura);
+			
+			// TODO MODIFICACION lineas?
+			
 			// for (FacLinDto faclindto : facturaDto.getDetall()) {
 			// if (faclindto.getFacturaId() == null) {
 			// faclindto.setFacturaId(factura.getId());
@@ -310,18 +317,10 @@ public class FactuServiceImpl implements FactuService {
 			return factura.getId();
 		} else {
 			// ALTA
-			// 1 guardem la factura
+			// 1 guardem la factura. JPA s'encarrega de guardar el detall
 			if (facturaDto.hasDetall()) {
 				Factura factura = new Factura(facturaDto);
 				factuDao.saveFactura(factura);
-
-				// 2 guardem el detall
-				for (FacLinDto faclindto : facturaDto.getDetall()) {
-					faclindto.setFacturaId(factura.getId());
-					Facturalin faclin = new Facturalin(faclindto);
-					factuDao.saveFacturalin(faclin);
-				}
-
 				return factura.getId();
 			}
 		}
@@ -342,8 +341,8 @@ public class FactuServiceImpl implements FactuService {
 				faclin.setPordte(faclinDto.getPordte());
 				faclin.setPoriva(faclinDto.getPoriva());
 				faclin.setRequiv(faclinDto.getRequiv());
-				faclin.setProducto(Converter.toDao(faclinDto.getProducto()));
-				faclin.setTipiva(Converter.toDao(faclinDto.getTipiva()));
+				faclin.setProductoId(faclinDto.getProducto().getId());
+				faclin.setTipivaId(faclinDto.getTipiva().getId());
 			} else {
 				faclin = new Facturalin(faclinDto);
 				factuDao.saveFacturalin(faclin);

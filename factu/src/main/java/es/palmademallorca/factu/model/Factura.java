@@ -1,6 +1,7 @@
 package es.palmademallorca.factu.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -52,8 +51,8 @@ public class Factura {
 	@Column(name = "forpag_id")
 	private Long forpagId;
 	private BigDecimal impbru;
+	private BigDecimal porirpf;
 	private BigDecimal pordto;
-	private BigDecimal impdto;
 	private BigDecimal totfac;
 	@NotNull
 	@ManyToOne
@@ -99,9 +98,15 @@ public class Factura {
 		this.forpagId=facturaDto.getForpag().getId();
 		this.formaspago=Converter.toDao(facturaDto.getForpag());
 		this.impbru=facturaDto.getImpbru();
+		this.porirpf=facturaDto.getPorirpf();
 		this.pordto=facturaDto.getPordto();
-		this.impdto=facturaDto.getImpdto();
 		this.totfac=facturaDto.getTotfac();
+		detall=new ArrayList<Facturalin>();
+		facturaDto.getDetall().forEach(item-> {
+			Facturalin detail =Converter.toDao(item);
+			detail.setFactura(this);
+			detall.add(detail);
+		});
 	}
 
 
@@ -185,6 +190,13 @@ public class Factura {
 		this.impbru = impbru;
 	}
 
+	public BigDecimal getPorirpf() {
+		return porirpf;
+	}
+
+	public void setPorirpf(BigDecimal porirpf) {
+		this.porirpf = porirpf;
+	}
 
 	public BigDecimal getPordto() {
 		return pordto;
@@ -193,16 +205,6 @@ public class Factura {
 
 	public void setPordto(BigDecimal pordto) {
 		this.pordto = pordto;
-	}
-
-
-	public BigDecimal getImpdto() {
-		return impdto;
-	}
-
-
-	public void setImpdto(BigDecimal impdto) {
-		this.impdto = impdto;
 	}
 
 
@@ -283,36 +285,5 @@ public class Factura {
 		this.detall = detall;
 	}
 	
-	
 
-
-
-	
-/*
-   
-    @Transient
-	public BigDecimal getImpirpf() {
-		return impirpf.getValue();
-	}
-
-    public SimpleObjectProperty<BigDecimal> impirpfProperty() {
-		return this.impirpf;
-	}
-
-	
-	@PostLoad
-	 protected void initTransientAttributes() {
-		BigDecimal imp;
-		if (poriva1!=null && baseiva1!=null) {
-			imp=(poriva1.getValue().multiply(baseiva1.getValue())).divide(FactuApp.CIEN);
-			impiva1.set(Utils.round(imp.doubleValue(),3));
-		}
-		else impiva1.set(new BigDecimal(FactuApp.CERO));
-		if (porirpf!=null && baseirpf!=null) {
-			imp=(porirpf.getValue().multiply(baseirpf.getValue())).divide(FactuApp.CIEN);
-			impirpf.set(Utils.round(imp.doubleValue(),3));
-		}
-		else impirpf.set(new BigDecimal(FactuApp.CERO));
-	}
-*/
 }

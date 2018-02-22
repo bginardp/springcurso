@@ -37,9 +37,7 @@ public class FacLinDto {
 		if (cantidad!=null && preu!=null) {
 			this.importe=cantidad.multiply(preu);
 		    this.importe = this.importe.setScale(2, BigDecimal.ROUND_HALF_UP);
-		} else {
-		  this.importe = importe;}
-		
+		} else {this.importe = importe;}
 		this.pordte = pordte;
 		this.producto = producto;
 		this.tipiva = producto.getTipiva();
@@ -70,7 +68,7 @@ public class FacLinDto {
 		this.dem = faclin.getDem();
 		this.importe = faclin.getImporte();
 		this.pordte = faclin.getPordte();
-		this.tipiva = new TipivaDto(faclin.getTipiva());
+		this.tipiva = Converter.toDto(faclin.getTipiva());
 		this.poriva = faclin.getPoriva();
 		this.preu = faclin.getPreu();
 		this.producto = Converter.toDto(faclin.getProducto());
@@ -136,17 +134,13 @@ public class FacLinDto {
 		this.preu = preu;
 	}
 
-	
-	
 	public ProductoDto getProducto() {
 		return producto;
 	}
 
-
 	public void setProducto(ProductoDto producto) {
 		this.producto = producto;
 	}
-
 
 	public BigDecimal getRequiv() {
 		return requiv;
@@ -154,7 +148,6 @@ public class FacLinDto {
 	public void setRequiv(BigDecimal requiv) {
 		this.requiv = requiv;
 	}
-
 
 	@Override
 	public String toString() {

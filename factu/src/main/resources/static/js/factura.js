@@ -6,9 +6,6 @@ var app={
   iniciControls: function(){
 	  document.getElementById("linea\.preu").onchange=this.updateTotal;
 	  document.getElementById("linea\.cantidad").onchange=this.updateTotal;
-	  $("#btnAddlin").on("click", function(){
-		  $('#frmAddLin').submit();  
-	  });
 	  
 	  $("#cliente").autocomplete({
 					source : '/ajax/clientes',
@@ -59,6 +56,7 @@ var app={
 						$("#linea\\.dem").val(nom);
 						$("#linea\\.preu").val(ui.item.pvp);
 						$("#linea\\.poriva").val(ui.item.poriva);
+						$("#linea\\.tipiva\\.id").val(ui.item.tipiva.id);
 						/* $("#dadesPro").html(
 								'<strong>' + ui.item.label + '</strong><br/>' 
 										+ ui.item.cif + '<br/>' 
@@ -78,7 +76,10 @@ var app={
 	    total = preu * cantidad;
 	      /* Attempt to update the value (Inside a TD tag) */
 	     document.getElementById('linea\.importe').value=total;
-	  }
+  },
+  setIndex : function(index) {
+	  $('#index').val(index);
+  }
  
 };
 

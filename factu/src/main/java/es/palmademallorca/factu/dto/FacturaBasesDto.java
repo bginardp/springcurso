@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  *
  */
 public class FacturaBasesDto {
-	private Long id;
+	
 	private TipivaDto tipiva;
 	private BigDecimal por;
 	private BigDecimal requiv;
@@ -28,17 +28,6 @@ public class FacturaBasesDto {
 		  imprequiv=imprequiv.setScale(2,BigDecimal.ROUND_HALF_UP);
 		}
 	}
-
-	
-	public Long getId() {
-		return id;
-	}
-
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 
 	public TipivaDto getTipiva() {
 		return tipiva;
@@ -98,12 +87,14 @@ public class FacturaBasesDto {
 		this.imprequiv = imprequiv;
 	}
 
-
 	@Override
 	public String toString() {
-		return "FacturaBasesDto [id=" + id + ", tipiva=" + tipiva + ", por=" + por + ", requiv=" + requiv + ", base="
-				+ base + ", impiva=" + impiva + ", imprequiv=" + imprequiv + "]";
+		return "FacturaBasesDto [tipiva=" + tipiva + ", por=" + por + ", requiv=" + requiv + ", base=" + base
+				+ ", impiva=" + impiva + ", imprequiv=" + imprequiv + "]";
 	}
+
+
+	
 
 
 	

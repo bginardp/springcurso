@@ -36,7 +36,7 @@ public class ProductoDto {
 			this.dem=producto.getDem();
 			this.pvp=producto.getPvp();
 			this.hbl = producto.getHbl().equals("S")?true:false;
-			this.tipiva=Converter.toDdto(producto.getTipiva());
+			this.tipiva=Converter.toDto(producto.getTipiva());
 			this.poriva=producto.getPoriva();
 			this.requiv=producto.getRequiv();
 		}

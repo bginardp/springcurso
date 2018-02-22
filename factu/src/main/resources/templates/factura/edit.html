@@ -12,9 +12,13 @@
 	<th:block th:include="/common/header :: header" /> 
 	<div class="container">
 		
-		<form th:object="${factura}" th:action="@{/factura/save}"	method="post">
+		<form th:object="${factura}" th:action="@{/factura/save}"	method="post" id="frmFactura">
 			<input type="hidden" id="clienteId" th:field="*{cliente.id}"/>
 			<input type="hidden" id="empresaId" th:field="*{empresa.id}"/>
+			<input type="hidden" th:field="*{impbru}"/>
+			<input type="hidden" th:field="*{totfac}"/>
+			<input type="hidden" id="index" th:name="index" th:value="${index}"/>
+			<input type="hidden" th:field="*{linea.tipiva.id}"/>
 			<!-- errors a include? -->
 			<div th:if="${#fields.hasAnyErrors() or factura.hasErrors()}" class="alert alert-danger">
 		    	<ul>
@@ -94,7 +98,7 @@
 							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.preu}" step=".01" /></td>
 							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.poriva}" readonly="readonly"/></td>
 							    <td class="col-1"><input class="form-control" type="number" th:field="*{linea.importe}" step=".01"/></td> 
-							    <td><button id="btnAddlin" name="addRow" type="submit" class="btn btn-primary btn-sm">Añadir</button></td>
+							    <td><button id="btnAddlin" name="addRow" type="submit" class="btn btn-primary btn-sm">Guardar</button></td>
 							  </tr> 
 							   </tbody>
 							</table>
@@ -112,6 +116,7 @@
 							      </thead>
 							      <tbody>
 							        <tr th:each="lin, stat : *{detall}" class="row">
+							          
 							          <td scope="row" class="col-2"><input class="form-control" type="text" th:field="*{detall[__${stat.index}__].producto.id}" readonly="readonly"/></td>
 							          <td class="col-5"><input class="form-control" type="text" th:field="*{detall[__${stat.index}__].dem}" readonly="readonly"/></td>
 							          <td class="col-1"><input class="form-control" type="number" th:field="*{detall[__${stat.index}__].cantidad}" readonly="readonly"/></td>
@@ -119,8 +124,9 @@
 							          <td class="col-1"><input class="form-control" type="number" th:field="*{detall[__${stat.index}__].poriva}" readonly="readonly"/></td>
 							          <td class="col-1"><input class="form-control" type="number" th:field="*{detall[__${stat.index}__].importe}" readonly="readonly"/></td> 
 							          <td class="col-1">
-							            <button id="btnedit" class="btn btn-secondary btn-sm oi oi-pencil"></button>
-							            <button id="btndelete" class="btn btn-secondary btn-sm oi oi-delete"></button>
+							            <input type="hidden" th:field="*{detall[__${stat.index}__].tipiva.id}"/>
+							            <button id="btnEditlin" name="editRow" type="submit"  th:onclick="'$(app.setIndex('+__${stat.index}__+'))'" class="btn btn-secondary btn-sm oi oi-pencil"></button>
+							            <button id="btnRemovelin" name="removeRow" type="submit" th:onclick="'$(app.setIndex('+__${stat.index}__+'))'" class="btn btn-secondary btn-sm oi oi-delete"></button>
 							          </td>
 							        </tr>
 							      </tbody>
@@ -128,6 +134,7 @@
 							    
 						</div>
 						<div class="card-footer">
+						
 						    <div class="row justify-content-end">
 						    	<div class="col-md-6">
 								 <table class="table table-sm">
@@ -135,29 +142,38 @@
 										<tr>
 											<th>Subtotal</th>
 											<th>Irpf</th>
-											<th>Iva (21%)</th>
-											<th>Iva (10%)</th>
+											<th:block th:each="base : ${factura.bases}">
+											  <th th:text="'% Iva('+${base.por}+')'"></th>
+											<!-- <th>Iva (21%)</th>
+											<th>Iva (10%)</th> -->
+											</th:block>
 											<th>Total</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td>1000.00</td>
-											<td><input class="form-control form-control-sm" type="number" id="irpf" placeholder="irpf"/></td>
-											<td>100.00</td>
-											<td>30.00</td>
-											<td>1140.00</td>
+											<td th:text="${factura.impbru}">1000.00</td>
+											<td><input class="form-control form-control-sm" type="number" id="irpf" placeholder="%irpf"/></td>
+											<th:block th:each="base : ${factura.bases}">
+											  <td th:text="${base.impiva}"></td>
+											<!-- <td>100.00</td>
+											<td>30.00</td> -->
+											</th:block>
+											<td th:text="${factura.totfac}">1140.00</td>
 										</tr>
 									</tbody>
 								</table>
 								</div>						       
+						    </div>
+						    <div class="row justify-content-end">
+						        <button type="submit" name="save" class="btn btn-primary">Guardar</button>
 						    </div>
 						</div>
 					</div> <!-- card -->
 				</div>	<!-- col -->
 			</div> <!-- row -->
 			<div class="row justify-content-end">
-				 <button type="submit" name="save" class="btn btn-primary">Guardar</button>
+				 
 			</div> 
 		</form>
 		<!-- formulario para borrar 

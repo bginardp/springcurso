@@ -45,7 +45,7 @@ public class AjaxController {
 		List<ProductoAjaxDto> result = new ArrayList<>();
 		productos.getContent()
 				.forEach(c -> result.add(new ProductoAjaxDto(c.getDem(), c.getId().toString(), c.getDem(),
-						c.getPvp(),c.getTipiva().getId(), c.getTipiva().getDem(),c.getPoriva())));
+						c.getPvp(),c.getTipiva(), c.getPoriva())));
 		return result;
 	}
 	

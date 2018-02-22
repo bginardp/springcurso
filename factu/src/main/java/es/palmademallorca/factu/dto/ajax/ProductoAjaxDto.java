@@ -3,6 +3,7 @@ package es.palmademallorca.factu.dto.ajax;
 import java.math.BigDecimal;
 
 import es.palmademallorca.factu.dto.ItemDto;
+import es.palmademallorca.factu.dto.TipivaDto;
 
 /**
  * Classe que ens ajuda a fer servir la funcionalitat de autocomplete de jquery
@@ -16,17 +17,15 @@ import es.palmademallorca.factu.dto.ItemDto;
 public class ProductoAjaxDto extends ItemDto {
 	private String dem;
    	private BigDecimal pvp;
-	private String tipivaId;
-	private String tipivaDem;
+	private TipivaDto tipiva;
 	private BigDecimal poriva;
 	
 	
-	public ProductoAjaxDto(String label, String value, String dem, BigDecimal pvp, String tipivaId, String tipivaDem, BigDecimal poriva) {
+	public ProductoAjaxDto(String label, String value, String dem, BigDecimal pvp, TipivaDto tipiva, BigDecimal poriva) {
 		super(label,value);
 		this.dem=dem;
 		this.pvp=pvp;
-		this.tipivaId=tipivaId;
-		this.tipivaDem=tipivaDem;
+		this.tipiva=tipiva;
 		this.setPoriva(poriva);
 		
 	}
@@ -50,24 +49,12 @@ public class ProductoAjaxDto extends ItemDto {
 		this.pvp = pvp;
 	}
 
-
-	public String getTipivaId() {
-		return tipivaId;
+	public TipivaDto getTipiva() {
+		return tipiva;
 	}
 
-
-	public void setTipivaId(String tipivaId) {
-		this.tipivaId = tipivaId;
-	}
-
-
-	public String getTipivaDem() {
-		return tipivaDem;
-	}
-
-
-	public void setTipivaDem(String tipivaDem) {
-		this.tipivaDem = tipivaDem;
+	public void setTipiva(TipivaDto tipiva) {
+		this.tipiva = tipiva;
 	}
 
 	public BigDecimal getPoriva() {
@@ -76,6 +63,11 @@ public class ProductoAjaxDto extends ItemDto {
 
 	public void setPoriva(BigDecimal poriva) {
 		this.poriva = poriva;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductoAjaxDto [dem=" + dem + ", pvp=" + pvp + ", tipiva=" + tipiva + ", poriva=" + poriva + "]";
 	}
 
 	

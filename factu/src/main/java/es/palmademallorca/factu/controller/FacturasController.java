@@ -4,14 +4,18 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,12 +29,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import es.palmademallorca.factu.dto.ClienteDto;
 import es.palmademallorca.factu.dto.CriteriosFacturasDto;
 import es.palmademallorca.factu.dto.EjercicioDto;
 import es.palmademallorca.factu.dto.EmpresaDto;
 import es.palmademallorca.factu.dto.FacLinDto;
+import es.palmademallorca.factu.dto.FacturaBasesDto;
 import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.dto.common.ErrorDto;
 import es.palmademallorca.factu.service.AdminService;
@@ -39,6 +46,8 @@ import es.palmademallorca.factu.utils.Constants;
 
 @Controller
 public class FacturasController {
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	FactuService factuService;
 	@Autowired
@@ -105,7 +114,7 @@ public class FacturasController {
 	}
 	
 	private FacturaDto validaFacturaForm(FacturaDto factura) {
-		if (factura.getCliente()==null || StringUtils.isBlank(factura.getCliente().getCif())) {
+		if (factura.getCliente()==null || factura.getCliente().getId()==null) {
 			factura.addError(new ErrorDto(Constants.ERR_CLIENT_NOTNULL));
 		}
 		if (factura.getEmpresa()==null || factura.getEmpresa().getId()==0) {
@@ -118,30 +127,59 @@ public class FacturasController {
 	}
 
 	@RequestMapping(value = "/factura/save", method = RequestMethod.POST, params={"addRow"})
-	public String addRow (Model model,@Valid @ModelAttribute("factura") FacturaDto factura,BindingResult results) {
+	public String addRow (Model model,@Valid @ModelAttribute("factura") FacturaDto factura,BindingResult results,@RequestParam(value="index") Integer index) {
 		// 1 obtenim la linia que s'ha editat a la pantalla
 		FacLinDto linea=factura.getLinea();
 		// 2 valida linea si cal?
 		//TODO
+		//3 afegim o modifiquem la linia i actualitzem els totals
+		factura.addLinea(linea,index);
 		// 3 obtenim la llista de linies i afegim la linia editada a la llista
-		List<FacLinDto> detall=factura.getDetall();
-		if (detall==null) {
-			detall=new ArrayList<FacLinDto>();
-		}
-		detall.add(linea);
-		// 4 inicialitzem una nova linia
+//		List<FacLinDto> detall=factura.getDetall();
+//		if (detall==null) {
+//			detall=new ArrayList<FacLinDto>();
+//		}
+//		if (index!=null && detall.size()>0) {
+//			List<FacLinDto> newDetall= new ArrayList<FacLinDto>();
+//			int i=0;
+//			for (FacLinDto facLinDto : detall) {
+//				if (index==i) {
+//					newDetall.add(linea);
+//				} else {newDetall.add(facLinDto);
+//				}
+//				i++;
+//			}
+//			detall=newDetall;
+//		} else {
+//			detall.add(linea);
+//		}
+		// 4 actualitzem els totals de la factura
+//		factura.setDetall(detall);
+//		factura=getTotalsFactura(factura);
+		// 5 inicialitzem una nova linia
 		linea=initLinea();
-		factura.setDetall(detall);
 		factura.setLinea(linea);
-		// 5 actualitzem els totals de la factura
-		factura=getTotalsFactura(factura);
 		return gotoEditFactura(model,factura);
 		
 	}
 
+	@RequestMapping(value = "/factura/save", method = RequestMethod.POST, params={"editRow"})
+	public String editRow (Model model,@Valid @ModelAttribute("factura") FacturaDto factura,BindingResult results,@RequestParam(value="index") Integer index) {
+		log.info("######### editRow index:"+index);
+		factura.editRow(index);
+//		factura.setLinea(factura.getDetall().get(index.intValue()));
+		model.addAttribute("index", index);
+		
+		return gotoEditFactura(model,factura);
+		
+	}
+	
 	@RequestMapping(value = "/factura/save", method = RequestMethod.POST, params={"removeRow"})
-	public String removeRow (Model model,@Valid @ModelAttribute("factura") FacturaDto factura,BindingResult results) {
-		factura.getDetall().add(new FacLinDto());
+	public String removeRow (Model model,@Valid @ModelAttribute("factura") FacturaDto factura,BindingResult results,@RequestParam(value="index") Integer index) {
+		log.info("######### removeRow index:"+index);
+		factura.removeLinea(index);
+//		factura.getDetall().remove(index.intValue());
+//		factura=getTotalsFactura(factura);
 		return gotoEditFactura(model,factura);
 		
 	}
@@ -207,13 +245,51 @@ public class FacturasController {
 		return gotoEditLin(model,factura);
 	}
 	
-	private FacturaDto getTotalsFactura(FacturaDto factura) {
-		List<FacLinDto> detall =factura.getDetall();
-		Function<FacLinDto, BigDecimal> totalMapper = lin -> lin.getImporte();
-		BigDecimal result=detall.stream().map(totalMapper).reduce(BigDecimal.ZERO, BigDecimal::add);
-		factura.setTotfac(result);
-		return factura;
-	}
+//	private FacturaDto getTotalsFactura(FacturaDto factura) {
+		// 1 obtenim el detall de la factura
+//		List<FacLinDto> detall =factura.getDetall();
+//		
+//		// 2 acumulem les bases agrupant per tipus de iva i % iva
+//
+//		List<FacturaBasesDto> bases = detall.stream()
+//				.filter(p->p.getTipiva()!=null && p.getPoriva()!=null)
+//			    .collect(Collectors.groupingBy(
+//			    	FacLinDto::getTipiva,
+//			        Collectors.groupingBy(
+//			        	FacLinDto::getPoriva,
+//			            Collectors.reducing(
+//			                BigDecimal.ZERO,
+//			                FacLinDto::getImporte,
+//			                BigDecimal::add))))
+//			    .entrySet()
+//			    .stream()
+//			    .flatMap(e1 -> e1.getValue()
+//			         .entrySet()
+//			         .stream()
+//			         .map(e2 -> new FacturaBasesDto(e1.getKey(), e2.getKey(), e2.getValue())))  //TipivaDto tipiva, BigDecimal por, BigDecimal requiv, BigDecimal base
+//			    .collect(Collectors.toList());
+//		List<FacturaBasesDto> bases =factura.calculaBases();
+//		factura.setBases(bases);
+//		BigDecimal sumbases = bases
+//				.stream()
+//				.map(FacturaBasesDto::getBase)
+//				.reduce(BigDecimal::add)
+//				.get();
+//		factura.setImpbru(sumbases);
+		// 4 sumem els imports dels impostos
+//		BigDecimal sumimpostos = bases.stream().map(FacturaBasesDto::getImpiva).reduce(BigDecimal::add).get();
+		
+		// 5 sumem el irpf
+//		BigDecimal impirpf=BigDecimal.ZERO;		
+//	    // 6 sumem el total de la factura
+//		BigDecimal totfac= sumbases.add(sumimpostos).add(impirpf);
+//		factura.setTotfac(totfac);
+//		log.info("##### total factura :"+totfac);
+//		Function<FacLinDto, BigDecimal> totalMapper = lin -> lin.getImporte();
+//		BigDecimal result=detall.stream().map(totalMapper).reduce(BigDecimal.ZERO, BigDecimal::add);
+//		factura.setTotfac(result);
+//		return factura;
+//	}
 
 	private FacLinDto initLinea() {
 		FacLinDto linea= new FacLinDto();
