@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 
 import com.querydsl.jpa.impl.JPAQuery;
 
-import es.palmademallorca.factu.dto.ClienteDto;
 import es.palmademallorca.factu.jpa.ClienteRepository;
 import es.palmademallorca.factu.jpa.EjercicioRepository;
 import es.palmademallorca.factu.jpa.EmpresaRepository;
@@ -94,10 +93,10 @@ public class FactuDao {
 			fp = new Formapago("talon", "S");
 			formapagoRepository.save(fp);
 			// clientes
-		    Cliente cliente=new Cliente("432345678", "ZARDOYA S.A", "POLIGOCO CAN VALERO NAVE 34", "PALMA", "ILLES BALEARS", "08002",
+		    Cliente cliente=new Cliente("432345678", "ZARDOYA S.A", "POLIGONO CAN VALERO NAVE 34", "PALMA", "ILLES BALEARS", "08002",
 					"917234123", "616232323", "zardoya@company.com", null, 1L);
 		    clienteRepository.save(cliente);
-		    cliente=new Cliente("A02345678", "LICOR 43 S.A", "POLIGOCO SON ROSSINYOL 23", "PALMA", "ILLES BALEARS", "02002",
+		    cliente=new Cliente("A02345678", "LICOR 43 S.A", "POLIGONO SON ROSSINYOL 23", "PALMA", "ILLES BALEARS", "02002",
 					"937234123", "618232323", "licor43@company.com", null, 1L);
 		    clienteRepository.save(cliente);
 		    // tipos de iva
@@ -133,6 +132,8 @@ public class FactuDao {
 		    productoRepository.save(producto);
 		    
 		    LOGGER.info("################ finalitzada inicialització de les dades #################");
+		 
+
 		}
 		
 		
@@ -302,7 +303,6 @@ public class FactuDao {
 	}
 
 	public List<Facturalin> findFaclinByFacturaId(Long facturaId) {
-		// TODO Auto-generated method stub
 		QFacturalin faclin = QFacturalin.facturalin;
 		JPAQuery<Facturalin> query = new JPAQuery<>(entityManager);
 		query.from(faclin).where(faclin.factura.id.eq(facturaId)).orderBy(faclin.id.asc());
@@ -316,13 +316,15 @@ public class FactuDao {
 			// if (product.getId()==null){
 			// product.setId((long)productRepository.count());
 			// }
-			Factura facDB = getFactura(factura.getId());
-			if (facDB != null) {
-				// TODO
-				// facDB.setCif(cliente.getCif());
-				// prodDB.setTitle(product.getTitle());
-				// prodDB.setPrice(product.getPrice());
-				// prodDB.setVisible(product.isVisible());
+			if (factura.getId()!=null) {
+				Factura facDB = getFactura(factura.getId());
+				if (facDB != null) {
+					// TODO
+					// facDB.setCif(cliente.getCif());
+					// prodDB.setTitle(product.getTitle());
+					// prodDB.setPrice(product.getPrice());
+					// prodDB.setVisible(product.isVisible());
+				}
 			}
 			facturaRepository.save(factura);
 		}

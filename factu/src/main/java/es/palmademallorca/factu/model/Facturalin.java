@@ -9,10 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
-import javax.validation.constraints.NotNull;
 
 import es.palmademallorca.factu.dto.FacLinDto;
-import es.palmademallorca.factu.utils.Converter;
 
 
 /**
@@ -22,7 +20,6 @@ import es.palmademallorca.factu.utils.Converter;
 @Entity
 public class Facturalin {
 	@Id
-	@NotNull
 	@GeneratedValue(generator = "FacturaLinSeq")
 	@SequenceGenerator(name = "FacturaLinSeq", sequenceName = "factu.facturalin_seq", allocationSize = 1)
 	private Long id;
@@ -34,16 +31,19 @@ public class Facturalin {
 	private BigDecimal poriva;
 	private BigDecimal preu;
 	private BigDecimal requiv;
-	@Column(name="factura_id")
-	private Long facturaId;
+	@Column(name="producte_id")
+	private String productoId;
+	@Column(name="tipiva_id")
+	private String tipivaId;
 	@ManyToOne
 	@JoinColumn(name = "producte_id", insertable = false, updatable = false)
 	private Producto producto;
 	@ManyToOne
 	@JoinColumn(name = "tipiva_id", insertable = false, updatable = false)
 	private Tipiva tipiva;
+	
 	@ManyToOne
-	@JoinColumn(name = "factura_id", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "factura_id", nullable = false)
 	private Factura factura;
 
 	
@@ -59,10 +59,8 @@ public class Facturalin {
 		this.poriva=faclinDto.getPoriva();
 		this.preu=faclinDto.getPreu();
 		this.requiv=faclinDto.getRequiv();
-		this.facturaId=faclinDto.getFacturaId();
-//		this.factura=Converter.toDao(faclinDto.getFacturaId());
-		this.producto=Converter.toDao(faclinDto.getProducto());
-		this.tipiva=Converter.toDao(faclinDto.getTipiva());
+		this.productoId=faclinDto.getProducto().getId();
+		this.tipivaId=faclinDto.getTipiva().getId();
 				
 	}
 
@@ -130,22 +128,20 @@ public class Facturalin {
 		this.requiv = requiv;
 	}
 
-	
-	public Tipiva getTipiva() {
-		return tipiva;
+	public String getProductoId() {
+		return productoId;
 	}
 
-	public void setTipiva(Tipiva tipiva) {
-		this.tipiva = tipiva;
+	public void setProductoId(String productoId) {
+		this.productoId = productoId;
 	}
 
-	
-	public Long getFacturaId() {
-		return facturaId;
+	public String getTipivaId() {
+		return tipivaId;
 	}
 
-	public void setFacturaId(Long facturaId) {
-		this.facturaId = facturaId;
+	public void setTipivaId(String tipivaId) {
+		this.tipivaId = tipivaId;
 	}
 
 	public Factura getFactura() {
@@ -156,6 +152,18 @@ public class Facturalin {
 		this.factura = factura;
 	}
 
+	
+	
+	public Tipiva getTipiva() {
+		return tipiva;
+	}
+
+	public void setTipiva(Tipiva tipiva) {
+		this.tipiva = tipiva;
+	}
+
+	
+	
 	public Producto getProducto() {
 		return producto;
 	}
@@ -167,9 +175,12 @@ public class Facturalin {
 	@Override
 	public String toString() {
 		return "Facturalin [id=" + id + ", cantidad=" + cantidad + ", dem=" + dem + ", importe=" + importe + ", pordte="
-				+ pordte + ", poriva=" + poriva + ", preu=" + preu + ", requiv=" + requiv + ", facturaId=" + facturaId
-				+ ", producto=" + producto + ", tipiva=" + tipiva + "]";
+				+ pordte + ", poriva=" + poriva + ", preu=" + preu + ", requiv=" + requiv + ", productoId=" + productoId
+				+ ", tipivaId=" + tipivaId + ", factura=" + factura + "]";
 	}
+
+	
+
 
 	
 

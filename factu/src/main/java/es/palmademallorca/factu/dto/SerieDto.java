@@ -24,11 +24,13 @@ public class SerieDto {
 		this.empresaName=empresaName;
 	}
 	public SerieDto(Serie serie) {
-		this.id=serie.getId();
-		this.dec=serie.getDec();
-		this.empresaId=serie.getEmpresaId();
-		this.empresaName=serie.getEmpresa().getDem();
-		this.hbl = serie.getHbl().equals("S")?true:false;
+		if (serie!=null) {
+			this.id=serie.getId();
+			this.dec=serie.getDec();
+			this.empresaId=serie.getEmpresaId();
+			this.empresaName=serie.getEmpresa().getDem();
+			this.hbl = serie.getHbl().equals("S")?true:false;
+		}
 	}
 
 	public String getId() {

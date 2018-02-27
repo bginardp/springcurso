@@ -3,6 +3,9 @@ package es.palmademallorca.factu.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import es.palmademallorca.factu.dto.ClienteDto;
 import es.palmademallorca.factu.dto.EjercicioDto;
 import es.palmademallorca.factu.dto.EmpresaDto;
@@ -23,16 +26,15 @@ import es.palmademallorca.factu.model.Producto;
 import es.palmademallorca.factu.model.Serie;
 import es.palmademallorca.factu.model.Tipiva;
 import es.palmademallorca.factu.model.TipivaDet;
+import es.palmademallorca.factu.service.FactuService;
 
 public class Converter {
 	
+	public Converter () {
+		
+	}
 
-//	public static FacturaBasesDto toDdto(FacturaBases dao) {
-//		FacturaBasesDto dto = new FacturaBasesDto(dao);
-//		return dto;
-//	}
-
-	public static TipivaDto toDdto(Tipiva tipiva) {
+	public static TipivaDto toDto(Tipiva tipiva) {
 		TipivaDto dto = new TipivaDto(tipiva);
 		return dto;
 	}
@@ -84,35 +86,59 @@ public class Converter {
 		Tipiva dao=new Tipiva(tipiva);
 		return dao;
 	}
+	
+	public static Facturalin toDao(FacLinDto dto) {
+		Facturalin dao=new Facturalin(dto);
+		return dao;
+	}
 
 	public static Serie toDao(SerieDto dto) {
-		Serie dao=new Serie(dto);
-		return dao;
+		if (dto!=null) {
+			Serie dao=new Serie(dto);
+			return dao;
+		}
+		return null;
 	}
 
 	public static Ejercicio toDao(EjercicioDto dto) {
-		Ejercicio dao=new Ejercicio(dto);
-		return dao;
+		if (dto!=null) {
+			Ejercicio dao=new Ejercicio(dto);
+			return dao;
+		}
+		return null;
 	}
 
 	public static Cliente toDao(ClienteDto dto) {
-		Cliente dao=new Cliente(dto);
-		return dao;
+		if (dto!=null) {
+			Cliente dao=new Cliente(dto);
+			return dao;
+		}
+		return null;
 	}
 
 	public static Empresa toDao(EmpresaDto dto) {
-		Empresa dao=new Empresa(dto);
-		return dao;
+		if (dto!=null) {
+		  Empresa dao=new Empresa(dto);
+		  return dao;
+		}
+		return null;
 	}
 
 	public static Formapago toDao(FormapagoDto dto) {
-		Formapago dao=new Formapago(dto);
-		return dao;
+		if (dto!=null) {
+			Formapago dao=new Formapago(dto);
+			return dao;	
+		}
+		return null;
+		
 	}
 
 	public static Producto toDao(ProductoDto dto) {
-		Producto dao=new Producto(dto);
-		return dao;
+		if (dto!=null) {
+		  Producto dao=new Producto(dto);
+		  return dao;
+		}
+		return null;
 	}
 
 	
