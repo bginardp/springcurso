@@ -221,6 +221,15 @@ public class FacturaDto extends ErrorsDto {
 	public void setPorirpf(BigDecimal porirpf) {
 		this.porirpf = porirpf;
 	}
+	
+	
+	public BigDecimal getImpirpf() {
+		return impirpf;
+	}
+
+	public void setImpirpf(BigDecimal impirpf) {
+		this.impirpf = impirpf;
+	}
 
 	public BigDecimal getImpdto() {
 		return impdto;

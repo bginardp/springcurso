@@ -1,11 +1,16 @@
+function round (value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+};
+
 var app={
   iniciFactura: function(){
     this.iniciControls();
   },
 
   iniciControls: function(){
-	  document.getElementById("linea\.preu").onchange=this.updateTotal;
-	  document.getElementById("linea\.cantidad").onchange=this.updateTotal;
+	  document.getElementById("linea\.preu").onchange=this.updateImporte;
+	  document.getElementById("linea\.cantidad").onchange=this.updateImporte;
+	  document.getElementById("porirpf").onchange=this.updateTotal;
 	  
 	  $("#cliente").autocomplete({
 					source : '/ajax/clientes',
@@ -52,7 +57,7 @@ var app={
 						var id = ui.item.value;
 						var nom = ui.item.label;
 						event.preventDefault();
-						$("#linea\\.producto\\.id").val(id);
+						$("#producte").val(id);
 						$("#linea\\.dem").val(nom);
 						$("#linea\\.preu").val(ui.item.pvp);
 						$("#linea\\.poriva").val(ui.item.poriva);
@@ -69,16 +74,24 @@ var app={
 				    }
 				});
   },
-  updateTotal: function(){
+  updateImporte: function(){
 	    var total=0;
 	    var preu = Number(document.getElementById("linea\.preu").value);
 	    var cantidad = Number(document.getElementById("linea\.cantidad").value);    
 	    total = preu * cantidad;
-	      /* Attempt to update the value (Inside a TD tag) */
-	     document.getElementById('linea\.importe').value=total;
+	    document.getElementById('linea\.importe').value=total;
   },
-  setIndex : function(index) {
-	  $('#index').val(index);
+  updateTotal: function(){
+	    var total= Number(document.getElementById("totfac").value);;
+	    var percent = Number(document.getElementById("porirpf").value);
+	    var impbru  = Number(document.getElementById("impbru").value);    
+	    var impirpf = round((impbru * percent)/100,2);
+	    total=total+impirpf;
+	    document.getElementById('impirpf').value=impirpf;
+        document.getElementById('totfac').value=total;
+  }, 
+  setIndex: function(index) {
+	   $('#index').val(index);
   }
  
 };

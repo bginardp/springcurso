@@ -91,7 +91,12 @@ public class Converter {
 		Facturalin dao=new Facturalin(dto);
 		return dao;
 	}
-
+	
+	public static Factura toDao(FacturaDto dto) {
+		Factura dao=new Factura(dto);
+		return dao;
+	}
+	
 	public static Serie toDao(SerieDto dto) {
 		if (dto!=null) {
 			Serie dao=new Serie(dto);

@@ -319,7 +319,7 @@ public class FactuServiceImpl implements FactuService {
 			// ALTA
 			// 1 guardem la factura. JPA s'encarrega de guardar el detall
 			if (facturaDto.hasDetall()) {
-				Factura factura = new Factura(facturaDto);
+				Factura factura = Converter.toDao(facturaDto);
 				factuDao.saveFactura(factura);
 				return factura.getId();
 			}
