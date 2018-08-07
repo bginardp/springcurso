@@ -2,9 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="/common/head :: head('Facturaci&oacute;n')"/>
 <body>
-<th:block th:include="/common/header :: header"/>
+	<th:block th:include="/common/header :: header"/>
 	<div class="container">
-		<h2 th:text="#{clientes.list.titol}">Lista de clientes</h2>
+		<!-- <h2 th:text="#{clientes.list.titol}">Lista de clientes</h2> -->
+		<th:block th:include="/common/common :: box(#{clientes.list.titol})"/>
 		<div class="row">		 	
 			<div class="col-md-6 col-md-offset-2">
 				<form id="frm" th:action="@{'/clientes'}">

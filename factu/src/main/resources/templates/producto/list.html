@@ -4,24 +4,57 @@
 <body>
 <th:block th:include="/common/header :: header"/>
 	<div class="container">
-		<h2 th:text="#{productos.list.titol}">Lista de productos</h2>
+		<th:block th:include="/common/common :: box(#{productos.list.titol})"/>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-2">
 				<form id="frm" th:action="@{'/productos'}">
-					<input  type="hidden" 
-							id="page"
-							name="page" 
-							th:value="${productos.number}"/>
+					<input  type="hidden" id="page"	name="page"	th:value="${productos.number}"/>
 					<div class="input-group">
 				      <input type="text" 
 				      		 name="term" 
 				      		 th:value="${term}" class="form-control" placeholder="Buscar por..." autofocus="autofocus"/>
-				     		 <span class="input-group-btn">
-				       		 <button class="btn btn-default" type="submit">Go!</button>
-				      </span>
+				      <span class="input-group-btn"><button class="btn btn-default" type="submit">Buscar!</button></span>
 				    </div><!-- /input-group -->
-					<hr/>
-					<div class="media" th:each="producto:${productos}">
+				</form>	
+<div class="row mt-2">
+	 <div class="col">
+			<table class="table table-sm">
+			  <caption th:text="#{facturas.list.titol}">Lista de Facturas</caption>
+			  <thead>
+			    <tr>
+			      <th scope="col">id</th>
+			      <th scope="col">Descripción</th>
+			      <th scope="col">Precio</th>
+			      <th scope="col">Habilitado</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr th:each="producto:${productos}">
+			      <th scope="row">
+			      	<a th:href="@{'producto/'+${producto.id}}">
+					   <span th:text="${producto.id}">1</span>
+					</a>
+			      </th>
+			      <td th:text="${producto.dem}">Descripcion</td>
+			      <td th:text="${producto.pvp}">125.34</td>
+			      <td th:text="${producto.hbl}?'Activo':'No Activo'">Activo</td>
+			    </tr>
+			   
+			  </tbody>
+			</table>
+			<div  th:if="${productos.totalPages==0}"
+						 class="alert alert-warning">
+						 No se han encontrado resultados
+						 <a th:href="@{/producto/new}" class="btn">Nuevo</a>	
+			</div>
+		</div>
+	</div> <!-- row -->
+						
+					
+					
+					
+					
+					<!-- <div class="media" th:each="producto:${productos}">
 					  <div class="media-left">
 					    <a th:href="@{'producto/'+${producto.id}}">
 					      <span th:utext="${producto.id}"></span>
@@ -38,15 +71,15 @@
 					    		  th:text="${producto.hbl}?'Activo':'No Activo'"></span>
 					    </div>
 					  </div>
-					</div><!-- fin foreach -->
+					</div>fin foreach
 						
 					<div  th:if="${productos.totalPages==0}"
 						 class="alert alert-warning">
 						 No se han encontrado resultados
 						 <a th:href="@{/producto/new}" class="btn">Nuevo</a>	
-					</div>
+					</div> -->
 					<!-- paginado -->
-					<nav aria-label="Page navigation"
+					<!-- <nav aria-label="Page navigation"
 						 th:if="${productos.totalPages>0}">
 					  <ul class="pagination">
  					    <li>
@@ -74,17 +107,17 @@
 							<a th:href="@{/producto/new}" class="btn">Nuevo</a>	
 					    </li>
 					  </ul>
-					</nav>	
-				</form>
+					</nav>	 -->
+				
 			</div>
 		</div>
 		<th:block th:include="/common/footer :: footer"/>
-		<script type="text/javascript">
+		<!-- <script type="text/javascript">
 			function setPage(num){
 				$("#page").val(num);
 				$("#frm").submit();
 			}
-		</script>
+		</script> -->
 	</div>
 	
 </body>

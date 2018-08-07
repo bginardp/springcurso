@@ -1,5 +1,6 @@
 package es.palmademallorca.factu.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -7,9 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import es.palmademallorca.factu.dto.ClienteDto;
-import es.palmademallorca.factu.dto.EjercicioDto;
 import es.palmademallorca.factu.dto.FacLinDto;
-import es.palmademallorca.factu.dto.FacturaBasesDto;
 import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.dto.FormapagoDto;
 import es.palmademallorca.factu.dto.ProductoDto;
@@ -20,7 +19,7 @@ import es.palmademallorca.factu.dto.TipivaDto;
 public interface FactuService {
 	// tipologias
 	
-	public List<EjercicioDto> findAllEjercicios();
+	
     public List<FormapagoDto> findAllFormaspago();
     public List<ProductoDto> findAllProductos();
     public List<SerieDto> findAllSeries(Long empresaId);
@@ -29,17 +28,18 @@ public interface FactuService {
     public List<ClienteDto> findAllClientes();
     
     
-	EjercicioDto getEjercicio(long ejercicioId);
+	
 	FormapagoDto getFormapago(long formapagoId);
 	ProductoDto getProducto(String productoId);
 	SerieDto getSerie(String serieId);
 	TipivaDto getTipIva(String id);
 	TipivaDetDto getTipivaDet(Long id);
 	TipivaDetDto getTipivaDetVigent(String tipivaId, Date data);
-	EjercicioDto getDefaultEjercicio();
+	
 	
 	ClienteDto getCliente(Long clienteId);
 	FacturaDto getFactura(Long facturaId);
+	FacturaDto getFactura(Long clienteId, Long empresaId, Long forpagId, Date dat, BigDecimal totfac);
 	FacLinDto getFaclin(Long faclinId);
 	
 	
@@ -52,7 +52,7 @@ public interface FactuService {
 	void removeTipivaDet(long id);
 	
 	
-	void saveEjercicio(EjercicioDto ejercicioDto);
+	
 	Long saveFormapago(FormapagoDto formapagoDto);
 	void saveProducto(ProductoDto productoDto);
 	void saveSerie(SerieDto serieDto);

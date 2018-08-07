@@ -1,19 +1,14 @@
 package es.palmademallorca.factu.controller;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import es.palmademallorca.factu.dto.ClienteDto;
 import es.palmademallorca.factu.dto.CriteriosFacturasDto;
 import es.palmademallorca.factu.dto.EjercicioDto;
 import es.palmademallorca.factu.dto.EmpresaDto;
 import es.palmademallorca.factu.dto.FacLinDto;
-import es.palmademallorca.factu.dto.FacturaBasesDto;
 import es.palmademallorca.factu.dto.FacturaDto;
 import es.palmademallorca.factu.dto.common.ErrorDto;
 import es.palmademallorca.factu.service.AdminService;
@@ -75,7 +68,7 @@ public class FacturasController {
 	
 	private String gotoFacturasList(Model model) {
 		model.addAttribute("empresas", adminService.findAllEmpresas());
-		model.addAttribute("ejercicios", factuService.findAllEjercicios());
+		model.addAttribute("ejercicios", adminService.findAllEjercicios());
 	return "factura/list";
 		
 	}
@@ -123,6 +116,11 @@ public class FacturasController {
 		if (!factura.hasDetall()) {
 			factura.addError(new ErrorDto(Constants.ERR_LINDET_NOTNULL));
 		}
+		FacturaDto aux= factuService.getFactura(factura.getCliente().getId(), factura.getEmpresa().getId(), factura.getForpag().getId(), factura.getDat(), factura.getTotfac());
+		if (aux!=null && aux.isEmpty()) {
+			factura.addError(new ErrorDto(Constants.ERR_FACTURA_DUPLICADA));
+		}
+			
 		return factura;
 	}
 
@@ -199,7 +197,7 @@ public class FacturasController {
 	}
 	
 	private FacturaDto initFactura() {
-		EjercicioDto ejercicio=factuService.getDefaultEjercicio();  
+		EjercicioDto ejercicio=adminService.getDefaultEjercicio();  
 		FacturaDto factura =   new FacturaDto();
 		  //TODO pasar a funcio
 		  Calendar cal=Calendar.getInstance();
@@ -228,7 +226,7 @@ public class FacturasController {
 		}
 		model.addAttribute("factura", factura);
 		model.addAttribute("formasPago",factuService.findAllFormaspago());
-		model.addAttribute("ejercicios", factuService.findAllEjercicios());
+		model.addAttribute("ejercicios", adminService.findAllEjercicios());
 		return "factura/edit";
 	}
 	

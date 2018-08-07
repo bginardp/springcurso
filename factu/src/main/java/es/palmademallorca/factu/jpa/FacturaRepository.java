@@ -1,5 +1,8 @@
 package es.palmademallorca.factu.jpa;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import es.palmademallorca.factu.model.Factura;
@@ -12,6 +15,6 @@ public interface FacturaRepository extends PagingAndSortingRepository<Factura, L
 //	Page<City> findByNameContainingAndCountryContainingAllIgnoringCase(String name,
 //			String country, Pageable pageable);
 
-//	City findByNameAndCountryAllIgnoringCase(String name, String country);
+	Factura findByClienteIdAndEmpresaIdAndForpagIdAndDatAndTotfac(Long clienteId, Long empresaId, Long forpagId, Date dat,BigDecimal totfac);
 
 }
