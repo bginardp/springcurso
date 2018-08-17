@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="col-md-9 col-md-offset-1">
 				<div th:if="${#httpServletRequest.getParameter('msg')=='ok'}" 
-					 class="alert alert-success">
+					 class="alert alert-success" th:utext="#{factu.succesful.operation}">
 					 La operaci&oacute;n se ha realizado correctamente
 				</div>
 				<form th:object="${cliente}" 

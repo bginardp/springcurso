@@ -180,6 +180,32 @@ public class AdminDao {
 		PageImpl<Empresa> result = new PageImpl<>(list, pageRequest, total);
 		return result;
 	}
+	
+	public Page<Producto> findProductosByTerm(String term, Pageable pageRequest) {
+		// 1ª opción -> nombre de método complejo en el repositorio -> no
+		// 2ª opción -> HQL -> consulta dentro de un string, no se compila!
+		// List<Article> arts = entityManager.createQuery("from Articles where
+		// ....");
+		// 3ª opción -> QueryDSL -> permite que el compilador nos ayude a
+		// escribir HQL.
+		QProducto producto = QProducto.producto;
+		// creación de consulta
+		JPAQuery<Producto> query = new JPAQuery<>(entityManager);
+		query.from(producto);
+		if (term != null) {
+			query.where(producto.dem.likeIgnoreCase("%" + term + "%"));
+		}
+		query.orderBy(producto.dem.asc());
+		// gestión de paginado
+		long offset = pageRequest.getPageSize() * pageRequest.getPageNumber();
+		query.limit(pageRequest.getPageSize());
+		query.offset(offset);
+		// preparación de resultado
+		List<Producto> list = query.fetch();
+		Long total = query.fetchCount();
+		PageImpl<Producto> result = new PageImpl<>(list, pageRequest, total);
+		return result;
+	}
 
 	public Cliente getCliente(Long clienteId) {
 		if (clienteId != null) {
@@ -209,31 +235,7 @@ public class AdminDao {
 		return convertItToList(clientes);
 	}
 
-	public Page<Producto> findProductosByTerm(String term, Pageable pageRequest) {
-		// 1ª opción -> nombre de método complejo en el repositorio -> no
-		// 2ª opción -> HQL -> consulta dentro de un string, no se compila!
-		// List<Article> arts = entityManager.createQuery("from Articles where
-		// ....");
-		// 3ª opción -> QueryDSL -> permite que el compilador nos ayude a
-		// escribir HQL.
-		QProducto producto = QProducto.producto;
-		// creación de consulta
-		JPAQuery<Producto> query = new JPAQuery<>(entityManager);
-		query.from(producto);
-		if (term != null) {
-			query.where(producto.dem.likeIgnoreCase("%" + term + "%"));
-		}
-		query.orderBy(producto.dem.asc());
-		// gestión de paginado
-		long offset = pageRequest.getPageSize() * pageRequest.getPageNumber();
-		query.limit(pageRequest.getPageSize());
-		query.offset(offset);
-		// preparación de resultado
-		List<Producto> list = query.fetch();
-		Long total = query.fetchCount();
-		PageImpl<Producto> result = new PageImpl<>(list, pageRequest, total);
-		return result;
-	}
+
 
 	public List<Ejercicio> findAllEjercicios() {
 		Iterable<Ejercicio> ejercicios = ejercicioRepository.findAll(new Sort(new Order(Direction.DESC, "id")));
@@ -247,6 +249,10 @@ public class AdminDao {
 
 	public List<Serie> findAllSeries(Long empresaId) {
 		return serieRepository.findByEmpresaId(empresaId);
+	}
+	
+	public List<Serie> findAllSeries() {
+		return serieRepository.findAllByOrderByEmpresaIdAscDecAsc();
 	}
 
 	public List<Tipiva> findAllTipiva() {
@@ -412,6 +418,9 @@ public class AdminDao {
 	public Ejercicio getDefaultEjercicio() {
 		return ejercicioRepository.findFirstByOrderByIdDesc();
 	}
+
+
+	
 
 	
 

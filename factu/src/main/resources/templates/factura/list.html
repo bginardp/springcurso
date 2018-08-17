@@ -5,75 +5,76 @@
 <th:block th:include="/common/header :: header"/>
 <div class="container">
 	<th:block th:include="/common/common :: box(#{facturas.list.titol})"/>
-	<form id="frm" th:object="${criteris}" th:action="@{'/facturas/search'}">
-	    <input  type="hidden" 
-						id="page"
-						name="page" 
-						th:value="${facturas.number}"/>
-		<div class="form-row align-items-center">
-		    <div class="col-sm-3">
-				<label for="empresa">Empresa</label>
-				<select class="custom-select mb-2 mr-sm-2 mb-sm-0" th:field="*{empresaId}">
-				    <option th:each="empresa:${empresas}" th:value="${empresa.id}" th:text="${empresa.dec}">Salpon SL</option>
-				</select>
+	<div class="container_main">
+		<form id="frm" th:object="${criteris}" th:action="@{'/facturas/search'}">
+		    <input  type="hidden" 
+							id="page"
+							name="page" 
+							th:value="${facturas.number}"/>
+			<div class="form-row align-items-center">
+			    <div class="col-sm-3">
+					<label for="empresa">Empresa</label>
+					<select class="custom-select mb-2 mr-sm-2 mb-sm-0" th:field="*{empresaId}">
+					    <option th:each="empresa:${empresas}" th:value="${empresa.id}" th:text="${empresa.dec}">Salpon SL</option>
+					</select>
+				</div>
+			    <div class="col-sm-3">
+					<label for="ejercicio">Ejercicio</label>
+					<select class="custom-select mb-2 mr-sm-2 mb-sm-0" th:field="*{ejercicioId}">
+					    <option th:each="ejercicio:${ejercicios}" th:value="${ejercicio.id}" th:text="${ejercicio.id}">2017</option>
+					</select>
+				</div>
+	 			<div class="col-sm-3">
+	 			    <label for="term">Cadena busqueda</label>
+					<div class="input-group">
+				      <input type="text" 
+				      		 th:field="*{term}" 
+				      		 class="form-control" placeholder="Buscar por..." aria-label="Buscar por..." autofocus="autofocus"/>
+				      <span class="input-group-btn"><button class="btn btn-secondary" type="submit">Buscar!</button></span>
+				    </div><!-- /input-group -->
+				 </div>
 			</div>
-		    <div class="col-sm-3">
-				<label for="ejercicio">Ejercicio</label>
-				<select class="custom-select mb-2 mr-sm-2 mb-sm-0" th:field="*{ejercicioId}">
-				    <option th:each="ejercicio:${ejercicios}" th:value="${ejercicio.id}" th:text="${ejercicio.id}">2017</option>
-				</select>
+		</form>
+		<div class="row mt-2">
+		 <div class="col">
+				<table class="table table-sm table-striped">
+				  <caption th:text="#{facturas.list.titol}">Lista de Facturas</caption>
+				  <thead>
+				    <tr>
+				      <th scope="col">id factura</th>
+				      <th scope="col">Fecha</th>
+				      <th scope="col">Cif</th>
+				      <th scope="col">Serie</th>
+				      <th scope="col">Número</th>
+				      <th scope="col">Facturado a</th>
+				      <th scope="col">Importe total</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="factura:${facturas}">
+				      <th scope="row">
+				      	<a th:href="@{'factura/'+${factura.id}}">
+						   <span th:text="${factura.id}">1</span>
+						</a>
+				      </th>
+				      <td th:text="${#dates.format(factura.dat, 'dd/MMM/yyyy')}">15/07/2018</td>
+				      <td>A01234567B</td>
+				      <td th:text="${factura.serie.dec}">A</td>
+				      <td th:text="${factura.numero}">001</td>
+				      <td th:text="${factura.cliente.nom}">Magnolia S.L</td>
+				      <td th:text="${#numbers.formatDecimal(factura.totfac,6,'POINT',2,'COMMA')}">1200.60</td>
+				    </tr>
+				   
+				  </tbody>
+				</table>
+				<div  th:if="${facturas.totalPages==0}"
+					 class="alert alert-warning">
+					 No se han encontrado resultados
+				</div>
+				<a th:href="@{/factura/new}" class="btn btn-primary">Nuevo</a>
 			</div>
- 			<div class="col-sm-3">
- 			    <label for="term">Cadena busqueda</label>
-				<div class="input-group">
-			      <input type="text" 
-			      		 th:field="*{term}" 
-			      		 class="form-control" placeholder="Buscar por..." aria-label="Buscar por..." autofocus="autofocus"/>
-			      <span class="input-group-btn"><button class="btn btn-secondary" type="submit">Buscar!</button></span>
-			    </div><!-- /input-group -->
-			 </div>
-		</div>
-	</form>
-	<div class="row mt-2">
-	 <div class="col">
-			<table class="table table-sm">
-			  <caption th:text="#{facturas.list.titol}">Lista de Facturas</caption>
-			  <thead>
-			    <tr>
-			      <th scope="col">id factura</th>
-			      <th scope="col">Fecha</th>
-			      <th scope="col">Cif</th>
-			      <th scope="col">Serie</th>
-			      <th scope="col">Número</th>
-			      <th scope="col">Facturado a</th>
-			      <th scope="col">Importe total</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr th:each="factura:${facturas}">
-			      <th scope="row">
-			      	<a th:href="@{'factura/'+${factura.id}}">
-					   <span th:text="${factura.id}">1</span>
-					</a>
-			      </th>
-			      <td th:text="${#dates.format(factura.dat, 'dd/MMM/yyyy')}">15/07/2018</td>
-			      <td>A01234567B</td>
-			      <td th:text="${factura.serie.dec}">A</td>
-			      <td th:text="${factura.numero}">001</td>
-			      <td th:text="${factura.cliente.nom}">Magnolia S.L</td>
-			      <td th:text="${#numbers.formatDecimal(factura.totfac,6,'POINT',2,'COMMA')}">1200.60</td>
-			    </tr>
-			   
-			  </tbody>
-			</table>
-			<div  th:if="${facturas.totalPages==0}"
-				 class="alert alert-warning">
-				 No se han encontrado resultados
-				 <a th:href="@{/factura/new}" class="btn btn-primary">Nuevo</a>
-			</div>
-		</div>
-	</div> <!-- row -->
-	
+		</div> <!-- row -->
+	</div>
 </div> <!-- container -->
 <script type="text/javascript">
 			function setPage(num){

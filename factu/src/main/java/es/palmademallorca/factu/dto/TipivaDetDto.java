@@ -8,16 +8,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import es.palmademallorca.factu.model.TipivaDet;
+import es.palmademallorca.factu.utils.Converter;
 
 public class TipivaDetDto {
 
 	private Long id;
+	private TipivaDto tipiva;
 	@NotNull
-	@Size(min=1,max=30)
-	private String tipivaId;
-	@NotNull
-	private Long anyo;
-	private String tipivaDem;
+	private Long anyo;	
 	@NotNull
 	@Min(1)
 	@Max(12)
@@ -31,15 +29,14 @@ public class TipivaDetDto {
 	}
 
 
-	public TipivaDetDto(TipivaDet tipiva) {
-		if (tipiva!=null) {
-			this.id=tipiva.getId();
-			this.tipivaId=tipiva.getTipiva().getId();
-			this.anyo=tipiva.getAnyo();
-			this.tipivaDem=tipiva.getTipiva().getDem();
-			this.mes=tipiva.getMes();
-			this.poriva=tipiva.getPoriva();
-			this.requiv=tipiva.getRequiv();
+	public TipivaDetDto(TipivaDet dettipiva) {
+		if (dettipiva!=null) {
+			this.id=dettipiva.getId();
+			this.tipiva=Converter.toDto(dettipiva.getTipiva());
+			this.anyo=dettipiva.getAnyo();
+			this.mes=dettipiva.getMes();
+			this.poriva=dettipiva.getPoriva();
+			this.requiv=dettipiva.getRequiv();
 		}
 	}
 
@@ -94,31 +91,22 @@ public class TipivaDetDto {
 	}
 
 
-	public String getTipivaId() {
-		return tipivaId;
+	public TipivaDto getTipiva() {
+		return tipiva;
 	}
 
 
-	public void setTipivaId(String tipivaId) {
-		this.tipivaId = tipivaId;
-	}
-
-
-	public String getTipivaDem() {
-		return tipivaDem;
-	}
-
-
-	public void setTipivaDem(String tipivaDem) {
-		this.tipivaDem = tipivaDem;
+	public void setTipiva(TipivaDto tipiva) {
+		this.tipiva = tipiva;
 	}
 
 
 	@Override
 	public String toString() {
-		return "TipivaDetDto [id=" + id + ", tipivaId=" + tipivaId + ", anyo=" + anyo + ", tipivaDem=" + tipivaDem
-				+ ", mes=" + mes + ", poriva=" + poriva + ", requiv=" + requiv + "]";
+		return "TipivaDetDto [id=" + id + ", tipiva=" + tipiva + ", anyo=" + anyo + ", mes=" + mes + ", poriva="
+				+ poriva + ", requiv=" + requiv + "]";
 	}
+
 	
 
 }

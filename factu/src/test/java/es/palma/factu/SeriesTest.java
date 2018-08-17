@@ -24,9 +24,20 @@ public class SeriesTest {
 	FactuService factuService;
 	
 	@Test
-	public void test() {
+	public void findSeriesByEmpresaId() {
        
-       List<SerieDto> series = factuService.findAllSeries(new Long(1));
+       List<SerieDto> series = factuService.findSeriesByEmpresaId(new Long(1));
+       series.forEach(e->System.out.println(e));
+    	assert(series.size()>0);
+
+
+		// fail("Not yet implemented");
+	}
+	
+	@Test
+	public void findAllSeries() {
+       
+       List<SerieDto> series = factuService.findAllSeries();
        series.forEach(e->System.out.println(e));
     	assert(series.size()>0);
 

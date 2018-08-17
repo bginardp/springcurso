@@ -32,6 +32,7 @@ public class EmpresaDto {
 	}
 
 	public EmpresaDto(Empresa empresa) {
+		if (empresa !=null) {
 		this.id=empresa.getId();
 		this.dec=empresa.getDec();
 		this.dem=empresa.getDem();
@@ -43,6 +44,7 @@ public class EmpresaDto {
 		this.tel=empresa.getTel();
 		this.email=empresa.getEmail();
 		this.postal=empresa.getPostal();
+		}
 	}
 
 	

@@ -81,9 +81,9 @@ public class FactuServiceImpl implements FactuService {
 		}
 		return content;
 	}
-
+	
 	@Override
-	public List<SerieDto> findAllSeries(Long empresaId) {
+	public List<SerieDto> findSeriesByEmpresaId(Long empresaId) {
 		List<Serie> series = adminDao.findAllSeries(empresaId);
 		List<SerieDto> content = new ArrayList<SerieDto>();
 		for (Serie serie : series) {
@@ -91,6 +91,18 @@ public class FactuServiceImpl implements FactuService {
 		}
 		return content;
 	}
+
+	@Override
+	public List<SerieDto> findAllSeries() {
+		List<Serie> series = adminDao.findAllSeries();
+		List<SerieDto> content = new ArrayList<SerieDto>();
+		for (Serie serie : series) {
+			content.add(new SerieDto(serie));
+		}
+		return content;
+	}
+
+
 
 	@Override
 	public List<TipivaDto> findAllTiposIva() {
@@ -340,7 +352,7 @@ public class FactuServiceImpl implements FactuService {
 
 	@Override
 	public Page<ClienteDto> getClientes(String term, Pageable pageRequest) {
-		Page<Cliente> page = factuDao.findClientesByTerm(term, pageRequest);
+		Page<Cliente> page = adminDao.findClientesByTerm(term, pageRequest);
 		List<ClienteDto> content = new ArrayList<>();
 		for (Cliente cliente : page) {
 			content.add(new ClienteDto(cliente));
@@ -350,7 +362,7 @@ public class FactuServiceImpl implements FactuService {
 
 	@Override
 	public Page<ProductoDto> getProductos(String term, Pageable pageRequest) {
-		Page<Producto> page = factuDao.findProductosByTerm(term, pageRequest);
+		Page<Producto> page = adminDao.findProductosByTerm(term, pageRequest);
 		List<ProductoDto> content = new ArrayList<>();
 		for (Producto producto : page) {
 			TipivaDetDto detiva = getTipivaDetVigent(producto.getTipiva().getId(), null);
@@ -420,6 +432,7 @@ public class FactuServiceImpl implements FactuService {
 		return lindto;
 	}
 
+	
 	
 
 	

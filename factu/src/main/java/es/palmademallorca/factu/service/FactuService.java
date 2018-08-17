@@ -22,7 +22,8 @@ public interface FactuService {
 	
     public List<FormapagoDto> findAllFormaspago();
     public List<ProductoDto> findAllProductos();
-    public List<SerieDto> findAllSeries(Long empresaId);
+    public List<SerieDto> findSeriesByEmpresaId(Long empresaId);
+    public List<SerieDto> findAllSeries();
     public List<TipivaDto> findAllTiposIva();
     public List<TipivaDetDto> findAllTiposIvaDet();
     public List<ClienteDto> findAllClientes();

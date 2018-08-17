@@ -14,6 +14,7 @@ public interface SerieRepository extends PagingAndSortingRepository<Serie, Strin
 //	Page<City> findByNameContainingAndCountryContainingAllIgnoringCase(String name,
 //			String country, Pageable pageable);
 	List<Serie> findByEmpresaId(Long empresaId);
+	List<Serie> findAllByOrderByEmpresaIdAscDecAsc();
 //	City findByNameAndCountryAllIgnoringCase(String name, String country);
 
 }

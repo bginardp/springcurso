@@ -20,16 +20,10 @@ import com.querydsl.jpa.impl.JPAQuery;
 
 import es.palmademallorca.factu.jpa.FaclinRepository;
 import es.palmademallorca.factu.jpa.FacturaRepository;
-import es.palmademallorca.factu.model.Cliente;
-import es.palmademallorca.factu.model.Empresa;
 import es.palmademallorca.factu.model.Factura;
 import es.palmademallorca.factu.model.Facturalin;
-import es.palmademallorca.factu.model.Producto;
-import es.palmademallorca.factu.model.QCliente;
-import es.palmademallorca.factu.model.QEmpresa;
 import es.palmademallorca.factu.model.QFactura;
 import es.palmademallorca.factu.model.QFacturalin;
-import es.palmademallorca.factu.model.QProducto;
 
 @Component
 public class FactuDao {
@@ -42,87 +36,6 @@ public class FactuDao {
 	private EntityManager entityManager;
 	
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-
-	public Page<Cliente> findClientesByTerm(String term, Pageable pageRequest) {
-		// 1ª opción -> nombre de método complejo en el repositorio -> no
-		// 2ª opción -> HQL -> consulta dentro de un string, no se compila!
-		// List<Article> arts = entityManager.createQuery("from Articles where
-		// ....");
-		// 3ª opción -> QueryDSL -> permite que el compilador nos ayude a
-		// escribir HQL.
-		QCliente cliente = QCliente.cliente;
-		// creación de consulta
-		JPAQuery<Cliente> query = new JPAQuery<>(entityManager);
-		query.from(cliente);
-		if (term != null) {
-			query.where(cliente.nom.likeIgnoreCase("%" + term + "%").or(cliente.cif.likeIgnoreCase("%" + term + "%")));
-		}
-		query.orderBy(cliente.nom.asc());
-		// gestión de paginado
-		long offset = pageRequest.getPageSize() * pageRequest.getPageNumber();
-		query.limit(pageRequest.getPageSize());
-		query.offset(offset);
-		// preparación de resultado
-		List<Cliente> list = query.fetch();
-		Long total = query.fetchCount();
-		PageImpl<Cliente> result = new PageImpl<>(list, pageRequest, total);
-		return result;
-	}
-	
-	public Page<Empresa> findEmpresasByTerm(String term, Pageable pageRequest) {
-		// 1ª opción -> nombre de método complejo en el repositorio -> no
-		// 2ª opción -> HQL -> consulta dentro de un string, no se compila!
-		// List<Article> arts = entityManager.createQuery("from Articles where
-		// ....");
-		// 3ª opción -> QueryDSL -> permite que el compilador nos ayude a
-		// escribir HQL.
-		QEmpresa empresa = QEmpresa.empresa;
-		// creación de consulta
-		JPAQuery<Empresa> query = new JPAQuery<>(entityManager);
-		query.from(empresa);
-		if (term != null) {
-			query.where(empresa.dem.likeIgnoreCase("%" + term + "%").or(empresa.nif.likeIgnoreCase("%" + term + "%")));
-		}
-		query.orderBy(empresa.dem.asc());
-		// gestión de paginado
-		long offset = pageRequest.getPageSize() * pageRequest.getPageNumber();
-		query.limit(pageRequest.getPageSize());
-		query.offset(offset);
-		// preparación de resultado
-		List<Empresa> list = query.fetch();
-		Long total = query.fetchCount();
-		PageImpl<Empresa> result = new PageImpl<>(list, pageRequest, total);
-		return result;
-	}
-
-	public Page<Producto> findProductosByTerm(String term, Pageable pageRequest) {
-		// 1ª opción -> nombre de método complejo en el repositorio -> no
-		// 2ª opción -> HQL -> consulta dentro de un string, no se compila!
-		// List<Article> arts = entityManager.createQuery("from Articles where
-		// ....");
-		// 3ª opción -> QueryDSL -> permite que el compilador nos ayude a
-		// escribir HQL.
-		QProducto producto = QProducto.producto;
-		// creación de consulta
-		JPAQuery<Producto> query = new JPAQuery<>(entityManager);
-		query.from(producto);
-		if (term != null) {
-			query.where(producto.dem.likeIgnoreCase("%" + term + "%"));
-		}
-		query.orderBy(producto.dem.asc());
-		// gestión de paginado
-		long offset = pageRequest.getPageSize() * pageRequest.getPageNumber();
-		query.limit(pageRequest.getPageSize());
-		query.offset(offset);
-		// preparación de resultado
-		List<Producto> list = query.fetch();
-		Long total = query.fetchCount();
-		PageImpl<Producto> result = new PageImpl<>(list, pageRequest, total);
-		return result;
-	}
-
-	
-	
 
 	
 	public Page<Factura> findFacturasByTerm(Long empresa, Long ejercicio, String term, Pageable pageRequest) {

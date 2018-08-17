@@ -7,12 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import es.palmademallorca.factu.dto.TipivaDetDto;
-import es.palmademallorca.factu.dto.TipivaDto;
+import es.palmademallorca.factu.utils.Converter;
 
 
 /**
@@ -58,7 +57,7 @@ public class TipivaDet {
 		this.mes=tipivadetDto.getMes();
 		this.poriva=tipivadetDto.getPoriva();
 		this.requiv=tipivadetDto.getRequiv();
-		this.tipiva=new Tipiva(tipivadetDto.getTipivaId(),tipivadetDto.getTipivaDem()); 
+		this.tipiva=Converter.toDao(tipivadetDto.getTipiva()); 
 	}
 
 	public Long getId() {
