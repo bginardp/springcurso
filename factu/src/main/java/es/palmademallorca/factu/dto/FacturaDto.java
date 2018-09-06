@@ -339,6 +339,10 @@ public class FacturaDto extends ErrorsDto {
 		return bases;
 		
 	}
+	
+	public boolean isEmpty() {
+		return (cliente==null || empresa==null);
+	}
 
 	
 

@@ -46,6 +46,14 @@
   display: none;
 } */
 
+.container_main {
+  background-color: rgba(79, 118, 223, 0.28);
+  border-radius: 20px;
+  margin: auto;
+  width: 100%;
+  padding: 1em;
+}
+
 .ui-autocomplete {
   position: absolute;
   top: 100%;

@@ -10,19 +10,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import es.palmademallorca.factu.FactuApp;
 import es.palmademallorca.factu.dto.EjercicioDto;
-import es.palmademallorca.factu.service.FactuService;
+import es.palmademallorca.factu.service.AdminService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = FactuApp.class)
-public class MaestrosTest {
+public class EjercicioTest {
 	@Autowired
-	FactuService factuService;
+	AdminService adminService;
 
 	@Test
 	public void getEjercicio() {
 		System.out.println("############# inici getEjercicio(): ");
-		EjercicioDto res = factuService.getEjercicio(2015);
+		EjercicioDto res = adminService.getEjercicio(2015);
     	System.out.println("############# resultat getEjercicio(): "+ res); 
 		assert (res != null);
 	}

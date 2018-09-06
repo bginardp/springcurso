@@ -2,11 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="/common/head :: head('Facturaci&oacute;n')"/>
 <body>
-<th:block th:include="/common/header :: header"/>
+	<th:block th:include="/common/header :: header"/>
 	<div class="container">
-		<h2 th:text="#{clientes.list.titol}">Lista de clientes</h2>
-		<div class="row">		 	
-			<div class="col-md-6 col-md-offset-2">
+		<th:block th:include="/common/common :: boxsearch(#{clientes.list.titol},'/clientes')"/>
+		<div class="container_main">
+		<div class="row mt-2">
+		 	<div class="col"> 
+		 		<table class="table table-sm table-striped">
+				  <thead>
+				    <tr>
+				      <th scope="col">Id</th>
+				      <th scope="col">Nombre</th>
+				      <th scope="col">Cif</th>
+				      <th scope="col">Dirección</th>
+				      <th scope="col">Municipio</th>
+				      <th scope="col">C.postal</th>
+				      <th scope="col">Provincia</th>
+				      <th scope="col">Telefono</th>
+				      <th scope="col">Tel.Movil</th>
+				      <th scope="col">Email</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="cliente:${clientes}">
+				      <th scope="row">
+				      	<a th:href="@{'clientes/'+${cliente.id}}">
+					      <span th:utext="${cliente.id}"></span>
+					    </a>
+				      </th>
+				      <td th:text="${cliente.nom}">Nombre </td>
+				      <td th:text="${cliente.cif}">B12345678</td>
+				      <td th:text="${cliente.direccion}">calle arcosa 23, bj</td>
+				      <td th:text="${cliente.municipio}">Palma</td>
+				      <td th:text="${cliente.postal}">07002</td>
+				      <td th:text="${cliente.provincia}">Illes Balears</td>
+				      <td th:text="${cliente.tel}">9112345612</td>
+				      <td th:text="${cliente.movil}">612345678</td>
+				      <td th:text="${cliente.email}">some@domnai8l.com</td>
+				    </tr>
+				   
+				  </tbody>
+			  </table>
+			  <div th:if="${clientes.totalPages==0}"
+							 class="alert alert-warning">
+							 No se han encontrado resultados						 	
+			  </div>
+			  <a th:href="@{/cliente/new}" class="btn btn-primary">Nuevo</a>	 
+		 	</div>	
+		 		
+			<!-- <div class="col-md-6 col-md-offset-2">
 				<form id="frm" th:action="@{'/clientes'}">
 					<input  type="hidden" 
 							id="page"
@@ -19,7 +63,7 @@
 				     		 <span class="input-group-btn">
 				       		 <button class="btn btn-default" type="submit">Go!</button>
 				      </span>
-				    </div><!-- /input-group -->
+				    </div>/input-group
 				
 					<hr/>
 					<div class="media" th:each="cliente:${clientes}">
@@ -44,13 +88,13 @@
 					    	<span th:text="${cliente.email}"></span>
 					     </div>
 					  </div>
-					</div><!-- fin foreach -->
+					</div>fin foreach
 						
 					<div  th:if="${clientes.totalPages==0}"
 						 class="alert alert-warning" th:text="#{factu.nodatafound}">
 						 No se han encontrado resultados
 					</div>
-					<!-- paginado -->
+					paginado
 					<nav aria-label="Page navigation"
 						 th:if="${clientes.totalPages>0}">
 					  <ul class="pagination">
@@ -82,16 +126,17 @@
 					</nav>	
 						
 				</form>
-			</div>
+			</div> -->
+		</div>
 		</div>
 		<th:block th:include="/common/footer :: footer"/>
-		<script type="text/javascript">
+		<!-- <script type="text/javascript">
 			function setPage(num){
 				$("#page").val(num);
 				$("#frm").submit();
 			}
-		</script>
+		</script> -->
 	</div> <!-- container -->
-	
+	<th:block th:include="/common/footer-js :: footer-js"/>
 </body>
 </html>

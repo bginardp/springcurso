@@ -1,6 +1,5 @@
 package es.palmademallorca.factu.controller;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import es.palmademallorca.factu.beans.UserSession;
 import es.palmademallorca.factu.dto.FormapagoDto;
 import es.palmademallorca.factu.dto.SerieDto;
 import es.palmademallorca.factu.dto.TipivaDto;
+import es.palmademallorca.factu.service.AdminService;
 import es.palmademallorca.factu.service.FactuService;
 
 @Controller
@@ -24,6 +23,8 @@ import es.palmademallorca.factu.service.FactuService;
 public class MaestrosController {
 	@Autowired
 	FactuService factuService;
+	@Autowired
+	AdminService adminService;
 
 	@ModelAttribute("page")
 	public String module() {
@@ -68,7 +69,7 @@ public class MaestrosController {
 	// tipos de iva
 	@RequestMapping(value = "/tiposiva", method = RequestMethod.GET)
 	public String listTipiva(Model model) {
-		model.addAttribute("tiposiva", factuService.findAllTiposIva());
+		model.addAttribute("tiposiva", factuService.findAllTiposIvaDet());
 		return "maestros/tipiva/list";
 	}
 
@@ -101,41 +102,31 @@ public class MaestrosController {
 
 	// series
 	@RequestMapping(value = "/series", method = RequestMethod.GET)
-	public String listSeries(HttpSession session, Model model,
-			@RequestParam(value = "empresa", required = true) Long empresa) {
-		UserSession userSession = (UserSession) session.getAttribute("user");
-		if (userSession == null) {
-			model.addAttribute("msgErr",
-					"Es necesario seleccionar una empresa y ejercicio para poder ver las facturas");
-			return null;
-
-		}
-		model.addAttribute("user", userSession);
-		model.addAttribute("series", factuService.findAllSeries(empresa));
+	public String listSeries(Model model) {
+//		UserSession userSession = (UserSession) session.getAttribute("user");
+//		if (userSession == null) {
+//			model.addAttribute("msgErr",
+//					"Es necesario seleccionar una empresa y ejercicio para poder ver las facturas");
+//			return null;
+//
+//		}
+//		model.addAttribute("user", userSession);
+		model.addAttribute("series", factuService.findAllSeries());
 
 		return "maestros/serie/list";
 	}
 
 	@RequestMapping(value = { "/serie/{id}", "/serie/new" }, method = RequestMethod.GET)
-	public String editSerie(HttpSession session, Model model,
+	public String editSerie(Model model,
 			@PathVariable(value = "id", required = false) String serieId) {
 		SerieDto serie = null;
-		if (serieId != null) {
-			serie = factuService.getSerie(serieId);
-		} else {
-			UserSession userSession = (UserSession) session.getAttribute("user");
-			if (userSession != null) {
-				serie = new SerieDto(userSession.getEmpresaId(), userSession.getEmpresaName());
-			} else {
-				serie = new SerieDto();
-			}
-		}
-
+		serie = factuService.getSerie(serieId);
 		return gotoEditSerie(model, serie);
 	}
 
 	private String gotoEditSerie(Model model, SerieDto serie) {
 		model.addAttribute("serie", serie);
+		model.addAttribute("empresas", adminService.findAllEmpresas());
 		return "maestros/serie/edit";
 	}
 
@@ -150,10 +141,9 @@ public class MaestrosController {
 	}
 	
 	@RequestMapping(value="/serie/remove",method=RequestMethod.POST)
-	public String removeSerie(@RequestParam("empresaId") String empresaId,
-			@RequestParam("id") String id){
+	public String removeSerie(@RequestParam("id") String id){
 		factuService.removeSerie(id);
-		return "redirect:/maestros/series?empresa="+empresaId;
+		return "redirect:/maestros/series";
 	}
 
 }

@@ -43,7 +43,7 @@ public class IndexController {
 	private String gotoIndex(Model model, EntradaDto entrada) {
 		model.addAttribute("entrada", entrada);
 		model.addAttribute("empresas",adminService.findAllEmpresas());
-		model.addAttribute("ejercicios",factuService.findAllEjercicios());
+		model.addAttribute("ejercicios",adminService.findAllEjercicios());
 		return "index";
 	}
 

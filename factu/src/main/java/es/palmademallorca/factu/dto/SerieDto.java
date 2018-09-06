@@ -4,31 +4,26 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import es.palmademallorca.factu.model.Serie;
+import es.palmademallorca.factu.utils.Converter;
 
 public class SerieDto {
-	// TODO afegir validacions s anivell d'atributs
 	private String id;
 	@NotNull
 	@Size(min=1,max=15)
 	private String dec;
 	private boolean hbl;
-	private Long empresaId;
-	private String empresaName;
+	private EmpresaDto empresa;
+	
 	public SerieDto() {
 		this.hbl=true;
 	}
 
-	public SerieDto(Long empresaId, String empresaName) {
-		this.hbl=true;
-		this.empresaId=empresaId;
-		this.empresaName=empresaName;
-	}
+	
 	public SerieDto(Serie serie) {
 		if (serie!=null) {
 			this.id=serie.getId();
 			this.dec=serie.getDec();
-			this.empresaId=serie.getEmpresaId();
-			this.empresaName=serie.getEmpresa().getDem();
+			this.empresa=Converter.toDto(serie.getEmpresa());
 			this.hbl = serie.getHbl().equals("S")?true:false;
 		}
 	}
@@ -57,29 +52,23 @@ public class SerieDto {
 		this.hbl = hbl;
 	}
 
-	public Long getEmpresaId() {
-		return empresaId;
+
+	public EmpresaDto getEmpresa() {
+		return empresa;
 	}
 
-	public void setEmpresaId(Long empresaId) {
-		this.empresaId = empresaId;
+
+	public void setEmpresa(EmpresaDto empresa) {
+		this.empresa = empresa;
 	}
 
-	public String getEmpresaName() {
-		return empresaName;
-	}
-
-	public void setEmpresaName(String empresaName) {
-		this.empresaName = empresaName;
-	}
 
 	@Override
 	public String toString() {
-		return "SerieDto [id=" + id + ", dec=" + dec + ", hbl=" + hbl + ", empresaId=" + empresaId + ", empresaName="
-				+ empresaName + "]";
+		return "SerieDto [id=" + id + ", dec=" + dec + ", hbl=" + hbl + ", empresa=" + empresa + "]";
 	}
 
-	
+		
 
 	
 }

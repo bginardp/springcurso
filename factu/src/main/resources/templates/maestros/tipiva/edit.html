@@ -4,13 +4,14 @@
 <body>
 	<th:block th:include="/common/header :: header"/>
 	<div class="container">
-		<h2 th:text="#{tiposiva.edit.titol}">Formulario</h2>
-		<hr/>
-		<div class="row">
-			<div class="col-md-6 col-md-offset-2">
+		<!-- <h2 th:text="#{tiposiva.edit.titol}">Formulario</h2> -->
+		<th:block th:include="/common/common :: box(#{tiposiva.edit.titol})"/>
+		<div class="container_main">
+		  <div class="row">
+			<div class="col-md-6 offset-md-2">
 			
 				<div th:if="${#httpServletRequest.getParameter('msg')=='ok'}" 
-					 class="alert alert-success" th:text="#{factu.succesful.operation}">
+					 class="alert alert-success" th:utext="#{factu.succesful.operation}">
 				</div>
 								
 				<form th:object="${tipoiva}" 
@@ -100,7 +101,8 @@
 					<input type="hidden" name="id" th:value="${tipoiva.id}"/>
 				</form>
 			</div>
-		</div> <!-- row -->
+		  </div> <!-- row -->
+		</div>
 		<th:block th:include="/common/footer :: footer"/>
 	</div> <!-- container -->
 	

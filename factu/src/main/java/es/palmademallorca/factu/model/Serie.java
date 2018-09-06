@@ -13,6 +13,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import es.palmademallorca.factu.dto.SerieDto;
+import es.palmademallorca.factu.utils.Converter;
 
 
 /**
@@ -53,7 +54,8 @@ public class Serie implements Serializable {
 		this.id=serieDto.getId();
 		this.dec=serieDto.getDec();
 		this.hbl=serieDto.isHbl()?"S":"N";
-		this.empresaId=serieDto.getEmpresaId();
+		this.empresa=Converter.toDao(serieDto.getEmpresa());
+		this.empresaId=this.empresa.getId();
 	}
 
 	public String getId() {

@@ -47,7 +47,7 @@ public class FacturaTest {
 	@Test
 	public void findFacturasByTerm() {
 		EmpresaDto empresa=adminService.getEmpresa(1L);
-		EjercicioDto ejercicio =factuService.getEjercicio(2018L);
+		EjercicioDto ejercicio =adminService.getEjercicio(2018L);
 		String term="01";
 		System.out.println("############# inici findFacturasByTerm(): ");
 		Pageable pageRequest = new PageRequest(0,10);
@@ -64,7 +64,7 @@ public class FacturaTest {
 		// 1 preparem els paramatres que has d'intervenir amb l'alta
 		
 		EmpresaDto empresa=adminService.getEmpresa(1L);
-		EjercicioDto ejercicio =factuService.getEjercicio(2018L);		
+		EjercicioDto ejercicio =adminService.getEjercicio(2018L);		
 		FormapagoDto forpag=factuService.getFormapago(1L); // talon
 		ClienteDto cliente=factuService.getCliente(1L);
 		// SerieDto serie=factuService.getSerie("A");

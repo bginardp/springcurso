@@ -34,6 +34,12 @@ public class Converter {
 		
 	}
 
+	public static EmpresaDto toDto(Empresa dao) {
+		EmpresaDto dto=new EmpresaDto(dao);
+		return dto;
+	}
+
+	
 	public static TipivaDto toDto(Tipiva tipiva) {
 		TipivaDto dto = new TipivaDto(tipiva);
 		return dto;
@@ -82,6 +88,14 @@ public class Converter {
 		return dto;
 	}
 
+	public static Empresa toDao(EmpresaDto dto) {
+		if (dto!=null) {
+		  Empresa dao=new Empresa(dto);
+		  return dao;
+		}
+		return null;
+	}
+	
 	public static Tipiva toDao(TipivaDto tipiva) {
 		Tipiva dao=new Tipiva(tipiva);
 		return dao;
@@ -121,13 +135,7 @@ public class Converter {
 		return null;
 	}
 
-	public static Empresa toDao(EmpresaDto dto) {
-		if (dto!=null) {
-		  Empresa dao=new Empresa(dto);
-		  return dao;
-		}
-		return null;
-	}
+	
 
 	public static Formapago toDao(FormapagoDto dto) {
 		if (dto!=null) {
