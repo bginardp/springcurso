@@ -100,13 +100,14 @@ public class FacturasController {
 				return gotoEditFactura(model, factura);	
 			} else {
 				Long facturaId=factuService.saveFactura(factura);
-				return "redirect:/factura/"+facturaId+"?msg=ok";	
+				return "redirect:/facturas/"+facturaId+"?msg=ok";	
 			}
 			
 		}
 	}
 	
 	private FacturaDto validaFacturaForm(FacturaDto factura) {
+		// 1 comprovacions bàsiques de coherencia de dades
 		if (factura.getCliente()==null || factura.getCliente().getId()==null) {
 			factura.addError(new ErrorDto(Constants.ERR_CLIENT_NOTNULL));
 		}
@@ -116,9 +117,12 @@ public class FacturasController {
 		if (!factura.hasDetall()) {
 			factura.addError(new ErrorDto(Constants.ERR_LINDET_NOTNULL));
 		}
-		FacturaDto aux= factuService.getFactura(factura.getCliente().getId(), factura.getEmpresa().getId(), factura.getForpag().getId(), factura.getDat(), factura.getTotfac());
-		if (aux!=null && aux.isEmpty()) {
-			factura.addError(new ErrorDto(Constants.ERR_FACTURA_DUPLICADA));
+		// 2 comprovacions de segon nivell
+		if (!factura.hasErrors()) {
+			FacturaDto aux= factuService.getFactura(factura.getCliente().getId(), factura.getEmpresa().getId(), factura.getForpag().getId(), factura.getDat(), factura.getTotfac());
+			if (aux!=null && !aux.isEmpty()) {
+				factura.addError(new ErrorDto(Constants.ERR_FACTURA_DUPLICADA));
+			}
 		}
 			
 		return factura;
@@ -163,7 +167,7 @@ public class FacturasController {
 
 	@RequestMapping(value = "/factura/save", method = RequestMethod.POST, params={"editRow"})
 	public String editRow (Model model,@Valid @ModelAttribute("factura") FacturaDto factura,BindingResult results,@RequestParam(value="index") Integer index) {
-		log.info("######### editRow index:"+index);
+		log.info("######### factura/save editRow index:"+index);
 		factura.editRow(index);
 //		factura.setLinea(factura.getDetall().get(index.intValue()));
 		model.addAttribute("index", index);
@@ -174,7 +178,7 @@ public class FacturasController {
 	
 	@RequestMapping(value = "/factura/save", method = RequestMethod.POST, params={"removeRow"})
 	public String removeRow (Model model,@Valid @ModelAttribute("factura") FacturaDto factura,BindingResult results,@RequestParam(value="index") Integer index) {
-		log.info("######### removeRow index:"+index);
+		log.info("######### factura/save removeRow index:"+index);
 		factura.removeLinea(index);
 //		factura.getDetall().remove(index.intValue());
 //		factura=getTotalsFactura(factura);
@@ -182,7 +186,7 @@ public class FacturasController {
 		
 	}
 	
-	@RequestMapping(value ={"/factura/{id}","/factura/new"}, method=RequestMethod.GET)
+	@RequestMapping(value ={"/facturas/{id}","/facturas/new"}, method=RequestMethod.GET)
 	public String edit(@PathVariable(value="id",required=false) Long facturaId,
 			Model model
 			){

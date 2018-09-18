@@ -27,6 +27,7 @@ public interface FactuService {
     public List<TipivaDto> findAllTiposIva();
     public List<TipivaDetDto> findAllTiposIvaDet();
     public List<ClienteDto> findAllClientes();
+    public List<FacturaDto> findAllFacturas();
     
     
 	

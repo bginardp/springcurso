@@ -10,7 +10,7 @@
       <div class="jumbotron bg-dark text-white">
         <p th:if="${session.user!=null}" th:text="#{index.selempresa(${session.user.empresaName},${session.user.ejercicioId})}">Has seleccionado facturar con la empresa xxxxxxx y el ejercicio xxxx</p>
         <p class="lead">Alta de productos, alta de clientes, Gesti&oacute;n de facturas </p>
-        <a th:href="@{/factura/new}" class="btn btn-primary">Nueva factura</a>
+        <a th:href="@{/facturas/new}" class="btn btn-primary">Nueva factura</a>
       </div>
       <th:block th:include="/common/footer :: footer"/>
     </div> <!-- /container -->

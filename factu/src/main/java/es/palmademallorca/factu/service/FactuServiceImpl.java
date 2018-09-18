@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -130,6 +131,15 @@ public class FactuServiceImpl implements FactuService {
 		return content;
 
 	}
+	
+	@Override
+	public List<FacturaDto> findAllFacturas() {
+		List<Factura> clientes = factuDao.findAllFacturas();
+		List<FacturaDto> content = new ArrayList<FacturaDto>();
+		clientes.forEach(c -> content.add(Converter.toDto(c)));
+		return content;
+	}
+
 
 	@Override
 	public FormapagoDto getFormapago(long formapagoId) {
@@ -154,8 +164,14 @@ public class FactuServiceImpl implements FactuService {
 
 	@Override
 	public SerieDto getSerie(String serieId) {
-		Serie serie = adminDao.getSerie(serieId);
-		SerieDto serieDto = new SerieDto(serie);
+		SerieDto serieDto=null;
+		if (StringUtils.isNotEmpty(serieId)) {
+		   Serie serie = adminDao.getSerie(serieId);
+		   serieDto = new SerieDto(serie);
+		}
+		else {
+			serieDto=new SerieDto();
+		}		
 		return serieDto;
 	}
 
@@ -431,6 +447,7 @@ public class FactuServiceImpl implements FactuService {
 		FacLinDto lindto = new FacLinDto(lin);
 		return lindto;
 	}
+
 
 	
 	

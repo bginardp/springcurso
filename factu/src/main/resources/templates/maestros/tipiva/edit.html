@@ -14,8 +14,8 @@
 					 class="alert alert-success" th:utext="#{factu.succesful.operation}">
 				</div>
 								
-				<form th:object="${tipoiva}" 
-					  th:action="@{/maestros/tipoiva/save}"
+				<form th:object="${tipoivadet}" 
+					  th:action="@{/maestros/tipoivadet/save}"
 					  method="post">
 					  
 				    <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
@@ -29,33 +29,26 @@
 						<div class="form-group">
 						    <label 	for="id">ID</label>
 						    <input 	class="form-control" 
-						    		th:field="*{id}" tabindex="1" autofocus="autofocus"
+						    		th:field="*{id}" 
 						    		th:errorClass="text-danger" 
 						    		readonly="readonly"/>
 				    		
 						</div>
 						<div class="form-group">
-						    <label 	for="tipo">Tipo</label>
-						    <input 	class="form-control" 
-						    		th:field="*{tipo}" tabindex="2"/>
-	 						<span 	th:if="${#fields.hasErrors('tipo')}" 
-						    		th:text="${#fields.errors('tipo')}"
-						    		class="text-danger">
-							</span>					    		
+							 <label for="tipo">Tipo</label>
+						     <select class="form-control"  
+						      th:field="*{tipiva.id}" autofocus="autofocus">
+	                         <option th:each="tipiva : ${tiposiva}"
+	                            th:value="${tipiva.id}"
+	                            th:utext="${tipiva.dem}"/>
+                 			 </select>
 						</div>
-						<div class="form-group">
-						    <label 	for="dem">Descripción</label>
-						    <input 	class="form-control" 
-						    		th:field="*{dem}" tabindex="3"/>
-	 						<span 	th:if="${#fields.hasErrors('dem')}" 
-						    		th:text="${#fields.errors('dem')}"
-						    		class="text-danger">
-							</span>					    		
-						</div>
+						
+						
 						<div class="form-group">
 						    <label 	for="anyo">Año</label>
 						    <input 	class="form-control" 
-						    		th:field="*{anyo}" tabindex="4"/>
+						    		th:field="*{anyo}"/>
 	 						<span 	th:if="${#fields.hasErrors('anyo')}" 
 						    		th:text="${#fields.errors('anyo')}"
 						    		class="text-danger">
@@ -64,7 +57,7 @@
 						<div class="form-group">
 						    <label 	for="mes">Mes</label>
 						    <input 	class="form-control" 
-						    		th:field="*{mes}" tabindex="5"/>
+						    		th:field="*{mes}"/>
 	 						<span 	th:if="${#fields.hasErrors('mes')}" 
 						    		th:text="${#fields.errors('mes')}"
 						    		class="text-danger">
@@ -73,7 +66,7 @@
 						<div class="form-group">
 						    <label 	for="poriva">% Iva</label>
 						    <input 	class="form-control" 
-						    		th:field="*{poriva}" tabindex="6"/>
+						    		th:field="*{poriva}"/>
 	 						<span 	th:if="${#fields.hasErrors('poriva')}" 
 						    		th:text="${#fields.errors('poriva')}"
 						    		class="text-danger">
@@ -82,29 +75,29 @@
 						<div class="form-group">
 						    <label 	for="requiv">% R.Equiv</label>
 						    <input 	class="form-control" 
-						    		th:field="*{requiv}" tabindex="7"/>
+						    		th:field="*{requiv}"/>
 	 						<span 	th:if="${#fields.hasErrors('requiv')}" 
 						    		th:text="${#fields.errors('requiv')}"
 						    		class="text-danger">
 							</span>					    		
 						</div>
-					<button type="submit" class="btn btn-primary ">Guardar</button>
-					<button type="button" onclick="$('#frmRemove').submit();"
-							th:if="${tipoiva.id!=null}"
-							class="btn btn-warning">Borrar</button>
-					<a	th:href="@{/maestros/tiposiva}"
-						class="btn btn-default">Volver</a>
+						<button type="submit" class="btn btn-primary ">Guardar</button>
+						<button type="button" onclick="$('#frmRemove').submit();"
+								th:if="${tipoivadet.id!=null}"
+								class="btn btn-warning">Borrar</button>
+						<a	th:href="@{/maestros/tiposiva}"
+							class="btn btn-default">Volver</a>
 				</form>
 				<!-- formulario para borrar -->
 				<form id="frmRemove"
-					  th:action="@{'/maestros/tipoiva/remove'}" method="post">
-					<input type="hidden" name="id" th:value="${tipoiva.id}"/>
+					  th:action="@{'/maestros/tipoivadet/remove'}" method="post">
+					<input type="hidden" name="id" th:value="${tipoivadet.id}"/>
 				</form>
 			</div>
 		  </div> <!-- row -->
 		</div>
 		<th:block th:include="/common/footer :: footer"/>
 	</div> <!-- container -->
-	
+	<th:block th:include="/common/footer-js :: footer-js"/>
 </body>
 </html>

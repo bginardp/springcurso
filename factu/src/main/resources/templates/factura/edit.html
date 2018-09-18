@@ -13,6 +13,7 @@
 	<div class="container">
 		
 		<form th:object="${factura}" th:action="@{/factura/save}"	method="post" id="frmFactura">
+			<input type="hidden" th:field="*{id}"/>
 			<input type="hidden" id="clienteId" th:field="*{cliente.id}"/>
 			<input type="hidden" id="empresaId" th:field="*{empresa.id}"/>
 			<input type="hidden" th:field="*{impbru}"/>
@@ -34,7 +35,7 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							<h3 class="card-title">Factura</h3>
+							<h3 class="card-title">Factura (id) <span class="badge badge-info" th:text="${factura.id}"></span></h3>
 							<div class="row">
 								<div class="col-4">
 									<h5 class="mb-0">De:</h5>
@@ -80,7 +81,7 @@
 										</div>
 										<div class="col">
 										  <small class="form-text text-muted">Serie/Factura</small>
-									      <input id="factura" type="text" class="form-control form-control-sm" placeholder="Factura" value="XX/00021" readonly="readonly"/>
+									      <input id="factura" type="text" class="form-control form-control-sm" placeholder="XX/00021" readonly="readonly"/>
 									    </div>
 									</div>
 									

@@ -2,6 +2,7 @@ package es.palmademallorca.factu.controller;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import es.palmademallorca.factu.dto.FormapagoDto;
 import es.palmademallorca.factu.dto.SerieDto;
+import es.palmademallorca.factu.dto.TipivaDetDto;
 import es.palmademallorca.factu.dto.TipivaDto;
 import es.palmademallorca.factu.service.AdminService;
 import es.palmademallorca.factu.service.FactuService;
@@ -66,11 +68,46 @@ public class MaestrosController {
 		}
 	}
 
-	// tipos de iva
+	// Tipos de iva detalle
 	@RequestMapping(value = "/tiposiva", method = RequestMethod.GET)
 	public String listTipiva(Model model) {
 		model.addAttribute("tiposiva", factuService.findAllTiposIvaDet());
 		return "maestros/tipiva/list";
+	}
+	
+
+	@RequestMapping(value = { "/tipoivadet/{id}", "/tipoivadet/new" }, method = RequestMethod.GET)
+	public String editTipivaDet(Model model, @PathVariable(value = "id", required = false) Long tipoivadetId) {
+		TipivaDetDto tipoivadet = null;
+		if (tipoivadetId != null) {
+			tipoivadet = factuService.getTipivaDet(tipoivadetId);
+		} else {
+			tipoivadet = new TipivaDetDto();
+		}
+
+		return gotoEditTipivaDet(model, tipoivadet);
+	}
+
+	private String gotoEditTipivaDet(Model model, TipivaDetDto tipoivadet) {
+		model.addAttribute("tipoivadet", tipoivadet);
+		model.addAttribute("tiposiva", factuService.findAllTiposIva());
+		return "maestros/tipiva/edit";
+	}
+	
+	@RequestMapping(value = "/tipoivadet/save", method = RequestMethod.POST)
+	public String saveTipivaDet(Model model, @Valid @ModelAttribute("tipoivadet") TipivaDetDto tipoiva, BindingResult results) {
+		if (results.hasErrors()) {
+			return gotoEditTipivaDet(model, tipoiva);
+		} else {
+			Long id=factuService.saveTipivaDet(tipoiva);
+			return "redirect:/maestros/tipoivadet/" + id + "?msg=ok";
+		}
+	}
+	
+	@RequestMapping(value="/tipoivadet/remove",method=RequestMethod.POST)
+	public String removeTipoivaDet(@RequestParam("id") Long id){
+		factuService.removeTipivaDet(id);
+		return "redirect:/maestros/tiposiva";
 	}
 
 	@RequestMapping(value = { "/tipoiva/{id}", "/tipoiva/new" }, method = RequestMethod.GET)

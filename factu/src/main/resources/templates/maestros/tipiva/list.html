@@ -12,7 +12,7 @@
 				<table class="table table-sm table-striped">
 					<thead>
 						<tr>
-							<th>Id detalle</th>
+							<th>Id</th>
 							<th>Id Tipo iva</th>
 							<th>Descripción</th>
 							<th>Año</th>
@@ -23,7 +23,7 @@
 					</thead>
 					<tbody>
 					   <tr th:each="tipoiva:${tiposiva}">
-					   	  <td><a th:href="@{'tipoiva/'+${tipoiva.id}}">
+					   	  <td><a th:href="@{'tipoivadet/'+${tipoiva.id}}">
 					   	  		<span th:utext="${tipoiva.id}"></span>
 					   	  	  </a>
 					      </td>
@@ -40,7 +40,7 @@
 							class="alert alert-warning" 
 							th:text="#{factu.nodatafound}">no data found
 				</div>
-				<a th:href="@{/maestros/tipoiva/new}" th:class="'btn btn-primary'">Nuevo</a>	
+				<a th:href="@{/maestros/tipoivadet/new}" th:class="'btn btn-primary'">Nuevo</a>	
 			</div>
 		  </div> <!-- row -->
 		</div>

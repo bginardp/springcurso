@@ -38,7 +38,7 @@
 		<div class="row mt-2">
 		 <div class="col">
 				<table class="table table-sm table-striped">
-				  <caption th:text="#{facturas.list.titol}">Lista de Facturas</caption>
+				  <!-- <caption th:text="#{facturas.list.titol}">Lista de Facturas</caption> -->
 				  <thead>
 				    <tr>
 				      <th scope="col">id factura</th>
@@ -48,12 +48,13 @@
 				      <th scope="col">Número</th>
 				      <th scope="col">Facturado a</th>
 				      <th scope="col">Importe total</th>
+				      <th scope="col" class="text-center">Acción</th>
 				    </tr>
 				  </thead>
 				  <tbody>
 				    <tr th:each="factura:${facturas}">
 				      <th scope="row">
-				      	<a th:href="@{'factura/'+${factura.id}}">
+				      	<a th:href="@{'/facturas/'+${factura.id}}">
 						   <span th:text="${factura.id}">1</span>
 						</a>
 				      </th>
@@ -63,6 +64,9 @@
 				      <td th:text="${factura.numero}">001</td>
 				      <td th:text="${factura.cliente.nom}">Magnolia S.L</td>
 				      <td th:text="${#numbers.formatDecimal(factura.totfac,6,'POINT',2,'COMMA')}">1200.60</td>
+				      <td class="text-center"><a class="btn btn-primary" role="button" th:href="@{'/reports/facturas/'+${factura.id}+'/'+${factura.id}}">
+						   <span th:text="#{facturas.imprimir}">Imprimir</span>
+						</a> </td>
 				    </tr>
 				   
 				  </tbody>
@@ -71,7 +75,7 @@
 					 class="alert alert-warning">
 					 No se han encontrado resultados
 				</div>
-				<a th:href="@{/factura/new}" class="btn btn-primary">Nuevo</a>
+				<a th:href="@{/facturas/new}" class="btn btn-primary">Nuevo</a>
 			</div>
 		</div> <!-- row -->
 	</div>

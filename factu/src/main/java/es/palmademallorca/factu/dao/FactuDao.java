@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Component;
 
 import com.querydsl.jpa.impl.JPAQuery;
@@ -36,6 +39,11 @@ public class FactuDao {
 	private EntityManager entityManager;
 	
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
+	public List<Factura> findAllFacturas() {
+		Iterable<Factura> facturas = facturaRepository.findAll(new Sort(new Order(Direction.ASC, "id")));
+		return convertItToList(facturas);
+	}
 
 	
 	public Page<Factura> findFacturasByTerm(Long empresa, Long ejercicio, String term, Pageable pageRequest) {

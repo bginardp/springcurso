@@ -31,6 +31,7 @@ import es.palmademallorca.factu.jpa.TipivadetRepository;
 import es.palmademallorca.factu.model.Cliente;
 import es.palmademallorca.factu.model.Ejercicio;
 import es.palmademallorca.factu.model.Empresa;
+import es.palmademallorca.factu.model.Factura;
 import es.palmademallorca.factu.model.Formapago;
 import es.palmademallorca.factu.model.Producto;
 import es.palmademallorca.factu.model.QCliente;
@@ -234,8 +235,6 @@ public class AdminDao {
 		Iterable<Cliente> clientes = clienteRepository.findAll(new Sort(new Order(Direction.ASC, "id")));
 		return convertItToList(clientes);
 	}
-
-
 
 	public List<Ejercicio> findAllEjercicios() {
 		Iterable<Ejercicio> ejercicios = ejercicioRepository.findAll(new Sort(new Order(Direction.DESC, "id")));
