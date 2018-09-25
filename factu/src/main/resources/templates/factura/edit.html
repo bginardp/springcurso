@@ -12,7 +12,7 @@
 	<th:block th:include="/common/header :: header" /> 
 	<div class="container">
 		
-		<form th:object="${factura}" th:action="@{/factura/save}"	method="post" id="frmFactura">
+		<form th:object="${factura}" th:action="@{/factura/save}" method="post" id="frmFactura">
 			<input type="hidden" th:field="*{id}"/>
 			<input type="hidden" id="clienteId" th:field="*{cliente.id}"/>
 			<input type="hidden" id="empresaId" th:field="*{empresa.id}"/>
@@ -167,9 +167,9 @@
 								</table>
 								</div>						       
 						    </div>
-						    <div class="row justify-content-end">
+						   <!--  <div class="row justify-content-end">
 						        <button type="submit" name="save" class="btn btn-primary">Guardar</button>
-						    </div>
+						    </div> -->
 						</div>
 					</div> <!-- card -->
 				</div>	<!-- col -->

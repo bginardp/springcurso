@@ -55,6 +55,7 @@ public class ProductosController {
 	
 	private String gotoEdit(Model model, ProductoDto producto) {
 		model.addAttribute("producto", producto);
+		model.addAttribute("tiposIva",factuService.findAllTiposIva());
 		return "producto/edit";
 	}
 	

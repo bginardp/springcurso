@@ -149,6 +149,11 @@ public class FacLinDto {
 		this.requiv = requiv;
 	}
 
+	
+	public boolean isEmpty () {
+		return (this.producto==null || this.producto.getId().isEmpty() || this.dem.isEmpty());
+	}
+	
 	@Override
 	public String toString() {
 		return "FacLinDto [id=" + id + ", facturaId=" + facturaId + ", dem=" + dem + ", cantidad=" + cantidad

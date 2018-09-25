@@ -60,7 +60,7 @@ public interface FactuService {
 	void saveSerie(SerieDto serieDto);
 	void saveTipiva(TipivaDto tipivaDto);
 	Long saveTipivaDet(TipivaDetDto tipivaDetDto);
-	Long saveFactura(FacturaDto facturaDto);
+	FacturaDto saveFactura(FacturaDto facturaDto);
 	Long saveFaclin(FacLinDto faclinDto);
 	Long saveCliente(ClienteDto clienteDto);	
 	

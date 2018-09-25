@@ -9,6 +9,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -41,7 +43,8 @@ public class FactuServiceImpl implements FactuService {
 	private FactuDao factuDao;
 	@Autowired
 	private AdminDao adminDao;
-
+	private final Logger Log = LoggerFactory.getLogger(this.getClass());
+	
 	@PostConstruct
 	private void init() {
 		// this.empresa=new Empresa(new Long(1),"empresa A","empresa A","ce ciutadella
@@ -297,9 +300,9 @@ public class FactuServiceImpl implements FactuService {
 	}
 
 	@Override
-	public Long saveFactura(FacturaDto facturaDto) {
+	public FacturaDto saveFactura(FacturaDto facturaDto) {
 		if (facturaDto.getId() != null) {
-			// TODO modificació factura
+			
 			Factura factura = factuDao.getFactura(facturaDto.getId());
 			
 			factura.setDat(facturaDto.getDat());
@@ -326,14 +329,16 @@ public class FactuServiceImpl implements FactuService {
 			//
 			// factuDao.saveFacturalin(faclin);
 			// }
-			return factura.getId();
+			return Converter.toDto(factura);
 		} else {
 			// ALTA
 			// 1 guardem la factura. JPA s'encarrega de guardar el detall
 			if (facturaDto.hasDetall()) {
 				Factura factura = Converter.toDao(facturaDto);
 				factuDao.saveFactura(factura);
-				return factura.getId();
+				return Converter.toDto(factura);
+			} else {
+				Log.info("### Error: Guardar factura no té detall");
 			}
 		}
 		return null;

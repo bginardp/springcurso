@@ -1,40 +1,40 @@
 <th:block th:fragment="header" xmlns:th="http://www.thymeleaf.org" >
 <div class="container">
    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <a class="navbar-brand" href="#">Facturaci&oacute;n</a>
+	  <a class="navbar-brand" href="#" th:text="#{navbar.titol}">Facturaci&oacute;n</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
 	  <div class="collapse navbar-collapse" id="navbarText">
 	    <ul class="navbar-nav mr-auto">
 	      <li th:classappend="${page == 'index' ? 'nav-item active' : 'nav-item'}">
-	        <a class="nav-link" href="#" th:href="@{/}">Inicio <span class="sr-only">(current)</span></a>
+	        <a class="nav-link" href="#" th:href="@{/}" th:text="#{navbar.inici}">Inicio <span class="sr-only">(current)</span></a>
 	      </li>
 	      <li th:classappend="${page == 'productos' ? 'nav-item active' : 'nav-item'}">
-	        <a class="nav-link" href="#" th:href="@{/productos}">Productos</a>
+	        <a class="nav-link" href="#" th:href="@{/productos}" th:text="#{navbar.productos}">Productos</a>
 	      </li>
 	      <li th:classappend="${page == 'clientes' ? 'nav-item active' : 'nav-item'}">
-	        <a class="nav-link" href="#" th:href="@{/clientes}">Clientes</a>
+	        <a class="nav-link" href="#" th:href="@{/clientes}" th:text="#{navbar.clientes}">Clientes</a>
 	      </li>
 	       <li th:classappend="${page == 'facturas' ? 'nav-item active' : 'nav-item'}">
-	        <a class="nav-link" href="#" th:href="@{/facturas}">Facturas</a>
+	        <a class="nav-link" href="#" th:href="@{/facturas}" th:text="#{navbar.facturas}">Facturas</a>
 	      </li>
 	      <li th:classappend="${page == 'altres' ? 'nav-item dropdown active' : 'nav-item dropdown'}">
-	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{navbar.ficheros}">
 	          Ficheros
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-	          <a class="dropdown-item" href="#" th:href="@{/empresas}">Empresas</a>
-	          <a class="dropdown-item" href="#" th:href="@{/maestros/formaspago}">Formas de pago</a>
-	          <a class="dropdown-item" href="#" th:href="@{/maestros/tiposiva}">Tipos de iva</a>
-	          <a class="dropdown-item" href="#" th:href="@{/maestros/series}">Series</a>
+	          <a class="dropdown-item" href="#" th:href="@{/empresas}" th:text="#{navbar.empresas}">Empresas</a>
+	          <a class="dropdown-item" href="#" th:href="@{/maestros/formaspago}" th:text="#{navbar.forpag}">Formas de pago</a>
+	          <a class="dropdown-item" href="#" th:href="@{/maestros/tiposiva}" th:text="#{navbar.tipiva}">Tipos de iva</a>
+	          <a class="dropdown-item" href="#" th:href="@{/maestros/series}" th:text="#{navbar.series}">Series</a>
 	         <!--  <a class="dropdown-item" href="#" th:href="@{/logout}">Salir</a> -->
 	        </div>
 	      </li>
 	    </ul>
-	    <span class="navbar-text">
+	   <!--  <span class="navbar-text">
 	      Navbar text with an inline element
-	    </span>
+	    </span> -->
 	  </div>
   </nav>
  </div>

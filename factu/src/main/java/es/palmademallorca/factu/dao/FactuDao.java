@@ -38,7 +38,7 @@ public class FactuDao {
 	@Autowired
 	private EntityManager entityManager;
 	
-	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	private final Logger Log = LoggerFactory.getLogger(this.getClass());
 
 	public List<Factura> findAllFacturas() {
 		Iterable<Factura> facturas = facturaRepository.findAll(new Sort(new Order(Direction.ASC, "id")));

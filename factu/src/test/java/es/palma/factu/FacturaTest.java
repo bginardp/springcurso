@@ -105,14 +105,10 @@ public class FacturaTest {
 	    printFactura(factura);
 
 		// 5 guardem a bd els canvis
-		
-		Long id=factuService.saveFactura(factura);
-		if (id!=null) {
-			System.out.println("############# recuperat de base de dades #############");
-			FacturaDto resultat=factuService.getFactura(id); 
-			printFactura(resultat);
-		}
-		assert (id != null);
+	    FacturaDto resultat=factuService.saveFactura(factura);
+		System.out.println("############# recuperat de base de dades #############");
+		printFactura(resultat);
+		assert (resultat != null);
 	}
 	
 	@Test

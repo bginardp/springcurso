@@ -4,10 +4,12 @@
 <body>
 	<th:block th:include="/common/header :: header"/>
 	<div class="container">
-		<h2 th:text="#{clientes.edit.titol}">Formulario de clientes</h2>
-		<hr/>
+<!-- 		<h2 th:text="#{clientes.edit.titol}">Formulario de clientes</h2> -->
+		<th:block th:include="/common/common :: box(#{clientes.edit.titol})"/>
+<!-- 		<hr/> -->
+		<div class="container_main">
 		<div class="row">
-			<div class="col-md-9 col-md-offset-1">
+			<div class="col-md-10 offset-md-1">
 				<div th:if="${#httpServletRequest.getParameter('msg')=='ok'}" 
 					 class="alert alert-success" th:utext="#{factu.succesful.operation}">
 					 La operaci&oacute;n se ha realizado correctamente
@@ -15,7 +17,6 @@
 				<form th:object="${cliente}" 
 					  th:action="@{/clientes/save}"
 					  method="post">
-					  
 				    <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
 				    	<ul>
 						    <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
@@ -24,8 +25,8 @@
 						    </li>
 						</ul>
 					</div>
-					<div class="col-md-3">  
-						<div class="form-group">
+					<div class="form-row">
+						<div class="form-group col-md-3">
 						    <label 	for="id">ID</label>
 						    <input 	class="form-control" 
 						    		th:field="*{id}"
@@ -33,121 +34,123 @@
 						    		readonly="readonly"/>
 						   
 						</div>
-						<div class="form-group">
-						    <label 	for="tel">Telefono</label>
+						<div class="form-group col-md-3">
+						    <label 	for="cif">Cif</label>
 						    <input 	class="form-control" 
-						    		th:field="*{tel}"
-						    		th:errorClass="text-danger" tabindex="7"/>
-						    <span 	th:if="${#fields.hasErrors('tel')}" 
-						    		th:text="${#fields.errors('tel')}"
+						    		th:field="*{cif}" autofocus="autofocus"/>
+	 								<span 	th:if="${#fields.hasErrors('cif')}" 
+						    		th:text="${#fields.errors('cif')}"
 						    		class="text-danger">
-						    		</span>
+									</span>					    		
 						</div>
-																	
-						<div class="form-group">
-						    <label 	for="movil">Mobil</label>
-						    <input 	class="form-control" 
-						    		th:field="*{movil}"
-						    		th:errorClass="text-danger" tabindex="8"/>
-						    <span 	th:if="${#fields.hasErrors('movil')}" 
-						    		th:text="${#fields.errors('movil')}"
-						    		class="text-danger">
-						    		</span>
-						</div>																	
-						
-						<div class="form-group">
-						    <label 	for="email">email</label>
-						    <input 	class="form-control" 
-						    		th:field="*{email}"
-						    		th:errorClass="text-danger" tabindex="9"/>
-						    <span 	th:if="${#fields.hasErrors('email')}" 
-						    		th:text="${#fields.errors('email')}"
-						    		class="text-danger">
-						    		</span>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
+						<div class="form-group col-md-6">
 						    <label 	for="nom">Nombre</label>
 						    <input 	class="form-control" 
-						    		th:field="*{nom}" tabindex="1"/>
+						    		th:field="*{nom}"/>
 						</div>
-						<div class="form-group">
+					</div>
+					
+					<div class="form-row">
+						
+						<div class="form-group col-md-6">
 						    <label 	for="direccion">Direcci&oacute;n</label>
 						    <input 	class="form-control" 
 						    		th:field="*{direccion}"
-						    		th:errorClass="text-danger" tabindex="3"/>
+						    		th:errorClass="text-danger"/>
 						    <span 	th:if="${#fields.hasErrors('direccion')}" 
 						    		th:text="${#fields.errors('direccion')}"
 						    		class="text-danger"></span>
 						</div>	
-						<div class="form-group">
-						    <label 	for="municipio">Municipio</label>
-						    <input 	class="form-control" 
-						    		th:field="*{municipio}"
-						    		th:errorClass="text-danger" tabindex="4"/>
-						    <span 	th:if="${#fields.hasErrors('municipio')}" 
-						    		th:text="${#fields.errors('municipio')}"
-						    		class="text-danger">
-						    		</span>
-						</div>
-						
-						<div class="form-group">
+						<div class="form-group col-md-6">
 						    <label 	for="forpagId">Forma de pago</label>
 		                    <select class="form-control" 
 					  		  th:field="*{forpagId}">
 					    	  <option
 					    		 th:each="forpag : ${formasPago}"
 					    		 th:value="${forpag.id}" 
-					    		 th:selected="${cliente.forpagId == forpag.id}"
 					    		 th:text="${forpag.dem}">
 					    	  </option>
 						    </select>
 						    <span 	th:if="${#fields.hasErrors('forpagId')}" 
 						    		th:text="${#fields.errors('forpagId')}"
 						    		class="text-danger">
-						    		</span>
+						   	</span>
 						</div>
-						
 					</div>
-					<div class="col-md-3">
-					   <div class="form-group">
-						    <label 	for="cif">Cif</label>
+					<div class="form-row">
+						<div class="form-group col-md-5">
+						    <label 	for="municipio">Municipio</label>
 						    <input 	class="form-control" 
-						    		th:field="*{cif}" tabindex="2" autofocus="autofocus"/>
-	 								<span 	th:if="${#fields.hasErrors('cif')}" 
-						    		th:text="${#fields.errors('cif')}"
+						    		th:field="*{municipio}"
+						    		th:errorClass="text-danger"/>
+						    <span 	th:if="${#fields.hasErrors('municipio')}" 
+						    		th:text="${#fields.errors('municipio')}"
 						    		class="text-danger">
-									</span>					    		
-						</div>
-						<div class="form-group">
+						    		</span>
+						</div>	
+						<div class="form-group col-md-2">
+						    <label 	for="postal">Postal</label>
+						    <input 	class="form-control" 
+						    		th:field="*{postal}"
+						    		th:errorClass="text-danger"/>
+						    <span 	th:if="${#fields.hasErrors('postal')}" 
+						    		th:text="${#fields.errors('postal')}"
+						    		class="text-danger">
+						    		</span>
+						</div>				
+
+						<div class="form-group col-md-5">
 						    <label 	for="provincia">Provincia</label>
 						    <input 	class="form-control" 
 						    		th:field="*{provincia}"
-						    		th:errorClass="text-danger" tabindex="5"/>
+						    		th:errorClass="text-danger"/>
 						    <span 	th:if="${#fields.hasErrors('provincia')}" 
 						    		th:text="${#fields.errors('provincia')}"
 						    		class="text-danger">
 						    		</span>
 						</div>
-						<div class="form-group">
-						    <label 	for="postal">Postal</label>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+						    <label 	for="tel">Telefono</label>
 						    <input 	class="form-control" 
-						    		th:field="*{postal}"
-						    		th:errorClass="text-danger" tabindex="6"/>
-						    <span 	th:if="${#fields.hasErrors('postal')}" 
-						    		th:text="${#fields.errors('postal')}"
+						    		th:field="*{tel}"
+						    		th:errorClass="text-danger"/>
+						    <span 	th:if="${#fields.hasErrors('tel')}" 
+						    		th:text="${#fields.errors('tel')}"
 						    		class="text-danger">
 						    		</span>
 						</div>
+						<div class="form-group col-md-6">
+						    <label 	for="movil">Mobil</label>
+						    <input 	class="form-control" 
+						    		th:field="*{movil}"
+						    		th:errorClass="text-danger"/>
+						    <span 	th:if="${#fields.hasErrors('movil')}" 
+						    		th:text="${#fields.errors('movil')}"
+						    		class="text-danger">
+						    		</span>
+						</div>																	
+					</div>	
+					
+					<div class="form-group">
+						    <label 	for="email">email</label>
+						    <input 	class="form-control" 
+						    		th:field="*{email}"
+						    		th:errorClass="text-danger"/>
+						    <span 	th:if="${#fields.hasErrors('email')}" 
+						    		th:text="${#fields.errors('email')}"
+						    		class="text-danger">
+						    		</span>
 					</div>
+							
 					
 					<button type="submit" class="btn btn-primary ">Guardar</button>
 					<button type="button" onclick="$('#frmRemove').submit();"
 							th:if="${cliente.id!=null}"
 							class="btn btn-warning">Borrar</button>
 					<a 		th:href="@{/clientes}"
-							class="btn btn-default">Volver</a>
+							class="btn btn-default" th:text="#{btn.volver}">Volver</a>
 				  
 							
 				</form>
@@ -158,6 +161,7 @@
 				</form>
 			</div>
 		</div> <!-- row -->
+		</div>
 		<th:block th:include="/common/footer :: footer"/>
 	</div> <!-- container -->
 	

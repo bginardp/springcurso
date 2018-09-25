@@ -1,5 +1,6 @@
 package es.palmademallorca.factu.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,21 +91,21 @@ public class FacturasController {
 		return gotoFacturasList(model);
 	}
 	
-	@PostMapping(value = "/factura/save", params={"save"})
-	public String save(Model model, @Valid @ModelAttribute("factura") FacturaDto factura, BindingResult results){
-		if (results.hasErrors()){
-			return gotoEditFactura(model, factura);
-		} else {
-			factura=validaFacturaForm(factura);
-			if (factura.hasErrors()) {
-				return gotoEditFactura(model, factura);	
-			} else {
-				Long facturaId=factuService.saveFactura(factura);
-				return "redirect:/facturas/"+facturaId+"?msg=ok";	
-			}
-			
-		}
-	}
+//	@PostMapping(value = "/factura/save", params={"save"})
+//	public String save(Model model, @Valid @ModelAttribute("factura") FacturaDto factura, BindingResult results){
+//		if (results.hasErrors()){
+//			return gotoEditFactura(model, factura);
+//		} else {
+//			factura=validaFacturaForm(factura);
+//			if (factura.hasErrors()) {
+//				return gotoEditFactura(model, factura);	
+//			} else {
+//				Long facturaId=factuService.saveFactura(factura);
+//				return "redirect:/facturas/"+facturaId+"?msg=ok";	
+//			}
+//			
+//		}
+//	}
 	
 	private FacturaDto validaFacturaForm(FacturaDto factura) {
 		// 1 comprovacions bàsiques de coherencia de dades
@@ -114,51 +115,40 @@ public class FacturasController {
 		if (factura.getEmpresa()==null || factura.getEmpresa().getId()==0) {
 			factura.addError(new ErrorDto(Constants.ERR_EMPRESA_NOTNULL));
 		}
-		if (!factura.hasDetall()) {
+		
+		// 2 obtenim la linia que s'ha afegit/ editat a la pantalla
+		FacLinDto linea=factura.getLinea();
+		if (linea.isEmpty()) {
 			factura.addError(new ErrorDto(Constants.ERR_LINDET_NOTNULL));
 		}
-		// 2 comprovacions de segon nivell
-		if (!factura.hasErrors()) {
-			FacturaDto aux= factuService.getFactura(factura.getCliente().getId(), factura.getEmpresa().getId(), factura.getForpag().getId(), factura.getDat(), factura.getTotfac());
-			if (aux!=null && !aux.isEmpty()) {
-				factura.addError(new ErrorDto(Constants.ERR_FACTURA_DUPLICADA));
-			}
-		}
+//		if (!factura.hasDetall()) {
+//			factura.addError(new ErrorDto(Constants.ERR_LINDET_NOTNULL));
+//		}
+		// 2 comprovacions si existeix una factura igual)
+//		if (!factura.hasErrors()) {
+//			FacturaDto aux= factuService.getFactura(factura.getCliente().getId(), factura.getEmpresa().getId(), factura.getForpag().getId(), factura.getDat(), factura.getTotfac());
+//			if (aux!=null && !aux.isEmpty()) {
+//				factura.addError(new ErrorDto(Constants.ERR_FACTURA_DUPLICADA));
+//			}
+//		}
 			
 		return factura;
 	}
 
 	@RequestMapping(value = "/factura/save", method = RequestMethod.POST, params={"addRow"})
 	public String addRow (Model model,@Valid @ModelAttribute("factura") FacturaDto factura,BindingResult results,@RequestParam(value="index") Integer index) {
-		// 1 obtenim la linia que s'ha editat a la pantalla
-		FacLinDto linea=factura.getLinea();
-		// 2 valida linea si cal?
+		// 1 validem la capçalera de la factura
+		factura=validaFacturaForm(factura);
+		if (factura.hasErrors()) {
+			return gotoEditFactura(model, factura);
+		}
 		//TODO
-		//3 afegim o modifiquem la linia i actualitzem els totals
+		//2 afegim la linia i actualitzem els totals
+		FacLinDto linea=factura.getLinea();
 		factura.addLinea(linea,index);
-		// 3 obtenim la llista de linies i afegim la linia editada a la llista
-//		List<FacLinDto> detall=factura.getDetall();
-//		if (detall==null) {
-//			detall=new ArrayList<FacLinDto>();
-//		}
-//		if (index!=null && detall.size()>0) {
-//			List<FacLinDto> newDetall= new ArrayList<FacLinDto>();
-//			int i=0;
-//			for (FacLinDto facLinDto : detall) {
-//				if (index==i) {
-//					newDetall.add(linea);
-//				} else {newDetall.add(facLinDto);
-//				}
-//				i++;
-//			}
-//			detall=newDetall;
-//		} else {
-//			detall.add(linea);
-//		}
-		// 4 actualitzem els totals de la factura
-//		factura.setDetall(detall);
-//		factura=getTotalsFactura(factura);
-		// 5 inicialitzem una nova linia
+		// 3 persistim a base de dades
+		factura=factuService.saveFactura(factura);
+		// 4 inicialitzem una nova linia
 		linea=initLinea();
 		factura.setLinea(linea);
 		return gotoEditFactura(model,factura);
@@ -295,7 +285,7 @@ public class FacturasController {
 
 	private FacLinDto initLinea() {
 		FacLinDto linea= new FacLinDto();
-		linea.setDem("Escribir texto");
+		linea.setCantidad(new BigDecimal(1));
 		return linea;
 	}
 
